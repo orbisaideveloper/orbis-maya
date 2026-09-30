@@ -10,7 +10,9 @@ Expected identity:
 - project key: `orbisaideveloper_orbis-maya`
 - project name: `orbis-maya`
 
-These values are expectations, not yet proof of import. Verify them against the actual SonarQube Cloud project before enabling CI scans.
+These values were verified against the actual SonarQube Cloud project.
+
+A 2026-10-01 authenticated diagnostic also confirmed that the current organization plan exposes Quality Gate data for `main` but rejects non-main branch Quality Gate access. Maya therefore uses main-only Sonar certification.
 
 ## 2. Isolation
 
@@ -43,33 +45,33 @@ Use an approved GitHub Actions secret or equivalent secret mechanism.
 
 ## 5. Local environment
 
-For the Android workflow, Sonar CLI should run in Ubuntu/proot rather than being relied on as a native Termux tool.
+The normal Maya Sonar gate runs in GitHub Actions on pushed `main` commits.
 
-The 2026-09-30 audit showed:
+A local Sonar CLI is not required for the normal owner-controlled workflow.
 
-- Ubuntu/proot present;
-- Sonar CLI absent;
-- Java absent.
+Do not install Java/Sonar CLI in Termux or Ubuntu merely to duplicate the GitHub Actions gate unless a later verified need specifically requires it.
 
-Install/configure them only during the intentional Maya Sonar setup step.
+## 6. Execution order
 
-## 6. Setup order
-
-1. Establish docs/governance baseline.
-2. Fresh-clone Maya into Termux.
-3. Import/attach `orbisaideveloper/orbis-maya` in SonarQube Cloud.
-4. Verify exact organization/project key.
-5. Configure required secret(s).
-6. Configure/verify Ubuntu Sonar tooling.
-7. Add project-local Sonar configuration and CI workflow.
-8. Validate workflow syntax.
-9. Run baseline analysis.
-10. Resolve all issues before application release-ready status.
+1. Implement locally on `main`.
+2. Run local server/manual checks when applicable.
+3. Run the complete applicable local quality certification.
+4. Obtain explicit owner approval.
+5. Commit and push `main` from Termux.
+6. GitHub Actions runs the repository quality gates.
+7. SonarQube Cloud analyzes `main` and waits for the Quality Gate.
+8. The strict Sonar verifier checks the required Maya quality targets.
+9. If anything is red, repair locally and repeat with a new verified commit.
+10. Only a green `main` is eligible for separately authorized release/deployment.
 
 ## 7. CI policy
 
-When CI is added it should fail closed when required Sonar configuration is absent.
+The Maya quality workflow runs on `main`.
 
-Do not silently skip Sonar on a release path.
+It must fail closed when required Sonar configuration is absent.
 
-The eventual Maya quality workflow should take the strongest useful parts of ORBIS Admin's strict gate while preserving Maya's owner-controlled Termux release workflow.
+Do not silently skip Sonar on the `main` release path.
+
+A red GitHub Actions or Sonar result blocks release/deployment eligibility but does not trigger history rewriting. Fixes originate locally in Termux as new verified commits.
+
+The workflow takes the strongest useful parts of ORBIS Admin's strict gate while preserving Maya's owner-controlled Termux release workflow.

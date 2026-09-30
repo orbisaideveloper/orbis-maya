@@ -84,14 +84,24 @@ Do not close the user's shell with a misplaced top-level `exit`.
 - no push without owner approval;
 - no deployment merely because CI is green.
 
-## 8. Branch setup
+## 8. Branch model
 
-When implementation begins, create/use the owner-approved branch model:
+Maya uses one active Git branch:
 
-- `develop`: current working/integration branch;
-- `main`: published/release branch.
+- `main`: canonical working, CI-quality and release branch.
 
-The exact first branch-creation step must be verified locally after clone.
+Normal work is performed in the local working tree first.
+
+Before pushing `main`:
+
+1. run the local server/manual application check when an application scaffold exists;
+2. run the applicable automated local checks and E2E;
+3. run final local certification;
+4. obtain explicit owner approval.
+
+After the push, GitHub Actions and SonarQube Cloud must pass before release/deployment eligibility.
+
+A failing `main` run is repaired through a new locally verified commit. Do not deploy a red `main`.
 
 ## 9. Current known environment notes
 

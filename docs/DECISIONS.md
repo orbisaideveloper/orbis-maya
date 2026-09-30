@@ -79,13 +79,20 @@ ORBIS Admin remains the central owner/control plane.
 
 After the one-time initial docs bootstrap, source changes entering Maya Git history originate from the owner's Android Termux checkout.
 
-## D-012 — Branch roles
+## D-012 — Single-branch main workflow
 **Status: LOCKED**
 
-After branch setup:
+Maya uses `main` as its single active Git branch.
 
-- `develop` = current working/integration version.
-- `main` = published/release version.
+Implementation happens first in the owner's local working tree.
+
+After local server/manual checks where applicable, automated local verification and explicit owner approval, the verified commit is pushed directly to `main`.
+
+GitHub Actions and SonarQube Cloud certify the pushed `main` commit.
+
+A red `main` commit is not release/deployment eligible. It must be repaired through a new locally verified commit and pass all required gates before release.
+
+No separate integration branch is required.
 
 ## D-013 — No default PR Preview/staging requirement
 **Status: LOCKED**

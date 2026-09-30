@@ -64,6 +64,13 @@ As implemented, require:
 
 ### SonarQube Cloud
 
+Execution policy:
+
+- SonarQube Cloud runs on pushed `main` commits.
+- A pushed `main` commit is not release/deployment eligible until the GitHub Actions quality workflow, Sonar Quality Gate and strict Sonar verification pass.
+- If the gate is red, repair locally, rerun local verification, push a new fix commit to `main`, and repeat.
+- Never deploy or release a red `main`.
+
 Required release state:
 
 - dedicated Maya project only

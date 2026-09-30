@@ -103,12 +103,17 @@ AI does not replace calculation.
 
 Development begins locally in Termux.
 
-Once branch setup is approved:
+Maya uses a single active Git branch:
 
-- `develop` = current integration source;
-- `main` = published/release source.
+- `main` = canonical source, CI-quality source and release source.
 
-Production deployment must follow an explicitly approved release state.
+Changes are implemented and verified in the local working tree first.
+After owner approval, the verified commit is pushed directly to `main`.
+
+GitHub Actions and SonarQube Cloud certify the pushed `main` commit.
+A failing quality/Sonar result makes that commit ineligible for release or deployment until a new verified fix is pushed and all required gates pass.
+
+Production deployment must follow an explicitly approved green release state.
 
 PR Preview and staging are optional, not baseline requirements.
 

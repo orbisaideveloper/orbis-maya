@@ -60,10 +60,15 @@ Termux local change → targeted checks → preview → final certification → 
 
 ## 5. Branch model
 
-Once local development begins:
+Maya uses a single active Git branch:
 
-- `develop` = current working/integration version.
-- `main` = published/release source.
+- `main` = canonical working, CI-quality and release source.
+- implementation work remains local until the applicable local verification is complete;
+- after owner approval, the verified commit is pushed directly to `main`;
+- GitHub Actions and SonarQube Cloud then certify that pushed `main` commit;
+- a red `main` commit is not release/deployment eligible and must be repaired through a new locally verified commit.
+
+No separate integration branch is part of the Maya workflow.
 
 Do not introduce PR Preview or staging by default. Add either only when the owner explicitly requests it.
 

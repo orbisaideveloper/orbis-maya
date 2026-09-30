@@ -15,7 +15,7 @@ case "$origin" in
 esac
 
 branch="$(git branch --show-current)"
-case "$branch" in develop|main) ;; *) fail "unexpected branch: $branch" ;; esac
+[[ "$branch" == "main" ]] || fail "unexpected branch: $branch (Maya uses main only)"
 
 git diff --check
 

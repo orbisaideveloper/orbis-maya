@@ -61,10 +61,12 @@ Expected flow:
 
 **Termux local work → targeted checks → local preview → final verification → owner approval → Termux commit/push → GitHub Actions + SonarQube Cloud → fix until green → separately authorized release/deployment**
 
-Branch roles after development setup:
+Branch policy:
 
-- `develop` — current working/integration branch
-- `main` — published/release source
+- `main` is the single active Git branch.
+- Work is developed and verified locally before commit/push.
+- After an owner-approved push to `main`, GitHub Actions and SonarQube Cloud certify the pushed commit.
+- A failing `main` quality run blocks release/deployment until a new locally verified fix is pushed and all gates are green.
 
 PR Preview and staging are not required by default.
 
