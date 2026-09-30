@@ -3,13 +3,14 @@ set -euo pipefail
 
 EXPECTED_SSH='git@github.com:orbisaideveloper/orbis-maya.git'
 EXPECTED_HTTPS='https://github.com/orbisaideveloper/orbis-maya.git'
+EXPECTED_HTTPS_ACTIONS='https://github.com/orbisaideveloper/orbis-maya'
 
 fail() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 
 [[ -d .git ]] || fail 'run from the orbis-maya repository root'
 origin="$(git config --get remote.origin.url || true)"
 case "$origin" in
-  "$EXPECTED_SSH"|"$EXPECTED_HTTPS") ;;
+  "$EXPECTED_SSH"|"$EXPECTED_HTTPS"|"$EXPECTED_HTTPS_ACTIONS") ;;
   *) fail "unexpected origin: $origin" ;;
 esac
 
