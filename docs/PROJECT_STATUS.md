@@ -2,76 +2,69 @@
 
 ## Current phase
 
-Phase 0 — documentation/governance bootstrap before application implementation.
+Phase 0 — repository quality foundation before application implementation.
 
 ## Repository
 
-GitHub:
-`orbisaideveloper/orbis-maya`
+GitHub: `orbisaideveloper/orbis-maya`
 
-Expected local path after clone:
-`~/orbis-maya`
+Local path: `~/orbis-maya`
+
+Working branch: `develop`
+
+Published/release branch: `main`
 
 ## Current implementation status
 
 No production application code is considered started.
 
-The repository currently establishes product intent, architecture, working rules, quality targets, Sonar plan, security/privacy baseline and theme direction.
+The documentation/governance baseline is established. The next repository change establishes the quality foundation that must exist before the application scaffold is introduced.
 
-## Locked product/architecture decisions
+## Verified environment and external state
 
-- PWA first, Android later.
-- ORBIS Foundation remains the shared AI platform.
-- ORBIS/Supabase authentication.
-- Local-first personal history.
-- Voice: speech-to-text → text AI request → text response → optional TTS.
-- Deterministic astronomy calculation.
-- ORBIS Admin remains the central control plane.
-- Maya V3 Astral is the default approved theme.
-- Termux-controlled source workflow after bootstrap.
-- `develop` current / `main` published once branch setup begins.
-- Sonar zero-issue clean-code policy.
-- No default PR Preview/staging requirement.
+Verified on 2026-09-30:
 
-## 2026-09-30 Termux audit
+- Android Termux is the canonical local Git/source environment.
+- `~/orbis-maya` exists locally and tracks `origin/develop`.
+- GitHub authentication for `orbisaideveloper` is active.
+- Maya is imported into SonarQube Cloud under organization `orbis`.
+- Sonar project key is `orbisaideveloper_orbis-maya`.
+- Repository binding is `orbisaideveloper/orbis-maya`.
+- Automatic Analysis is disabled for CI-based analysis.
+- New Code Definition is `Previous version`.
+- GitHub Actions secret `SONAR_TOKEN` is stored and verified.
+- No application source has been introduced.
 
-Verified before setup:
+## Quality foundation scope
 
-- Android Termux is available and writable Downloads access works.
-- Git, GitHub CLI, Node/npm, Python, jq and curl are available.
-- GitHub account `orbisaideveloper` is authenticated.
-- Ubuntu/proot is installed.
-- Ubuntu Node is available.
-- Codex is available in Ubuntu.
-- Sonar CLI is not yet installed.
-- Java is not yet installed in Ubuntu.
-- `~/orbis-maya` was not present locally at the time of the audit.
+The quality foundation adds:
 
-## Bootstrap note
+- dedicated `sonar-project.properties`;
+- repository/branch/Sonar isolation checks;
+- tracked-sensitive-file guard;
+- workflow structure validation;
+- docs-safe quality preflight;
+- GitHub Actions quality workflow for `develop` and `main`;
+- SonarQube Cloud scan with Quality Gate wait;
+- strict post-scan checks for Quality Gate, unresolved issues, coverage/duplication and reviewed hotspots when those metrics exist.
 
-At the owner's explicit request, the initial documentation baseline is being established directly in GitHub before the first local clone.
-
-This is a one-time bootstrap exception.
-
-After the fresh local clone, future source changes entering Git history follow the Termux workflow in `docs/TERMUX-WORKFLOW.md`.
+The workflow supports the current documentation-only repository. When application code appears, it fails closed unless the required project scripts and lockfile are present.
 
 ## Next exact actions
 
-1. Verify this documentation bootstrap on GitHub.
-2. Fresh-clone `orbis-maya` into Termux.
-3. Verify local repo/remote/branch/HEAD are aligned with GitHub.
-4. Create/confirm the `develop` working branch when approved.
-5. Attach/import Maya in SonarQube Cloud.
-6. Verify the dedicated Maya Sonar identity.
-7. Configure project-local quality tooling/CI.
-8. Run the first clean baseline quality check.
-9. Only then begin application scaffold/code.
+1. Apply the reviewed quality-foundation bundle locally on `develop`.
+2. Run local preflight and workflow validation.
+3. Review the complete local diff; do not commit or push yet.
+4. After owner approval, commit/push the quality foundation from Termux.
+5. Verify the first GitHub Actions/Sonar baseline and repair until green.
+6. Only after the quality baseline is green, choose and create the application scaffold.
 
 ## Remote/production impact
 
-Current bootstrap scope:
-- documentation only;
-- no application code;
-- no deployment;
-- no production service;
-- no database change.
+Until the owner approves and performs the Termux commit/push:
+
+- GitHub `develop`: unchanged;
+- GitHub `main`: unchanged;
+- production: unchanged;
+- deployment: none;
+- database: unchanged.
