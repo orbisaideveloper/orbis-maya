@@ -33,12 +33,19 @@ Before an owner-approved release transition, every applicable gate must pass.
 
 ### Test coverage
 
-Target for production code:
+Production-code coverage is fail-closed once the application scaffold exists.
+
+Required:
 
 - lines: 100%
 - statements: 100%
 - functions: 100%
 - branches: 100%
+- `coverage/coverage-summary.json`: required
+- `coverage/lcov.info`: required
+- missing application coverage data: FAIL
+
+Documentation, workflow configuration and repository quality tooling are not production runtime code and are excluded from production coverage calculations.
 
 Any future exclusion must be narrow, explicit, justified and owner-reviewed.
 
@@ -61,6 +68,16 @@ As implemented, require:
 - critical Dream flow: PASS
 - critical Astro flow: PASS
 - critical Ask Maya flow: PASS
+
+### Duplication
+
+Runtime/application duplication is fail-closed once the application scaffold exists.
+
+Required:
+
+- runtime duplicated-lines density: 0.00%
+- missing application duplication metric: FAIL
+- tooling/configuration exclusions must not hide runtime duplication
 
 ### SonarQube Cloud
 
