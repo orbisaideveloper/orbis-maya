@@ -43,11 +43,19 @@ function App() {
 
   useEffect(() => {
     const destination = destinations.find((item) => item.path === path)
-    document.title = `ORBIS Maya · ${destination ? text(locale, `${destination.key}Title`) : text(locale, 'notFound')}`
+    const title = destination ? text(locale, `${destination.key}Title`) : text(locale, 'notFound')
+    document.title = `ORBIS Maya · ${title}`
     document.documentElement.lang = locale
     menu.current!.open = false
     main.current!.focus()
   }, [path, locale])
+
+  function closeMenuOnEscape(event: React.KeyboardEvent<HTMLElement>) {
+    if (event.key === 'Escape') {
+      menu.current!.open = false
+      menuButton.current!.focus()
+    }
+  }
 
   let screen
   switch (path) {
@@ -84,16 +92,11 @@ function App() {
           </span>
           <span className="brand-name">ORBIS MAYA</span>
           <span className="phase-pill">Astral</span>
-          <details className="app-menu" ref={menu} onKeyDown={(event) => {
-            if (event.key === 'Escape') {
-              menu.current!.open = false
-              menuButton.current!.focus()
-            }
-          }}>
-            <summary ref={menuButton} aria-label={text(locale, 'menu')}><span className="menu-dots" aria-hidden="true">⋮</span></summary>
+          <details className="app-menu" ref={menu}>
+            <summary onKeyDown={closeMenuOnEscape} ref={menuButton} aria-label={text(locale, 'menu')}><span className="menu-dots" aria-hidden="true">⋮</span></summary>
             <nav aria-label={text(locale, 'navigation')}>
               {destinations.map((destination) => (
-                <a key={destination.path} href={`#${destination.path}`}
+                <a onKeyDown={closeMenuOnEscape} key={destination.path} href={`#${destination.path}`}
                   aria-current={path === destination.path ? 'page' : undefined}
                   onClick={() => { menu.current!.open = false; main.current!.focus() }}>
                   {text(locale, destination.key)}

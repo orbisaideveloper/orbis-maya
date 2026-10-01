@@ -95,3 +95,5 @@ summary:focus-visible { outline: 2px solid #e1f4ff; outline-offset: 3px; }
 .dream-result h3 { margin-top: 0; }
 .dream-result ul { padding-inline-start: 1.25rem; }
 .dream-screen select { display: block; width: 100%; margin-block: .5rem 1rem; }
+
+.feature-screen > output, .account-screen > output, .dream-screen > div > output { display: block; margin-block: 1em; }

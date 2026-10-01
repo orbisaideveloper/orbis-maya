@@ -3,7 +3,7 @@ import LanguagePicker from './LanguagePicker'
 import AccountScreen from './auth/AccountScreen'
 
 const features = { '/dream': 'dream', '/astro': 'astro', '/chat': 'chat', '/history': 'history', '/settings': 'settings' } as const
-export default function FeatureScreen({ path }: { path: keyof typeof features }) {
+export default function FeatureScreen({ path }: Readonly<{ path: keyof typeof features }>) {
   const locale = useLocale()
   const feature = features[path]
   return <section className="feature-screen" aria-labelledby="feature-title">

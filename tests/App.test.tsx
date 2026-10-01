@@ -91,6 +91,11 @@ describe('Compact menu', () => {
     fireEvent.keyDown(toggle, { key: 'Escape' })
     expect(menu.open).toBe(false)
     expect(toggle).toHaveFocus()
+    fireEvent.click(toggle)
+    const link = within(screen.getByRole('navigation')).getAllByRole('link')[0]
+    fireEvent.keyDown(link, { key: 'Escape' })
+    expect(menu.open).toBe(false)
+    expect(toggle).toHaveFocus()
   })
 })
 

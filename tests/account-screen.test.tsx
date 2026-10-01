@@ -34,11 +34,19 @@ describe('Account UI', () => {
     expect(mocked.verify).toHaveBeenCalledOnce()
   })
   it.each([
-    ['bad', 'password'], ['user@example.com', ''],
+    ['bad', 'password'], ['user@example.com', ''], ['user@.example.com', 'password'],
   ])('validates login input before any request: %s', (email, password) => {
     render(<AccountScreen />); fill('ইমেইল', email); fill('পাসওয়ার্ড', password); send()
     expect(screen.getByRole('alert')).toHaveTextContent('সঠিক ইমেইল')
     expect(mocked.submit).not.toHaveBeenCalled()
+  })
+  it('rejects non-text credential form values before authentication', () => {
+    const get = vi.spyOn(FormData.prototype, 'get').mockReturnValue(new File(['x'], 'x.txt'))
+    try {
+      render(<AccountScreen />); send()
+      expect(mocked.submit).not.toHaveBeenCalled()
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+    } finally { get.mockRestore() }
   })
   it.each([
     ['', 'long-password', 'long-password'], ['Name', 'short', 'short'],

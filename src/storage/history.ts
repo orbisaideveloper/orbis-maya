@@ -8,7 +8,7 @@ export class LocalHistoryError extends Error {
   constructor(code: Failure) { super(code); this.name = 'LocalHistoryError'; this.code = code }
 }
 
-const KINDS: Kind[] = ['dream', 'astro', 'chat']
+const KINDS = new Set<Kind>(['dream', 'astro', 'chat'])
 const STORE = 'entries'
 const VERSION = 1
 
@@ -120,7 +120,7 @@ export function createLocalHistory(userId: string, options: {
   }
 
   function repository(kind: Kind) {
-    if (!KINDS.includes(kind)) throw new LocalHistoryError('invalid-input')
+    if (!KINDS.has(kind)) throw new LocalHistoryError('invalid-input')
     async function save(draft: Draft, replace = false): Promise<Entry> {
       if (!validText(draft?.title, 200) || !validText(draft?.content, 40000) || Object.keys(draft).some((key) => !['title', 'content'].includes(key))) throw new LocalHistoryError('invalid-input')
       const entry: Entry = { id: id(), kind, createdAt: clock(), title: draft.title.trim(), content: draft.content.trim() }

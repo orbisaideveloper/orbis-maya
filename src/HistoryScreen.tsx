@@ -6,7 +6,7 @@ import HistoryContent from './HistoryContent'
 type History = ReturnType<typeof createLocalHistory>
 type Entry = Awaited<ReturnType<History['list']>>[number]
 
-export default function HistoryScreen({ userId }: { userId: string }) {
+export default function HistoryScreen({ userId }: Readonly<{ userId: string }>) {
   const locale = useLocale()
   const [history] = useState(() => createLocalHistory(userId))
   const [entries, setEntries] = useState<Entry[]>([])
@@ -46,11 +46,11 @@ export default function HistoryScreen({ userId }: { userId: string }) {
     <p className="hero-kicker">{text(locale, 'historyEyebrow')}</p>
     <h1 id="history-title">{text(locale, 'historyTitle')}</h1>
     <p className="hero-copy">{text(locale, 'localOnly')}</p>
-    {loading && <p role="status">{text(locale, 'loading')}</p>}
+    {loading && <output>{text(locale, 'loading')}</output>}
     {failed && <div role="alert"><p>{text(locale, 'historyFailed')}</p>
       <button type="button" disabled={busy} onClick={() => { setLoading(true); setFailed(false); setAttempt((value) => value + 1) }}>{text(locale, 'retry')}</button>
     </div>}
-    {!loading && !failed && entries.length === 0 && <p role="status">{text(locale, 'historyEmpty')}</p>}
+    {!loading && !failed && entries.length === 0 && <output>{text(locale, 'historyEmpty')}</output>}
     <ul className="history-list">
       {entries.map((entry) => <li className="journey-card" key={`${entry.kind}:${entry.id}`}>
         <p className="card-eyebrow">{text(locale, entry.kind)} · <time dateTime={new Date(entry.createdAt).toISOString()}>{new Date(entry.createdAt).toLocaleDateString(locale)}</time></p>
@@ -59,11 +59,11 @@ export default function HistoryScreen({ userId }: { userId: string }) {
       </li>)}
     </ul>
     {entries.length > 0 && <button type="button" disabled={busy || loading} onClick={() => setConfirmation('all')}>{text(locale, 'clearHistory')}</button>}
-    {confirmation && <div className="journey-card history-confirm" role="group" aria-label={text(locale, 'confirmDelete')}>
+    {confirmation && <fieldset className="journey-card history-confirm"><legend>{text(locale, 'confirmDelete')}</legend>
       <p>{confirmation === 'all' ? text(locale, 'clearConfirm') : `${text(locale, 'deleteConfirm')} ${confirmation.title}`}</p>
       <button type="button" disabled={busy} onClick={() => { void confirm() }}>{text(locale, busy ? 'busy' : 'confirmDelete')}</button>
       <button type="button" disabled={busy} onClick={() => setConfirmation(null)}>{text(locale, 'cancel')}</button>
-    </div>}
+    </fieldset>}
     <a className="journey-action" href="#/">{text(locale, 'back')}</a>
   </section>
 }

@@ -2,6 +2,10 @@ import { useRef, useState } from 'react'
 import { text, useLocale } from '../i18n'
 import { authStore, useAuth } from './store'
 
+function formText(value: FormDataEntryValue | null) {
+  return typeof value === 'string' ? value : ''
+}
+
 export default function AccountScreen() {
   const locale = useLocale()
   const auth = useAuth()
@@ -16,10 +20,10 @@ export default function AccountScreen() {
     if (busy) return
     const element = event.currentTarget
     const values = new FormData(element)
-    const email = String(values.get('email')).trim()
-    const password = String(values.get('password'))
-    const name = String(values.get('name') ?? '').trim()
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !password ||
+    const email = formText(values.get('email')).trim()
+    const password = formText(values.get('password'))
+    const name = formText(values.get('name')).trim()
+    if (!/^[^\s@]+@[^\s@.]+\.[^\s@]+$/.test(email) || !password ||
       (mode === 'signup' && (!name || password.length < 8 || password !== values.get('confirmation')))) {
       setMessage('validation')
       return
@@ -39,15 +43,15 @@ export default function AccountScreen() {
     setMessage(outcome === 'failed' ? 'authFailed' : null)
   }
 
-  return <section className="journey-card account-screen" aria-labelledby="account-title">
-    <h1 id="account-title">{t('accountTitle')}</h1>
-    {auth.phase === 'unconfigured' ? <p role="status">{t('unconfigured')}</p>
-      : auth.phase === 'checking' ? <p role="status">{t('checking')}</p>
-      : auth.phase === 'error' ? <div role="alert"><p>{t('authFailed')}</p><button type="button" onClick={() => { void authStore.verify() }}>{t('retry')}</button></div>
-      : auth.phase === 'signed-in' ? <>
-        <p>{t('signedIn')}</p><p className="account-email">{auth.user!.email}</p>
-        <button type="button" disabled={busy} onClick={() => { void logout() }}>{busy ? t('busy') : t('logout')}</button>
-      </> : <>
+  function accountContent() {
+    if (auth.phase === 'unconfigured') return <output>{t('unconfigured')}</output>
+    if (auth.phase === 'checking') return <output>{t('checking')}</output>
+    if (auth.phase === 'error') return <div role="alert"><p>{t('authFailed')}</p><button type="button" onClick={() => { void authStore.verify() }}>{t('retry')}</button></div>
+    if (auth.phase === 'signed-in') return <>
+      <p>{t('signedIn')}</p><p className="account-email">{auth.user!.email}</p>
+      <button type="button" disabled={busy} onClick={() => { void logout() }}>{busy ? t('busy') : t('logout')}</button>
+    </>
+    return <>
         <p>{t('authIntro')}</p>
         <div className="auth-modes">
           {(['login', 'signup'] as const).map((option) => <button type="button" key={option}
@@ -60,8 +64,14 @@ export default function AccountScreen() {
           {mode === 'signup' && <label>{t('confirmPassword')}<input name="confirmation" type="password" autoComplete="new-password" maxLength={256} required disabled={busy} /></label>}
           <button type="submit" disabled={busy}>{busy ? t('busy') : t(mode)}</button>
         </form>
-      </>}
-    {message && <p role={message === 'confirmEmail' ? 'status' : 'alert'}>{t(message)}</p>}
+    </>
+  }
+
+  return <section className="journey-card account-screen" aria-labelledby="account-title">
+    <h1 id="account-title">{t('accountTitle')}</h1>
+    {accountContent()}
+    {message === 'confirmEmail' && <output>{t(message)}</output>}
+    {message && message !== 'confirmEmail' && <p role="alert">{t(message)}</p>}
     <a className="journey-action" href="#/">{t('back')}</a>
   </section>
 }

@@ -6,7 +6,7 @@ import { responseLanguage, type DreamRecord } from './dream/record'
 import { MayaGatewayError } from './ai/gateway'
 import DreamResultView from './DreamResultView'
 
-export default function DreamScreen({ userId }: { userId: string }) {
+export default function DreamScreen({ userId }: Readonly<{ userId: string }>) {
   const locale = useLocale()
   const [draft] = useState(() => createDreamDraft(userId))
   const [service] = useState(() => createDreamService(userId))
@@ -73,10 +73,10 @@ export default function DreamScreen({ userId }: { userId: string }) {
     <p className="hero-kicker">{text(locale, 'dreamEyebrow')}</p>
     <h1 id="dream-title">{text(locale, 'dreamTitle')}</h1>
     <p className="hero-copy">{text(locale, 'dreamReflective')}</p>
-    {loading && <p role="status">{text(locale, 'loading')}</p>}
+    {loading && <output>{text(locale, 'loading')}</output>}
     {error && <p role="alert">{text(locale, 'draftFailed')}</p>}
     {invalid && <p role="alert">{text(locale, 'dreamValidation')}</p>}
-    {saved && <p role="status">{text(locale, 'draftSaved')}</p>}
+    {saved && <output>{text(locale, 'draftSaved')}</output>}
     <form onSubmit={(event) => { event.preventDefault(); const valid = validDream(input); setInvalid(!valid); setReview(valid) }}>
       <fieldset disabled={loading || busy || analyzing}>
         <legend>{text(locale, 'dreamWrite')}</legend>
@@ -89,7 +89,7 @@ export default function DreamScreen({ userId }: { userId: string }) {
         <button type="button" onClick={() => { if (window.confirm(text(locale, 'discardConfirm'))) void persist(true) }}>{text(locale, 'discardDraft')}</button>
       </fieldset>
     </form>
-    {review && <div className="journey-card feature-notice" role="region" aria-label={text(locale, 'reviewDream')}>
+    {review && <section className="journey-card feature-notice" aria-label={text(locale, 'reviewDream')}>
       <p className="history-content">{input.dream.trim()}</p>
       <p>{text(locale, service.configured ? 'analysisConsent' : 'analysisPending')}</p>
       <label>{text(locale, 'answerLanguage')}<select disabled={analyzing || busy} value={answerLanguage ?? responseLanguage(input.dream, locale)} onChange={(event) => setAnswerLanguage(event.target.value as Locale)}>
@@ -97,12 +97,12 @@ export default function DreamScreen({ userId }: { userId: string }) {
       </select></label>
       <button type="button" disabled={analyzing || busy} onClick={() => setReview(false)}>{text(locale, 'editDream')}</button>
       <button type="button" disabled={!service.configured || analyzing || busy} onClick={() => { void analyze() }}>{text(locale, 'analyzeDream')}</button>
-    </div>}
-    {analyzing && <div><p role="status">{text(locale, 'analyzingDream')}</p><button type="button" onClick={() => { request.current!.abort(); request.current = null; setAnalyzing(false); setFailure('cancelled') }}>{text(locale, 'cancel')}</button></div>}
+    </section>}
+    {analyzing && <div><output>{text(locale, 'analyzingDream')}</output><button type="button" onClick={() => { request.current!.abort(); request.current = null; setAnalyzing(false); setFailure('cancelled') }}>{text(locale, 'cancel')}</button></div>}
     {failure && <p role="alert">{text(locale, `gateway${failure}`)}</p>}
     {record && <><DreamResultView record={record} />
       {saveFailed && <p role="alert">{text(locale, 'resultSaveFailed')}</p>}
-      {resultSaved && <p role="status">{text(locale, 'resultSaved')}</p>}
+      {resultSaved && <output>{text(locale, 'resultSaved')}</output>}
       <button type="button" disabled={busy || analyzing || resultSaved} onClick={() => { void saveResult() }}>{text(locale, 'saveResult')}</button>
       <a href="#/history">{text(locale, 'history')}</a>
     </>}
