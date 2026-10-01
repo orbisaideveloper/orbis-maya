@@ -1,152 +1,62 @@
 # Maya Project Status
 
-## Current phase
+## Source and authority
 
-Phase 1 — application foundation certified; feature implementation next.
+Repository orbisaideveloper/orbis-maya; canonical source ~/orbis-maya in Termux.
+Main-only, expected HEAD 9983ac68af761234530fce3a86019229fb1ce7b6; feature changes
+remain local/uncommitted. No commit/push/deploy authorized or performed.
+Admin is independently under development; no Admin source/database writes here.
 
-## Repository
+## Verified baseline — 2026-10-01
 
-GitHub: `orbisaideveloper/orbis-maya`
+Dream input native/Linux report ORBIS-MAYA-DREAM-INPUT-FULL-20261001-212821.txt:
+168/168 tests, 100% statements/branches/functions/lines, lint/typecheck/KNIP,
+0.00% JSCPD, audit zero vulnerabilities and full PWA build PASS. Its Dream mobile
+reload assertion FAILED; the overall report was FAIL, not a completed certification.
 
-Local path: `~/orbis-maya`
+Root cause evidence ORBIS-MAYA-DREAM-ERROR-CONTEXT.txt showed the restored draft
+and title on screen despite getByLabel failing to find the textarea. The locator
+was changed to textbox role + accessible name. Owner report
+ORBIS-MAYA-DREAM-LOCATOR-RECHECK-20261001-220128.txt: all 8/8 Pixel-7 E2E PASS,
+exit 0, finished 22:02:20 IST. Coverage/build were not repeated because that fix
+changed only E2E source. Earlier session/timeout speculation did not fix the issue.
 
-Active branch: `main`
+Implemented baseline: accepted Astral Home and compact three-dot navigation;
+shared Auth client/login/password signup/session verification/logout/protected
+routes; three-language UI; authenticated Foundation transport; versioned scoped
+IndexedDB repositories; History open/delete/clear; Dream review and local drafts.
+Foundation local gateway/contract target tests previously PASS, but its full
+quality/release state and live provider use are not certified here.
 
-Branch policy: main-only.
+## Current candidate — Dream result product flow
 
-## Current implementation status
+Reviewed input -> authenticated Foundation request -> strict five-field result ->
+explicit local save -> structured History reopen/delete. Safe errors, manual retry,
+client cancellation, late-response suppression and response language override.
+No new dependency. Same local schema with increased bounded content capacity.
+See docs/DREAM-RESULT.md for exact contract, retention and configuration.
 
-The application foundation is implemented.
+Preparation lint/typecheck and apply-script static review/syntax PASS.
+New unit tests/coverage/mobile E2E NOT run in assistant environment at owner request.
+The guarded Termux apply command collects a read-only connection preflight and runs
+native coverage then full persistent Linux certification into one live completed
+report. A failure blocks expansion. Previous baseline does not certify new code.
 
-Present:
+## Live blockers and boundaries
 
-- React;
-- TypeScript;
-- Vite;
-- ESLint;
-- Vitest + Testing Library;
-- strict 100% production-code coverage contract;
-- KNIP dead-code checking;
-- JSCPD zero-duplication checking;
-- `vite-plugin-pwa`;
-- Playwright mobile E2E;
-- Maya V3 Astral initial mobile-first shell;
-- Linux/Ubuntu certification workflow.
+Shared Google login and real customer identity/membership configuration remain
+unverified. Foundation mount still lacks a real Admin capability adapter; exact
+Maya origins and provider configuration require runtime verification. Admin's
+service-key identity write endpoint is not public capability authorization.
+No authorization bypass or Foundation Accounting APIs are introduced.
+Public Home remains available; private features require server-verified identity.
+Personal history stays in IndexedDB; no raw audio or server conversation archive.
 
-Feature-level product functionality has not yet been implemented beyond the initial shell.
+## Exact next action
 
-Authentication, local-history persistence, Dream AI integration, Ask Maya, voice flows and deterministic astrology remain implementation work.
-
-## Verified environment and quality state
-
-Verified on 2026-10-01:
-
-- Android Termux is the canonical Git/source environment.
-- Native Termux runs compatible development checks and the local Vite development server.
-- Ubuntu/proot is the standard-Linux certification environment for tooling that is unreliable or unsupported in native Android userspace.
-- Ubuntu certification environment: Ubuntu 26.04 LTS, aarch64, Node 24.
-- Playwright Chromium is installed in the Ubuntu certification environment.
-- the persistent Linux certification runner is available through `~/.local/bin/maya-linux-cert`;
-- dedicated SonarQube Cloud project: `orbisaideveloper_orbis-maya`;
-- Sonar organization: `orbis`;
-- Automatic Analysis is disabled;
-- GitHub Actions uses the dedicated Maya Sonar token;
-- local application dependency audit: 0 vulnerabilities;
-- ESLint: PASS with zero warnings/errors;
-- TypeScript: PASS;
-- unit tests: PASS;
-- production-code coverage: 100% lines/statements/functions/branches;
-- KNIP: PASS;
-- JSCPD runtime duplication: 0.00%;
-- repository/workflow preflight: PASS;
-- full Linux PWA build: PASS;
-- generated PWA manifest/service worker: PASS;
-- Playwright Pixel-7 mobile E2E: PASS.
-
-## Environment split
-
-### Native Termux
-
-Use for:
-
-- Git/source ownership;
-- normal code editing;
-- local Vite development server;
-- dependency audit where supported;
-- ESLint;
-- TypeScript;
-- Vitest/coverage;
-- core Vite build;
-- reports and Git operations.
-
-Do not run native Android Playwright browsers.
-
-Do not use native Android KNIP as a required certification path because its current resolver dependency requires a standard native environment that is not reliable in Android userspace.
-
-### Ubuntu/proot
-
-Use for final Linux certification:
-
-- fresh `npm ci`;
-- dependency audit;
-- ESLint;
-- TypeScript;
-- unit tests and 100% coverage;
-- KNIP;
-- JSCPD;
-- repository/workflow validation;
-- full PWA/Workbox build;
-- Playwright Chromium;
-- Pixel-7 mobile E2E.
-
-### GitHub Actions / SonarQube Cloud
-
-Every pushed `main` application commit must pass:
-
-- GitHub Actions quality workflow;
-- SonarQube Cloud scan;
-- Sonar Quality Gate;
-- strict Sonar verification.
-
-Strict Sonar requires:
-
-- unresolved issues: 0;
-- production coverage: 100%;
-- runtime duplication: 0.00%;
-- reviewed Security Hotspots where present;
-- security/reliability/maintainability ratings: A where present.
-
-## Main-only release flow
-
-Termux local implementation
-→ targeted checks
-→ local preview/manual check
-→ Ubuntu/Linux final certification
-→ owner approval
-→ commit/push `main`
-→ GitHub Actions
-→ SonarQube Cloud Quality Gate
-→ strict Sonar verification
-→ only green commits become release/deployment eligible.
-
-A red `main` is repaired through a new locally verified commit.
-
-## Next implementation order
-
-Begin feature coding from the certified application baseline.
-
-First implementation step:
-
-Application shell and real navigation for Home, Dream Analysis, Birth Chart / Astro, Ask Maya, Local History and Settings.
-
-Then proceed through authentication, local data, Dream flow, Foundation Maya gateway, AI integration, Ask Maya, voice and deterministic astrology in the approved implementation order.
-
-## Remote/production impact
-
-Maya currently has no production deployment workflow.
-
-No production deployment is performed as part of application-foundation certification.
-
-No Maya server-side personal conversation-history database is introduced.
-
-Database impact: none.
+Owner applies candidate, sends the ONE finished report, previews Dream/History.
+Repair any failure before expanding. Inspect preflight and current Admin contract
+before wiring actual capability authorization. Then configure shared identity,
+approved origins and existing Foundation provider; verify a real Dream response.
+Remote GitHub Actions/Sonar require a separately approved Termux commit/push.
+Production deployment and Android packaging remain separately deferred.

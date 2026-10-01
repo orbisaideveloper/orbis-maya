@@ -1,261 +1,97 @@
-#root {
-  min-height: 100vh;
-}
-
+#root { min-height: 100svh; }
 .maya-shell {
   position: relative;
-  min-height: 100vh;
-  overflow: hidden;
-  padding: 24px 18px 34px;
-  background:
-    radial-gradient(circle at 50% -10%, rgba(116, 82, 255, 0.28), transparent 33%),
-    radial-gradient(circle at 8% 46%, rgba(33, 177, 255, 0.12), transparent 24%),
-    linear-gradient(180deg, #070914 0%, #090b18 48%, #05060c 100%);
-  color: #f7f5ff;
+  isolation: isolate;
+  min-height: 100svh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: max(18px, env(safe-area-inset-top)) 18px max(10px, env(safe-area-inset-bottom));
+  color: #f4fbff;
+  background: #163047 url('/maya-astral.svg') center top / cover no-repeat;
 }
-
-.astral-glow {
+.maya-shell::before {
+  content: '';
   position: absolute;
-  border-radius: 999px;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(10, 25, 41, .16), transparent 35%, rgba(10, 25, 41, .38));
   pointer-events: none;
-  filter: blur(1px);
 }
-
-.astral-glow-one {
-  width: 180px;
-  height: 180px;
-  top: 88px;
-  right: -92px;
-  background: rgba(136, 96, 255, 0.16);
-  box-shadow: 0 0 90px rgba(136, 96, 255, 0.3);
-}
-
-.astral-glow-two {
-  width: 120px;
-  height: 120px;
-  top: 410px;
-  left: -70px;
-  background: rgba(62, 195, 255, 0.12);
-  box-shadow: 0 0 80px rgba(62, 195, 255, 0.22);
-}
-
-.hero,
-.journey-grid,
-.local-strip,
-footer {
-  position: relative;
-  z-index: 1;
-  width: min(100%, 720px);
-  margin-inline: auto;
-}
-
-.brand-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 38px;
-}
-
-.brand-mark {
-  display: grid;
-  width: 34px;
-  height: 34px;
-  place-items: center;
-  border: 1px solid rgba(195, 181, 255, 0.5);
-  border-radius: 12px;
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.16),
-    rgba(255, 255, 255, 0.04)
-  );
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.16);
-}
-
-.brand-name {
-  font-size: 0.82rem;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-}
-
-.phase-pill {
-  margin-left: auto;
-  padding: 7px 10px;
-  border: 1px solid rgba(170, 151, 255, 0.28);
-  border-radius: 999px;
-  color: #f6f2ff;
-  background: #2b2452;
-  font-size: 0.72rem;
-  font-weight: 700;
-}
-
-.hero-kicker {
-  margin: 0 0 12px;
-  color: #a99aff;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-.hero h1 {
-  max-width: 560px;
-  margin: 0;
-  font-size: clamp(2.35rem, 11vw, 4.75rem);
-  line-height: 0.99;
-  letter-spacing: -0.05em;
-}
-
-.hero h1 span {
-  display: block;
-  margin-top: 10px;
-  color: #b9adff;
-}
-
-.hero-copy {
-  max-width: 580px;
-  margin: 22px 0 0;
-  color: #b6b5c8;
-  font-size: 1rem;
-  line-height: 1.7;
-}
-
-.privacy-note {
-  display: flex;
-  gap: 12px;
-  margin-top: 24px;
-  padding: 14px 15px;
-  border: 1px solid rgba(160, 150, 213, 0.18);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.035);
-}
-
-.privacy-note span {
-  color: #9d8cff;
-}
-
-.privacy-note p {
-  margin: 0;
-  color: #9695a7;
-  font-size: 0.78rem;
-  line-height: 1.6;
-}
-
-.journey-grid {
-  display: grid;
-  gap: 14px;
-  margin-top: 38px;
-}
-
+.app-header, #maya-content { width: min(100%, 720px); margin-inline: auto; }
+.app-header { position: relative; z-index: 5; margin-bottom: 22px; }
+.brand-row { display: flex; align-items: center; gap: 10px; min-height: 44px; }
+.brand-mark { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid #cce9f1; border-radius: 13px; background: rgba(227, 247, 255, .13); }
+.brand-name { font-size: .82rem; font-weight: 800; letter-spacing: .15em; }
+.phase-pill { margin-left: auto; color: #e1f0fc; font-size: .72rem; }
+.app-menu { position: relative; }
+.app-menu summary { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgba(228, 247, 255, .58); border-radius: 14px; background: rgba(225, 242, 255, .14); cursor: pointer; list-style: none; }
+.app-menu summary::-webkit-details-marker { display: none; }
+.menu-dots { font-size: 1.6rem; line-height: 1; }
+.app-menu nav { position: absolute; right: 0; top: 52px; width: min(260px, 83vw); max-height: 72svh; overflow: auto; padding: 10px; border: 1px solid #9dbdce; border-radius: 20px; background: rgba(21, 43, 62, .97); box-shadow: 0 16px 45px rgba(4, 15, 29, .3); }
+.app-menu nav a { display: flex; align-items: center; min-height: 48px; padding: 12px 14px; border-radius: 12px; color: #eaf7ff; text-decoration: none; }
+.app-menu nav a[aria-current='page'] { background: #345d75; }
+#maya-content { flex: 1; display: flex; flex-direction: column; }
+#maya-content:focus { outline: none; }
+.hero-kicker { margin: 0 0 10px; color: #d3ecf5; font-size: .78rem; font-weight: 700; }
+.hero h1 { margin: 0; font-size: clamp(1.55rem, 6.5vw, 2.4rem); line-height: 1.32; font-weight: 750; text-shadow: 0 2px 12px rgba(7, 24, 43, .6); }
+.hero h1 span { display: block; color: #dfedff; }
+.hero-copy { margin: 12px 0 0; font-size: .86rem; color: #edf5fa; line-height: 1.6; }
+.cosmic-window { flex: 1 0 48px; min-height: 48px; }
+.journey-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .journey-card {
-  padding: 20px;
-  border: 1px solid rgba(179, 167, 234, 0.2);
-  border-radius: 22px;
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.075),
-      rgba(255, 255, 255, 0.025)
-    );
-  box-shadow:
-    inset 0 1px rgba(255, 255, 255, 0.09),
-    0 16px 50px rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  border: 1px solid rgba(231, 249, 255, .62);
+  border-radius: 23px;
+  background: linear-gradient(140deg, rgba(230, 248, 255, .24), rgba(181, 221, 243, .08) 55%, rgba(236, 231, 255, .15));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), inset 0 -1px 0 rgba(206, 233, 255, .14), 0 10px 24px rgba(9, 27, 44, .16);
 }
+.card-eyebrow { margin: 0 0 6px; color: #eefaff; font-size: .75rem; }
+.journey-card h2 { margin: 0; font-size: 1.05rem; color: #fff; line-height: 1.35; }
+.journey-card p { color: #f0f7fc; font-size: .8rem; line-height: 1.6; }
+.journey-action { display: grid; place-items: center; min-height: 44px; margin-top: 12px; padding: 9px; border: 1px solid rgba(229, 246, 255, .5); border-radius: 13px; color: #fff; background: rgba(17, 48, 71, .58); text-decoration: none; text-align: center; font-size: .8rem; font-weight: 700; }
+.privacy-note { margin-top: 16px; padding: 12px 14px; border-radius: 16px; background: rgba(15, 38, 58, .6); }
+.privacy-note p { margin: 0; color: #e4f0f8; font-size: .72rem; line-height: 1.6; }
+.feature-screen h1, .screen-state h1 { margin: 0; font-size: clamp(1.6rem, 7vw, 2.5rem); line-height: 1.3; }
+.feature-notice { margin-top: 24px; }
+.skip-link { position: fixed; z-index: 10; top: 8px; left: 8px; transform: translateY(-150%); }
+.skip-link:focus { transform: translateY(0); background: #fff; color: #102a40; padding: 12px; }
+@media (max-height: 580px) { .app-header { margin-bottom: 14px; } }
+@media (min-width: 680px) { .maya-shell { background-position: center 38%; } .journey-card { padding: 22px; } }
+summary:focus-visible { outline: 2px solid #e1f4ff; outline-offset: 3px; }
 
-.card-eyebrow {
-  margin: 0 0 9px;
-  color: #a99aff;
-  font-size: 0.73rem;
-  font-weight: 700;
+.account-screen { margin-block: 1rem; }
+.account-screen form, .account-screen label { display: grid; gap: .5rem; }
+.account-screen form { gap: 1rem; margin-block: 1rem; }
+.account-screen input, .account-screen button, .language-picker select {
+  min-height: 48px; border: 1px solid #b7d5e2; border-radius: 14px;
+  padding: .75rem; font: inherit; color: #f4f9ff; background: #16374c;
 }
+.account-screen input { width: 100%; min-width: 0; }
+.account-screen button { cursor: pointer; }
+.account-screen button:disabled { opacity: .65; cursor: wait; }
+.auth-modes { display: flex; flex-wrap: wrap; gap: .5rem; }
+.auth-modes [aria-pressed="true"] { background: #355e73; border-width: 2px; }
+.account-email { overflow-wrap: anywhere; }
+.language-picker { display: grid; gap: .5rem; margin-block: 1rem; }
 
-.journey-card h2 {
-  margin: 0;
-  font-size: 1.28rem;
-  letter-spacing: -0.025em;
-}
+.history-list { display: grid; gap: 1rem; padding: 0; list-style: none; }
+.history-screen button { min-height: 48px; padding: .75rem; margin-block: .5rem; border: 1px solid #b7d5e2; border-radius: 14px; font: inherit; color: #f4f9ff; background: #16374c; cursor: pointer; }
+.history-screen button:disabled { opacity: .65; cursor: wait; }
+.history-screen summary { min-height: 48px; padding-block: .5rem; overflow-wrap: anywhere; cursor: pointer; }
+.history-content { white-space: pre-wrap; overflow-wrap: anywhere; }
+.history-confirm { margin-block: 1rem; }
+.history-confirm button + button { margin-inline-start: .75rem; }
 
-.journey-card > p:not(.card-eyebrow) {
-  margin: 11px 0 18px;
-  color: #a6a5b5;
-  font-size: 0.88rem;
-  line-height: 1.62;
-}
+.dream-screen fieldset { display: grid; gap: .75rem; border: 1px solid #b7d5e2; border-radius: 18px; margin-top: 1rem; padding: 1rem; min-width: 0; }
+.dream-screen label { display: grid; gap: .5rem; }
+.dream-screen textarea, .dream-screen button { width: 100%; min-height: 48px; padding: .75rem; border: 1px solid #b7d5e2; border-radius: 14px; font: inherit; background: #16374c; color: #f4f9ff; }
+.dream-screen textarea { resize: vertical; }
+.dream-screen button { cursor: pointer; }
+.dream-screen fieldset:disabled { opacity: .65; }
 
-.journey-card button {
-  width: 100%;
-  min-height: 48px;
-  border: 1px solid rgba(179, 160, 255, 0.25);
-  border-radius: 14px;
-  color: #f8f6ff;
-  background: linear-gradient(
-    135deg,
-    rgba(124, 92, 255, 0.42),
-    rgba(77, 55, 166, 0.34)
-  );
-  font: inherit;
-  font-size: 0.86rem;
-  font-weight: 750;
-}
-
-.local-strip {
-  display: grid;
-  gap: 8px;
-  margin-top: 16px;
-  padding: 18px 20px;
-  border: 1px solid rgba(127, 220, 193, 0.15);
-  border-radius: 20px;
-  background: rgba(38, 111, 92, 0.08);
-}
-
-.local-strip div {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #65d8b2;
-  box-shadow: 0 0 14px rgba(101, 216, 178, 0.7);
-}
-
-.local-strip strong {
-  font-size: 0.86rem;
-}
-
-.local-strip p {
-  margin: 0;
-  color: #8fa69f;
-  font-size: 0.78rem;
-  line-height: 1.55;
-}
-
-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  margin-top: 28px;
-  color: #696978;
-  font-size: 0.68rem;
-}
-
-@media (min-width: 680px) {
-  .maya-shell {
-    padding-top: 42px;
-  }
-
-  .journey-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .journey-card button {
-    margin-top: auto;
-  }
-
-  .journey-card {
-    display: flex;
-    min-height: 270px;
-    flex-direction: column;
-  }
-}
+.dream-result { margin-top: 1.5rem; overflow-wrap: anywhere; }
+.dream-result .journey-card { margin-top: 1rem; padding: 1.25rem; }
+.dream-result h3 { margin-top: 0; }
+.dream-result ul { padding-inline-start: 1.25rem; }
+.dream-screen select { display: block; width: 100%; margin-block: .5rem 1rem; }

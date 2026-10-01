@@ -153,3 +153,43 @@ This stack must continue to satisfy Maya's existing 100% production coverage and
 Native Android/Termux verification uses the core Vite production build because the verified `vite-plugin-pwa`/Workbox generation stage does not terminate cleanly in the current native Android environment.
 
 The full PWA build remains mandatory through `npm run build:pwa` on the standard-Linux certification path and in GitHub Actions. PWA manifest, registration script and generated service worker artifacts must exist before a pushed application commit can obtain a green quality result.
+
+## D-018 — Initial shell navigation
+**Status: ACCEPTED — Coding Step 1**
+
+The initial six-screen shell uses URL hash routes with native anchors and React's
+`useSyncExternalStore`. This avoids a new dependency and static-host rewrite
+requirements while preserving direct links, reload and browser Back/Forward.
+Secondary screens are loaded through React lazy/Suspense. A route-keyed error
+boundary contains render failures and allows recovery through Home.
+This is navigation only; authentication and capability authorization are separate
+later steps. Auth tokens and personal content must never be placed in route URLs.
+
+## D-019 — Compact Astral dashboard
+**Status: ACCEPTED — owner direction 2026-10-01**
+
+Keep a light blue cosmic environment with original decorative SVG artwork,
+crisp translucent glass cards and compact mobile Home. Two initial Home cards: Dream and Ask Maya.
+All six routes are available in a native three-dot disclosure menu beside Astral.
+There is no persistent bottom navigation. Artwork is decorative, not calculated chart data.
+No new dependencies, external artwork requests or provider connections are introduced.
+
+## D-020 — Maya account boundary
+**Status: ACCEPTED — owner direction 2026-10-01**
+
+Maya provides its own signup/login UI over the approved shared ORBIS/Supabase Auth.
+It does not invoke Foundation Accounting account/organization/workspace APIs.
+Canonical identity, Maya membership/access and account control records belong to
+ORBIS Admin through explicit server contracts. Auth credentials/session authority
+remain with shared Supabase Auth. No Maya server personal-history database.
+An Auth user ID must not be mislabeled as the canonical ORBIS identity ID.
+Admin project registration reuses the existing registry-driven project dashboard.
+
+## D-021 — Three-language UI and response direction
+**Status: ACCEPTED — owner direction 2026-10-01**
+
+Provide complete Bengali, English and Hindi UI catalogs with Bengali as default,
+a persistent Settings language selector and an extensible typed i18n boundary.
+AI text replies must follow the user's input language independently of UI locale.
+Voice language support follows device capability and offers transcript editing.
+This authentication change implements UI language only; AI/voice remain later steps.

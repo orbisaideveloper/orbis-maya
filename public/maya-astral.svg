@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1200">
+<defs>
+ <linearGradient id="space" x2=".65" y2="1"><stop stop-color="#152d43"/><stop offset=".55" stop-color="#16344b"/><stop offset="1" stop-color="#0d1c30"/></linearGradient>
+ <radialGradient id="nebula"><stop stop-color="#94d9f5" stop-opacity=".36"/><stop offset=".5" stop-color="#629bbf" stop-opacity=".12"/><stop offset="1" stop-color="#85c5ff" stop-opacity="0"/></radialGradient>
+ <radialGradient id="sun" cx=".35" cy=".3"><stop stop-color="#fff7c4"/><stop offset=".45" stop-color="#ffd78f"/><stop offset=".82" stop-color="#e89462"/><stop offset="1" stop-color="#ad5f48"/></radialGradient>
+ <radialGradient id="halo"><stop stop-color="#ffdb95" stop-opacity=".5"/><stop offset=".5" stop-color="#ffce92" stop-opacity=".15"/><stop offset="1" stop-color="#ffc77c" stop-opacity="0"/></radialGradient>
+ <radialGradient id="ice" cx=".28" cy=".22"><stop stop-color="#d7f4ff"/><stop offset=".48" stop-color="#8ac8df"/><stop offset="1" stop-color="#274e76"/></radialGradient>
+ <radialGradient id="pearl" cx=".3" cy=".25"><stop stop-color="#fbecce"/><stop offset=".55" stop-color="#b9aec9"/><stop offset="1" stop-color="#53526c"/></radialGradient>
+ <pattern id="stars" width="173" height="211" patternUnits="userSpaceOnUse"><g fill="#eefaff"><circle cx="18" cy="22" r="1" opacity=".8"/><circle cx="112" cy="49" r="1.4" opacity=".65"/><circle cx="66" cy="135" r=".9"/><circle cx="152" cy="192" r=".6"/><circle cx="41" cy="81" r=".6" opacity=".6"/></g></pattern>
+</defs>
+<path fill="url(#space)" d="M0 0h800v1200H0z"/>
+<ellipse fill="url(#nebula)" cx="400" cy="380" rx="600" ry="440" transform="rotate(-28 400 380)"/>
+<path fill="url(#stars)" d="M0 0h800v1200H0z"/>
+<g fill="none" stroke="#cce6fa" stroke-opacity=".22" stroke-width="1.3" transform="rotate(-25 430 440)">
+ <ellipse cx="430" cy="440" rx="225" ry="85"/><ellipse cx="430" cy="440" rx="370" ry="148"/><ellipse cx="430" cy="440" rx="570" ry="230"/><ellipse cx="430" cy="440" rx="710" ry="290"/>
+</g>
+<circle fill="url(#halo)" cx="560" cy="360" r="200"/>
+<circle fill="url(#sun)" cx="560" cy="360" r="70"/>
+<g fill="#fff4c4" opacity=".45"><circle cx="531" cy="332" r="4"/><circle cx="570" cy="382" r="3"/><circle cx="579" cy="338" r="5"/><circle cx="544" cy="379" r="2"/></g>
+<circle fill="url(#ice)" cx="203" cy="439" r="48"/>
+<g transform="translate(660 163) rotate(-22)"><circle fill="url(#pearl)" r="38"/><ellipse fill="none" stroke="#e5ddc6" stroke-opacity=".75" stroke-width="9" rx="70" ry="15"/><ellipse fill="none" stroke="#c8c4d2" stroke-opacity=".5" stroke-width="2" rx="79" ry="19"/></g>
+<circle fill="url(#ice)" cx="697" cy="584" r="62"/>
+<circle fill="url(#pearl)" cx="340" cy="220" r="17"/>
+<g stroke="#f2fbff" stroke-linecap="round" opacity=".9"><path d="M86 305v12m-6-6h12M428 129v10m-5-5h10M470 574v12m-6-6h12"/></g>
+</svg>
