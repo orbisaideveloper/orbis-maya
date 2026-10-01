@@ -72,9 +72,25 @@ jobs:
       - name: Duplication guard
         if: steps.app.outputs.present == 'true'
         run: npm run quality:jscpd
-      - name: Production build
+      - name: Production PWA build
         if: steps.app.outputs.present == 'true'
-        run: npm run build
+        run: npm run build:pwa
+      - name: Verify PWA build artifacts
+        if: steps.app.outputs.present == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s dist/index.html
+          test -s dist/manifest.webmanifest
+          test -s dist/registerSW.js
+          test -s dist/sw.js
+          echo 'PWA build artifacts: PASS'
+      - name: Install Playwright Chromium
+        if: steps.app.outputs.present == 'true'
+        run: npx playwright install --with-deps chromium
+      - name: Mobile E2E
+        if: steps.app.outputs.present == 'true'
+        run: npm run test:e2e
       - name: Require Sonar token
         shell: bash
         env:

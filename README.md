@@ -6,9 +6,13 @@ Maya is a mobile-first Bengali-English ORBIS product for dream analysis, astrolo
 
 ## Current phase
 
-**Phase 0 — product, architecture, governance and quality foundation.**
+**Phase 1 — certified application foundation complete; feature implementation ready.**
 
-No production application code is considered started yet. Before coding begins, the project must have an approved architecture, an isolated SonarQube Cloud project, a clean Termux development workflow and verified quality gates.
+The React + TypeScript + Vite PWA foundation is implemented with the Maya V3 Astral initial shell.
+
+The application foundation has verified unit testing, 100% production-code coverage, dead-code checking, zero-duplication checking, full Linux PWA generation and mobile Chromium E2E.
+
+Feature implementation now proceeds incrementally from this certified baseline.
 
 ## Start here
 

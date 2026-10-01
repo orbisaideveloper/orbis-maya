@@ -26,10 +26,36 @@ Do not reinstall/upgrade shared tools just because Maya is new.
 
 Inspect first.
 
-Use:
+### Native Termux
 
-- native Termux where compatible;
-- Ubuntu/proot for Linux/glibc-dependent tools.
+Use for:
+
+- Git/source ownership;
+- local editing;
+- Vite development server;
+- compatible dependency audit;
+- ESLint;
+- TypeScript;
+- Vitest and coverage;
+- core Vite production build.
+
+Native Android is not the required execution environment for Playwright browser E2E or KNIP certification.
+
+### Ubuntu/proot
+
+Use for standard-Linux/glibc-dependent certification:
+
+- fresh Linux dependency installation;
+- KNIP;
+- JSCPD;
+- full PWA/Workbox build;
+- Playwright Chromium;
+- mobile E2E;
+- other tooling that is unreliable in Android userspace.
+
+The persistent Maya Linux certification command is:
+
+`~/.local/bin/maya-linux-cert`
 
 Do not change another ORBIS repository while working on Maya.
 
@@ -105,14 +131,17 @@ A failing `main` run is repaired through a new locally verified commit. Do not d
 
 ## 9. Current known environment notes
 
-From the 2026-09-30 Termux audit:
+Verified through 2026-10-01:
 
-- Git/GitHub CLI are available;
-- GitHub authentication is active;
-- Ubuntu/proot exists;
-- Ubuntu Node is available;
+- native Termux is the canonical Maya Git/source environment;
+- native Termux Node is available for compatible development work;
+- Ubuntu/proot is installed;
+- Ubuntu is 26.04 LTS on aarch64;
+- Ubuntu Node 24 is available;
 - Codex is available in Ubuntu;
-- local Sonar CLI is not yet installed;
-- Java is not yet installed in Ubuntu.
-
-Do not install Sonar/Java until the Maya Sonar setup step is intentionally started and the required versions are verified.
+- Playwright Chromium and required Linux browser dependencies are installed in the Maya Linux certification environment;
+- native Android Playwright browser execution is not used;
+- native Android KNIP is not a required certification path;
+- full PWA/Workbox generation is certified in Linux/GitHub Actions;
+- local Sonar CLI is not required for the baseline because GitHub Actions performs the authoritative Sonar scan and Quality Gate wait;
+- do not install or upgrade shared Java/Sonar tooling unless a future Maya task explicitly requires it.

@@ -132,3 +132,24 @@ Expected identity, to verify after import:
 Maya adopts the strict quality posture used by ORBIS Admin, combined with the simpler owner-controlled Termux workflow used successfully in other ORBIS work.
 
 No production code begins before the quality foundation is defined and Sonar isolation is verified.
+
+## D-017 — Frontend foundation
+**Status: LOCKED**
+
+Maya PWA uses:
+
+- React;
+- TypeScript;
+- Vite;
+- ESLint as the primary application linter;
+- `vite-plugin-pwa` for the PWA build foundation;
+- Vitest + Testing Library for application/unit testing;
+- Playwright for mobile E2E;
+- KNIP for dead-code detection;
+- JSCPD for runtime duplication enforcement.
+
+This stack must continue to satisfy Maya's existing 100% production coverage and 0.00% runtime duplication quality contracts.
+
+Native Android/Termux verification uses the core Vite production build because the verified `vite-plugin-pwa`/Workbox generation stage does not terminate cleanly in the current native Android environment.
+
+The full PWA build remains mandatory through `npm run build:pwa` on the standard-Linux certification path and in GitHub Actions. PWA manifest, registration script and generated service worker artifacts must exist before a pushed application commit can obtain a green quality result.

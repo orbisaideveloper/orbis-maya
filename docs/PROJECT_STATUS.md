@@ -2,7 +2,7 @@
 
 ## Current phase
 
-Phase 0 — main-only repository quality foundation before application implementation.
+Phase 1 — application foundation certified; feature implementation next.
 
 ## Repository
 
@@ -16,57 +16,112 @@ Branch policy: main-only.
 
 ## Current implementation status
 
-No production application code is considered started.
+The application foundation is implemented.
 
-The documentation/governance and repository quality foundation are established locally.
+Present:
 
-Maya uses the owner's local working tree for implementation and local verification, followed by an owner-approved direct push to `main`.
+- React;
+- TypeScript;
+- Vite;
+- ESLint;
+- Vitest + Testing Library;
+- strict 100% production-code coverage contract;
+- KNIP dead-code checking;
+- JSCPD zero-duplication checking;
+- `vite-plugin-pwa`;
+- Playwright mobile E2E;
+- Maya V3 Astral initial mobile-first shell;
+- Linux/Ubuntu certification workflow.
 
-## Verified environment and external state
+Feature-level product functionality has not yet been implemented beyond the initial shell.
 
-Verified through 2026-10-01:
+Authentication, local-history persistence, Dream AI integration, Ask Maya, voice flows and deterministic astrology remain implementation work.
 
-- Android Termux is the canonical local Git/source environment.
-- GitHub authentication for `orbisaideveloper` is active.
-- Maya is imported into SonarQube Cloud under organization `orbis`.
-- Sonar project key is `orbisaideveloper_orbis-maya`.
-- Repository binding is `orbisaideveloper/orbis-maya`.
-- Automatic Analysis is disabled for CI-based analysis.
-- New Code Definition is `Previous version`.
-- GitHub Actions secret `SONAR_TOKEN` is stored and verified.
-- Authenticated Sonar API validation returned valid authentication.
-- Maya project access and branch listing returned HTTP 200.
-- `main` Quality Gate access returned HTTP 200.
-- non-main Quality Gate access was rejected by the current Sonar plan.
-- a prior non-main analysis task itself completed successfully, confirming the scanner/token/project identity path.
-- the repository currently has a quality workflow and no deployment workflow.
-- no application source has been introduced.
+## Verified environment and quality state
 
-## Quality foundation scope
+Verified on 2026-10-01:
 
-The quality foundation provides:
+- Android Termux is the canonical Git/source environment.
+- Native Termux runs compatible development checks and the local Vite development server.
+- Ubuntu/proot is the standard-Linux certification environment for tooling that is unreliable or unsupported in native Android userspace.
+- Ubuntu certification environment: Ubuntu 26.04 LTS, aarch64, Node 24.
+- Playwright Chromium is installed in the Ubuntu certification environment.
+- the persistent Linux certification runner is available through `~/.local/bin/maya-linux-cert`;
+- dedicated SonarQube Cloud project: `orbisaideveloper_orbis-maya`;
+- Sonar organization: `orbis`;
+- Automatic Analysis is disabled;
+- GitHub Actions uses the dedicated Maya Sonar token;
+- local application dependency audit: 0 vulnerabilities;
+- ESLint: PASS with zero warnings/errors;
+- TypeScript: PASS;
+- unit tests: PASS;
+- production-code coverage: 100% lines/statements/functions/branches;
+- KNIP: PASS;
+- JSCPD runtime duplication: 0.00%;
+- repository/workflow preflight: PASS;
+- full Linux PWA build: PASS;
+- generated PWA manifest/service worker: PASS;
+- Playwright Pixel-7 mobile E2E: PASS.
 
-- dedicated `sonar-project.properties`;
-- repository/main/Sonar isolation checks;
-- tracked-sensitive-file guard;
-- workflow structure validation;
-- docs-safe quality preflight;
-- GitHub Actions quality workflow on `main`;
-- SonarQube Cloud `main` scan with Quality Gate wait;
-- strict post-scan checks for unresolved issues, ratings and reviewed hotspots;
-- fail-closed application coverage enforcement: lines/statements/functions/branches 100%;
-- required application coverage artifacts: `coverage/coverage-summary.json` and `coverage/lcov.info`;
-- fail-closed runtime duplication enforcement: 0.00%;
-- missing application coverage or duplication metrics are failures once the application scaffold exists.
+## Environment split
 
-When application code appears, the workflow fails closed unless the required project scripts and lockfile are present.
+### Native Termux
+
+Use for:
+
+- Git/source ownership;
+- normal code editing;
+- local Vite development server;
+- dependency audit where supported;
+- ESLint;
+- TypeScript;
+- Vitest/coverage;
+- core Vite build;
+- reports and Git operations.
+
+Do not run native Android Playwright browsers.
+
+Do not use native Android KNIP as a required certification path because its current resolver dependency requires a standard native environment that is not reliable in Android userspace.
+
+### Ubuntu/proot
+
+Use for final Linux certification:
+
+- fresh `npm ci`;
+- dependency audit;
+- ESLint;
+- TypeScript;
+- unit tests and 100% coverage;
+- KNIP;
+- JSCPD;
+- repository/workflow validation;
+- full PWA/Workbox build;
+- Playwright Chromium;
+- Pixel-7 mobile E2E.
+
+### GitHub Actions / SonarQube Cloud
+
+Every pushed `main` application commit must pass:
+
+- GitHub Actions quality workflow;
+- SonarQube Cloud scan;
+- Sonar Quality Gate;
+- strict Sonar verification.
+
+Strict Sonar requires:
+
+- unresolved issues: 0;
+- production coverage: 100%;
+- runtime duplication: 0.00%;
+- reviewed Security Hotspots where present;
+- security/reliability/maintainability ratings: A where present.
 
 ## Main-only release flow
 
-Local working tree
-→ local server/manual check when applicable
-→ automated local verification/E2E
-→ final local certification
+Termux local implementation
+→ targeted checks
+→ local preview/manual check
+→ Ubuntu/Linux final certification
 → owner approval
 → commit/push `main`
 → GitHub Actions
@@ -74,39 +129,24 @@ Local working tree
 → strict Sonar verification
 → only green commits become release/deployment eligible.
 
-A red `main` is repaired through a new locally verified commit. It is not deployed.
+A red `main` is repaired through a new locally verified commit.
 
-## Current quality blocker
+## Next implementation order
 
-The first `main` GitHub Actions/Sonar baseline ran against commit `5564d8235f90774b9a05081ed8ee64bc705c8736`.
+Begin feature coding from the certified application baseline.
 
-Repository preflight and governance checks passed.
+First implementation step:
 
-SonarQube Cloud completed the `main` analysis but the Quality Gate failed.
+Application shell and real navigation for Home, Dream Analysis, Birth Chart / Astro, Ask Maya, Local History and Settings.
 
-The analyzed source reported 9 unresolved issues in the repository quality tooling:
-
-- 2 vulnerabilities;
-- 7 code smells;
-- affected files: `scripts/sonar-strict-gate.mjs` and `scripts/validate-workflows.mjs`.
-
-No application source exists yet and no deployment occurred.
-
-## Next exact actions
-
-1. Repair the two Sonar-reported quality-tooling files locally.
-2. Run local structural/preflight verification and review the exact diff.
-3. After owner approval, commit/push the verified repair to `main`.
-4. Verify GitHub Actions, Sonar Quality Gate and strict Sonar all pass.
-5. If any real issue remains, repair locally and repeat without weakening the gate.
-6. After remote `main` is green, remove the obsolete secondary branch locally and remotely.
-7. Only then begin the application scaffold.
+Then proceed through authentication, local data, Dream flow, Foundation Maya gateway, AI integration, Ask Maya, voice and deterministic astrology in the approved implementation order.
 
 ## Remote/production impact
 
-At the time of this status update:
+Maya currently has no production deployment workflow.
 
-- remote `main` is `5564d8235f90774b9a05081ed8ee64bc705c8736`;
-- its current GitHub Actions/Sonar result is red and therefore not release/deployment eligible;
-- production deployment: none;
-- database: unchanged.
+No production deployment is performed as part of application-foundation certification.
+
+No Maya server-side personal conversation-history database is introduced.
+
+Database impact: none.

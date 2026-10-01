@@ -1,0 +1,5 @@
+{
+  "entry": [
+    "scripts/validate-workflows.mjs"
+  ]
+}

@@ -36,7 +36,7 @@ if [[ -f package.json ]]; then
   node <<'NODE'
 const fs = require('fs')
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'))
-const required = ['lint','typecheck','test:coverage','quality:knip','quality:jscpd','build','test:e2e']
+const required = ['lint','typecheck','test:coverage','quality:knip','quality:jscpd','build','build:pwa','test:e2e']
 const missing = required.filter((name) => !pkg.scripts?.[name])
 if (missing.length) { console.error(`ERROR: missing required package scripts: ${missing.join(', ')}`); process.exit(1) }
 console.log('Application quality contract: PASS')

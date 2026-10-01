@@ -113,24 +113,53 @@ An invalid workflow definition is itself a failed quality gate.
 Primary for:
 
 - Git/source workflow;
-- compatible local checks;
-- local development/preview where supported.
+- local Vite development server;
+- compatible dependency audit;
+- lint;
+- TypeScript;
+- unit tests;
+- coverage;
+- core Vite build;
+- local/manual preview.
+
+The normal native Termux production build command uses the core Vite build.
+
+Do not require native Android Playwright browser execution.
+
+Do not use native Android KNIP as the final dead-code certification path.
 
 ### Ubuntu/proot
 
-Use for:
+Required final local certification environment for:
 
-- standard-Linux/glibc-dependent tooling;
-- Sonar CLI;
-- tooling that is unreliable in Android userspace.
+- fresh Linux dependency installation;
+- dependency audit;
+- ESLint;
+- TypeScript;
+- unit tests and 100% coverage;
+- KNIP;
+- JSCPD;
+- repository/workflow validation;
+- full PWA/Workbox generation through `npm run build:pwa`;
+- Playwright Chromium;
+- Pixel-7 mobile E2E.
+
+The persistent certification runner is:
+
+`~/.local/bin/maya-linux-cert`
 
 ### GitHub Actions
 
-Use as clean Linux CI evidence for:
+Use as the clean remote Linux CI authority for:
 
 - full quality gate;
+- full PWA build;
+- mobile Playwright E2E;
 - SonarQube Cloud scan;
-- release verification.
+- Sonar Quality Gate wait;
+- strict Sonar verification.
+
+A green local certification does not replace the required GitHub Actions/Sonar result for a pushed `main` commit.
 
 ## 5. Reports
 
