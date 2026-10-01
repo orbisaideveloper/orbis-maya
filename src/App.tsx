@@ -42,7 +42,7 @@ function App() {
         <p className="hero-kicker">স্বপ্ন · জ্যোতিষ · আত্মঅন্বেষণ</p>
 
         <h1 id="maya-title">
-          আপনার অন্তর্জগতের
+          আপনার অন্তর্জগতের{' '}
           <span>একটি শান্ত AI companion</span>
         </h1>
 

@@ -12,8 +12,12 @@ if (!token) {
 }
 
 const properties = fs.readFileSync('sonar-project.properties', 'utf8')
-const projectKey = properties.match(/^sonar\.projectKey=(.+)$/m)?.[1]?.trim()
-const organization = properties.match(/^sonar\.organization=(.+)$/m)?.[1]?.trim()
+const projectKey = /^sonar\.projectKey=(.+)$/m
+  .exec(properties)?.[1]
+  ?.trim()
+const organization = /^sonar\.organization=(.+)$/m
+  .exec(properties)?.[1]
+  ?.trim()
 
 if (
   projectKey !== EXPECTED_PROJECT_KEY ||

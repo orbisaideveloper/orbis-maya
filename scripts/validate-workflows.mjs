@@ -10,7 +10,7 @@ if (!fs.existsSync(workflowDirectory)) {
   const files = fs
     .readdirSync(workflowDirectory)
     .filter((name) => /\.ya?ml$/.test(name))
-    .sort()
+    .sort((left, right) => left.localeCompare(right))
 
   if (files.length === 0) {
     failures.push('no workflow files found')
@@ -48,9 +48,10 @@ if (!fs.existsSync(workflowDirectory)) {
         break
       }
 
-      const match = line.match(
-        /^ {2}([A-Za-z_][A-Za-z0-9_-]*):\s*(?:#.*)?$/,
-      )
+      const match =
+        /^ {2}([A-Za-z_][A-Za-z0-9_-]*):\s*(?:#.*)?$/.exec(
+          line,
+        )
 
       if (match) {
         jobs.push({
