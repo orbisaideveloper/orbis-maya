@@ -6,7 +6,11 @@ Maya is a mobile-first Bengali-English ORBIS product for dream analysis, astrolo
 
 ## Current phase
 
-**Phase 1 — certified application foundation complete; feature implementation ready.**
+**Application foundation and interim product flows implemented; dashboard refinement and live integrations pending.**
+
+Current source/development/migration evidence is recorded in
+[`docs/PROJECT_STATUS.md`](docs/PROJECT_STATUS.md) and
+[`docs/ECOSYSTEM-CHECKPOINT.md`](docs/ECOSYSTEM-CHECKPOINT.md).
 
 The React + TypeScript + Vite PWA foundation is implemented with the Maya V3 Astral initial shell.
 
@@ -103,7 +107,7 @@ Watermarked or unlicensed reference artwork must never ship as a production asse
 
 ## External systems
 
-Planned connections:
+Connection responsibilities (implementation and live enablement are separate):
 
 - GitHub: `orbisaideveloper/orbis-maya`
 - ORBIS Foundation: shared AI gateway/provider routing
@@ -111,4 +115,7 @@ Planned connections:
 - Supabase/ORBIS identity: authentication/session
 - SonarQube Cloud: dedicated Maya quality project
 
-The SonarQube Cloud project must be imported and its exact identity verified before CI scanning is activated.
+Maya already has a dedicated CI/Sonar configuration. Verify the current pushed
+commit, Quality Gate and open issues before release; an old certificate does not
+certify a new change. The manual Render Development static site is operational;
+Public publication and live Maya AI/membership remain pending.

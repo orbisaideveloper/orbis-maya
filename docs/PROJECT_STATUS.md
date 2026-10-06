@@ -1,62 +1,67 @@
 # Maya Project Status
 
-## Source and delivery
+Evidence checkpoint: 2026-10-06, Asia/Kolkata. This is a documentation update,
+not a new application release or certification.
 
-Repository: orbisaideveloper/orbis-maya. Canonical source: ~/orbis-maya in Termux.
-Main only. Owner authorized checkpoint commit/push on 2026-10-01.
-Verified pushed baseline: 47d338a0df5fbbe429077f7201cc2207b80b9730.
-No production deployment authorized or performed.
+## Source and implemented scope
 
-## Verified evidence — 2026-10-01
+- Repository: `orbisaideveloper/orbis-maya`; Termux: `~/orbis-maya`.
+- Reviewed main baseline: `25b14e1509c4fd43011a667d02e3ed5dfc06255e`.
+- Single active main workflow; local verification and owner approval precede push.
+- Existing source includes navigation, the interim Astral dashboard, shared
+  Supabase password-auth UI, Bengali/English/Hindi catalogs, bounded per-user
+  IndexedDB history/drafts, Foundation client and structured Dream results.
+- Mocked AI/Auth E2E evidence certifies client behavior, not a live integration.
 
-Owner native/Linux Dream result certification: 212 tests, production coverage
-100% lines/statements/functions/branches, lint/typecheck/KNIP PASS, JSCPD 0.00%,
-audit zero vulnerabilities, full PWA build PASS. The original mobile assertion
-failed; E2E-only locator correction then passed all 9 Pixel-7 tests at 22:48 IST.
+## Development and Public
 
-Termux checkpoint report ORBIS-MAYA-CHECKPOINT-PUSH-20261001-231705.txt verified
-certified source hashes, lint/typecheck and remote main SHA after push. Only the
-local run.status report artifact remained untracked.
+Render static site `orbis-maya-development`, service `srv-davrsgbncjis73fhhr70`,
+was observed LIVE on the reviewed Maya baseline in the 2026-10-05 platform audit.
+URL: https://orbis-maya-development.onrender.com.
+Build: `npm ci --ignore-scripts && npm run build:pwa`; publish directory: `dist`.
+Auto deploy is off. This is a development PWA, not an approved public release.
 
-GitHub Actions run 36902018683 on that SHA: audit, lint, TypeScript, 212 tests,
-100% coverage, KNIP, duplication, PWA build, mobile E2E and normal Sonar Quality
-Gate PASS. Overall workflow FAIL: Strict Sonar found unresolved issues.
-Owner report ORBIS-MAYA-SONAR-ISSUES-20261001-232913.txt collected all 29 open
-issues; server coverage 100.0%, duplication 0.0%, all three quality ratings A.
-Collection success does not mean quality certification success.
+Admin's Maya workspace includes Development/Public navigation and a full-screen
+product link. The Public target remains disabled. A tab switch is not release
+isolation: a future Public release needs a separate service/origin, a pinned
+approved artifact, release records and verified rollback. Development errors or
+deployments must not change the last published Public artifact.
 
-## Current candidate — fix the 29 Sonar issues
+## Foundation and Admin checkpoint
 
-Use native output/section/fieldset semantics and readonly component props;
-move Escape handling onto interactive menu elements; simplify Account rendering;
-accept only text credential form values; remove ambiguous email-regex matching;
-use stable unique result-list keys and Set membership checks. Add malformed-form,
-invalid-email and menu-link Escape regressions. Preserve accepted Astral Home.
+- Foundation source/runtime checkpoint: `a35dc66527c7295ce6b33be9528385d73c264e38`.
+  Restricted Maya gateway code is committed and was observed deployed. Live Maya
+  AI remains blocked by missing real Admin capability authorization; origins,
+  user entitlement and provider behavior still require end-to-end verification.
+- Admin main: `571906e08d989e92e3fa80ed43b61b1de3d9ac87` (PR #16 merged).
+  Staging runtime was observed at the approved candidate
+  `9d60d152fab06371bc7fcc30907c2920048824c8`.
+- Admin central identity persistence and the `orbis-identity-write` API exist.
+  Central identity linkage is distinct from Maya membership and owner privileges.
+- Admin `database/control/maya-controls.sql` remains pending application at this
+  checkpoint. Owner login/bindings/audit/deploy enablement is not certified live.
+- Foundation's two accounting constraint migrations were applied and validated
+  on 2026-10-06. They are Foundation migrations, not Maya/Admin identity migrations.
 
-Assistant lint/typecheck PASS. Candidate unit coverage, Linux certification,
-mobile E2E and remote Sonar closure are pending owner execution. Do not claim
-zero issues or complete certification until the exact new commit is analyzed.
+See `docs/ECOSYSTEM-CHECKPOINT.md` for migration method and configuration ownership.
 
-## Product state and live boundaries
+## Verification limits and remaining work
 
-Implemented: navigation/screens; interim shared Supabase Auth/password account UI;
-Bengali/English/Hindi; bounded per-user IndexedDB history/drafts; authenticated
-Foundation client; strict Dream response validation, review/results/local save,
-reopen/delete, retry/cancel and safe errors. E2E gateway replies are mocked.
+Historical local tests and coverage remain recorded in owner reports. This
+documentation update does not certify a fresh Maya CI/Sonar result. Recheck the
+exact pushed commit's gates before any release; never infer zero issues from an
+old test report. Foundation CI scan success is not separate Quality Gate proof.
+Admin main CI and its strict Sonar checks were verified successful after PR #16.
 
-Shared Google login, public identity/membership and live AI remain unconfigured.
-Foundation gateway is local/uncommitted and lacks the real Admin capability
-adapter. Admin identity-write service keys are server-only and are not capability
-authorization. No Foundation Accounting dependency or permission bypass.
-Render Foundation main service exists; Admin service found is staging only.
-Maya has no registered Render service. Personal histories remain device-local;
-no raw audio or server conversation-history archive.
+No live Maya membership/AI, deterministic Astro calculation, public publication
+or Android packaging is certified complete. Personal history remains device-local;
+no raw audio or server conversation archive is introduced.
 
 ## Exact next action
 
-Apply Sonar fix in Termux, complete local gates, commit/push if PASS, then verify
-GitHub Actions and Strict Sonar issue closure on the exact pushed SHA. Admin
-Maya-registry candidate is prepared but NOT applied/pushed; hold it until Maya
-is green. Then register Maya through existing project admin navigation and build
-central membership/capability authorization before enabling Foundation live AI.
-No Android packaging, alternate theme, Admin merge or deployment in this slice.
+Apply and review this documentation-only patch through Termux. Deliver Admin
+documentation through its branch/PR/staging policy; obtain owner approval before
+commit/push. Then develop the Maya dashboard UI in the owner's design chat using
+the selected references, followed by existing account/identity integration and
+Foundation AI wiring. Use real empty/loading/error states, not fabricated results.
+Admin control schema and live enablement remain explicit follow-up checkpoints.
