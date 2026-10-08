@@ -1,6 +1,7 @@
 import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import DreamScreen from '../src/DreamScreen'
+function renderDream(userId:string){const view=render(<DreamScreen userId={userId}/>);const summary=view.container.querySelector('summary')!;fireEvent.click(summary);return view}
 import { setLocale } from '../src/i18n'
 import { MayaGatewayError } from '../src/ai/gateway'
 const mock = vi.hoisted(() => ({ read: vi.fn(), save: vi.fn(), clear: vi.fn(), analyze: vi.fn(), resultSave: vi.fn(), configured: false }))
@@ -12,7 +13,7 @@ function deferred<T>() { let resolve!: (value: T) => void; let reject!: (error: 
 beforeEach(() => { vi.resetAllMocks(); setLocale('bn'); mock.read.mockResolvedValue(value); mock.save.mockResolvedValue(undefined); mock.clear.mockResolvedValue(undefined); mock.configured = false; mock.resultSave.mockResolvedValue(undefined) })
 afterEach(() => { cleanup(); vi.restoreAllMocks() })
 it('restores a draft, reviews plain text without claiming an AI result and returns to editing', async () => {
-  render(<DreamScreen userId="alice" />)
+  renderDream('alice')
   await waitFor(() => expect(screen.getByLabelText('স্বপ্ন বা সম্পাদিত voice transcript')).toHaveValue(value.dream))
   click('লেখা যাচাই করুন'); expect(screen.getByRole('region', { name: 'লেখা যাচাই করুন' })).toHaveTextContent('AI analysis এখনও চালু হয়নি')
   click('লেখা সম্পাদনা করুন'); expect(screen.queryByRole('region', { name: 'লেখা যাচাই করুন' })).not.toBeInTheDocument()
@@ -21,7 +22,7 @@ it('restores a draft, reviews plain text without claiming an AI result and retur
 })
 it('saves all fields, reports completion after commit and resets saved status on edits', async () => {
   const pending = deferred<void>(); mock.save.mockReturnValue(pending.promise)
-  render(<DreamScreen userId="alice" />); await waitFor(() => expect(screen.getByLabelText('স্বপ্ন বা সম্পাদিত voice transcript')).toHaveValue(value.dream))
+  renderDream('alice'); await waitFor(() => expect(screen.getByLabelText('স্বপ্ন বা সম্পাদিত voice transcript')).toHaveValue(value.dream))
   click('Draft রাখুন'); expect(screen.getByRole('button', { name: 'অপেক্ষা করুন…' })).toBeDisabled()
   expect(mock.save).toHaveBeenCalledWith(value)
   await act(async () => pending.resolve()); expect(screen.getByRole('status')).toHaveTextContent('সংরক্ষিত হয়েছে')
@@ -30,42 +31,42 @@ it('saves all fields, reports completion after commit and resets saved status on
 })
 it('cancels discard then confirms deletion and clears the form only after success', async () => {
   const confirm = vi.spyOn(window, 'confirm').mockReturnValue(false)
-  render(<DreamScreen userId="alice" />); await waitFor(() => expect(screen.getByLabelText('স্বপ্ন বা সম্পাদিত voice transcript')).toHaveValue(value.dream))
+  renderDream('alice'); await waitFor(() => expect(screen.getByLabelText('স্বপ্ন বা সম্পাদিত voice transcript')).toHaveValue(value.dream))
   click('Draft মুছুন'); expect(mock.clear).not.toHaveBeenCalled()
   confirm.mockReturnValue(true); click('Draft মুছুন')
   await waitFor(() => expect(screen.getByLabelText('স্বপ্ন বা সম্পাদিত voice transcript')).toHaveValue(''))
 })
 it('keeps writing after a failed save and supports retry', async () => {
   mock.save.mockRejectedValueOnce(new Error('private'))
-  render(<DreamScreen userId="alice" />); await waitFor(() => expect(screen.getByLabelText('স্বপ্ন বা সম্পাদিত voice transcript')).toHaveValue(value.dream))
+  renderDream('alice'); await waitFor(() => expect(screen.getByLabelText('স্বপ্ন বা সম্পাদিত voice transcript')).toHaveValue(value.dream))
   click('Draft রাখুন'); expect(await screen.findByRole('alert')).not.toHaveTextContent('private')
   click('Draft রাখুন'); await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('সংরক্ষিত হয়েছে'))
 })
 it('offers usable input after a read failure without exposing browser details', async () => {
-  mock.read.mockRejectedValue(new Error('private')); render(<DreamScreen userId="alice" />)
+  mock.read.mockRejectedValue(new Error('private')); renderDream('alice')
   expect(await screen.findByRole('alert')).not.toHaveTextContent('private')
   await waitFor(() => expect(screen.getByLabelText('স্বপ্ন বা সম্পাদিত voice transcript')).toBeEnabled())
 })
 it.each(['resolve','reject'] as const)('ignores late draft read %s after account screen unmount', async (outcome) => {
   const pending = deferred<typeof value>(); mock.read.mockReturnValue(pending.promise)
-  const view = render(<DreamScreen userId="alice" />); view.unmount()
+  const view = renderDream('alice'); view.unmount()
   await act(async () => { if (outcome === 'resolve') pending.resolve(value); else pending.reject(new Error('private')) })
 })
 it.each(['resolve','reject'] as const)('ignores late draft save %s after unmount', async (outcome) => {
   const pending = deferred<void>(); mock.save.mockReturnValue(pending.promise)
-  const view = render(<DreamScreen userId="alice" />); await waitFor(() => expect(screen.getByLabelText('স্বপ্ন বা সম্পাদিত voice transcript')).toHaveValue(value.dream))
+  const view = renderDream('alice'); await waitFor(() => expect(screen.getByLabelText('স্বপ্ন বা সম্পাদিত voice transcript')).toHaveValue(value.dream))
   click('Draft রাখুন'); view.unmount()
   await act(async () => { if (outcome === 'resolve') pending.resolve(); else pending.reject(new Error('private')) })
 })
 it.each([['en','Dream or edited voice transcript'],['hi','सपना या संपादित वॉइस ट्रांसक्रिप्ट']] as const)('translates input in %s', async (locale, label) => {
-  setLocale(locale); render(<DreamScreen userId="alice" />)
+  setLocale(locale); renderDream('alice')
   await waitFor(() => expect(screen.getByLabelText(label)).toHaveValue(value.dream))
 })
 
 const result = { symbols: ['নদী'], themes: ['পরিবর্তন'], emotions: ['শান্তি'], interpretation: '<script>private()</script> সম্ভাব্য ভাবনা', reflectionQuestions: ['নদী আপনার কাছে কী?'] }
 const record = { version: 'dream.v1' as const, language: 'bn' as const, input: value, result }
 async function ready() {
-  render(<DreamScreen userId="alice" />)
+  renderDream('alice')
   await waitFor(() => expect(screen.getByRole('textbox', { name: 'স্বপ্ন বা সম্পাদিত voice transcript', exact: true })).toBeEnabled())
   click('লেখা যাচাই করুন')
 }
@@ -117,7 +118,7 @@ it.each(['resolve','reject'] as const)('cancels analysis and ignores its late %s
 })
 it.each(['resolve','reject'] as const)('aborts an active analysis and ignores late %s when the account unmounts', async (outcome) => {
   const pending = deferred<typeof record>(); mock.configured = true; mock.analyze.mockReturnValue(pending.promise)
-  const view = render(<DreamScreen userId="alice" />)
+  const view = renderDream('alice')
   await waitFor(() => expect(screen.getByRole('textbox', { name: 'স্বপ্ন বা সম্পাদিত voice transcript', exact: true })).toBeEnabled())
   click('লেখা যাচাই করুন'); click('বিশ্লেষণ শুরু করুন'); view.unmount()
   expect(mock.analyze.mock.calls[0][2].aborted).toBe(true)
@@ -125,7 +126,7 @@ it.each(['resolve','reject'] as const)('aborts an active analysis and ignores la
 })
 it.each(['resolve','reject'] as const)('ignores late result save %s after unmount', async (outcome) => {
   const pending = deferred<void>(); mock.configured = true; mock.analyze.mockResolvedValue(record); mock.resultSave.mockReturnValue(pending.promise)
-  const view = render(<DreamScreen userId="alice" />)
+  const view = renderDream('alice')
   await waitFor(() => expect(screen.getByRole('textbox', { name: 'স্বপ্ন বা সম্পাদিত voice transcript', exact: true })).toBeEnabled())
   click('লেখা যাচাই করুন'); click('বিশ্লেষণ শুরু করুন'); await screen.findByRole('region', { name: 'স্বপ্নের ব্যাখ্যা' })
   click('ফল এই device-এ রাখুন'); view.unmount()

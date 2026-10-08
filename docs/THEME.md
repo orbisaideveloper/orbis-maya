@@ -1,37 +1,7 @@
-# Maya Theme Direction
+# Approved Maya themes — 2026-10-06
 
-## Approved default
+Astral Blue, Astral Gold and Plain Light use one layout and the same functionality. Approved Home and six inner-screen image mockups are the visual direction. Bengali text is real DOM text, not generated image lettering. Home uses a permanent 2×3 grid; five-item bottom navigation persists on inner screens. Preferences use device-local storage with session fallback.
 
-**Maya V3 Astral**
+Original generated decorative background/art sprite/logo assets are bundled locally. No external artwork request or provider secret is introduced. Full spherical orbs, planetary rings, zodiac geometry and crystals are allowed; crescent/moon-star religious motifs are excluded. Artwork is decorative, never calculated astrology data.
 
-This is the only visual direction currently approved as the primary Maya theme.
-
-## Characteristics
-
-- sharp cosmic/astral atmosphere;
-- premium crystal/gloss surfaces;
-- transparent UI where readability remains strong;
-- no unnecessary blur/haze over important background visuals;
-- crisp high-definition feel;
-- restrained mystical accents;
-- avoid cluttered overlays and washed-out color veils.
-
-## User-selectable themes
-
-The product may later offer one or two alternative themes.
-
-Those alternatives are not required before core product implementation.
-
-## Asset rule
-
-Reference artwork may be used to communicate a direction during design exploration.
-
-Watermarked, unlicensed or otherwise unsuitable reference assets must not ship in production.
-
-Production assets must be original, generated with appropriate rights or properly licensed.
-
-## Implementation note
-
-Do not overfit the architecture to one background image.
-
-Theme tokens/components should eventually allow safe visual variation without duplicating application logic.
+This patch is a candidate pending owner Termux tests and manual visual review. Generated asset geometry may need owner visual adjustment; screenshot mockups are not a pixel-certified runnable implementation.

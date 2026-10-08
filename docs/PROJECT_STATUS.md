@@ -1,4 +1,4 @@
-# Maya Project Status
+# Orbis Astro Project Status
 
 Evidence checkpoint: 2026-10-06, Asia/Kolkata. This is a documentation update,
 not a new application release or certification.
@@ -65,3 +65,164 @@ commit/push. Then develop the Maya dashboard UI in the owner's design chat using
 the selected references, followed by existing account/identity integration and
 Foundation AI wiring. Use real empty/loading/error states, not fabricated results.
 Admin control schema and live enablement remain explicit follow-up checkpoints.
+
+## UI implementation candidate — owner 2026-10-06 approval
+
+Prepared against owner source report at 18:35:50 IST, main 705b0030aeb6112c427a3cc3940aed0e1e2ee293, retaining awareness of existing App.tsx/App.css edits. Includes three themes, six Home routes, themed inner design screens, persistent navigation, approved-logo-derived asset and product design-preview workspace. Existing live Dream/auth/history implementation remains separate from explicitly labelled design-only previews.
+
+Not certified: Termux typecheck/lint/tests/build, Linux certification, exact mobile fit, live owner authorization, true pinned Published service, Publish executor and rollback. Publish is disabled; no release is performed. No Admin or Foundation source changed. Next: apply guarded patch in Termux, run targeted checks, review local workspace and all three themes, fix report findings, then final certification before separately approved commit/push.
+
+
+## Owner visual refinement checkpoint — 2026-10-06
+Owner accepted theme-matched crystal surfaces, compact composer and compact Astro screenshots. Prepared next coherent UI patch: crystal inner header, remove redundant Settings access on Profile page, theme-matched Home avatar fallback, full-height distinct Dream/Chat design workspaces using shared voice composer, four birth fields and selectable North Indian-style 12-house empty chart. House numbers are houses, not calculated zodiac signs. No planets are populated without deterministic calculation.
+
+Existing authenticated Dream service, consent/review, draft/history storage and login logic are retained. New full-screen Dream composer is design-preview presentation; production Dream integration with that composer remains next work. Send remains disabled in design views. Likes/dislikes in preview are transient UI state, not persisted provider feedback. No real AI answers, ephemeris calculation, geocoding or Published release is certified by this patch. Browser speech support requires device verification. No raw audio archive, new dependencies or Admin/Foundation changes.
+
+Original three-theme candidate targeted verification: owner reports 95 tests, lint/typecheck/core build PASS. Contrast command report at 19:05:21 confirms build PASS. Later refinements have screenshot acceptance, but automated check reports have not yet been reviewed. This next patch must pass targeted Termux tests/lint/typecheck/build and local preview before further work. Full Linux certification, 100% coverage and current CI/Sonar remain pending; no commit/push/deploy performed.
+
+
+## Settings/Profile checkpoint — owner 2026-10-06
+Bottom navigation is Settings; Profile is nested inside Settings alongside Theme, Language, Notifications, Privacy and Account. Header/Home have a notification link instead of a duplicate Settings shortcut. Selected Kundli house is highlighted by its exact polygon; expanded detail surface remains empty until deterministic calculation.
+
+Added device-local profile (name/birth date/time/place), bounded/validated and keyed separately per authenticated user. Explicit local design preview has a separate labelled device draft; it is never automatically merged into an account. Home greeting reads the saved profile name, and Astro inputs initialize from saved birth data. No central identity, Supabase metadata, provider secret, login or server profile database changes. Birth-chart calculation and personalized insights remain unconnected; no fabricated data. Later real calculation must be invalidated/recomputed when birth data changes.
+
+Header-fit owner report reviewed: 18 targeted tests, typecheck, lint and core build PASS at 19:58. Next patch verification pending. Next action: guarded Termux apply and targeted checks, local Settings/profile persistence/selection review, then existing authenticated Dream integration. No commit/push/deploy authorized or performed.
+
+## 2026-10-06 — Orbis Astro account/design candidate
+
+Owner approved Orbis Astro branding, unchanged Ask Maya companion, original
+emblem and crystal welcome/login pages. Candidate adds pre-login welcome,
+theme-matched login, password visibility, email recovery/reset and matching PWA
+labels. Existing verified-session auth and per-user local history remain.
+Termux application/checks and real login are pending this candidate report.
+
+Read-only Admin inspection on 2026-10-06: project aqcwhqdzniruvoqwfsij healthy,
+central identity schema present; auth.users count 0, no owner email identifier
+match for orbisaideveloper@gmail.com, no orbis_control schema and only identity
+write Edge Function. This does not prove Foundation login is absent: Foundation
+uses a separate credential path and server API identity links. Do not point Maya
+at the empty Admin Auth project automatically. Review the local public Auth
+host and existing Foundation configuration first. Canonical identity binding,
+Maya membership/owner authorization and live AI remain unverified/pending.
+No database writes, signup, password changes, remote deployment or Git mutation
+were performed by preparing this candidate.
+
+
+# Orbis Astro local runtime checkpoint — 2026-10-06
+
+Baseline main: 705b0030aeb6112c427a3cc3940aed0e1e2ee293. Prior owner reports:
+111 account/UI regressions passed; latest entry patch 58 tests, typecheck,
+zero-warning lint and core build passed. Shared Foundation/Maya Supabase Auth
+configuration matches; endpoint reachable. Owner screenshot shows verified
+signed-in state for the existing account. Canonical ID and Maya capability
+membership are not established by this evidence.
+
+Candidate: compact Settings account name/email/Sign out, separate Profile route,
+bounded user-scoped local avatar, authenticated Dream composer with existing
+review/consent/draft/history/service retained, indexed voice result reconciliation,
+and Ask Maya client using the existing restricted Foundation gateway. Preview
+routes remain presentation-only. Raw audio and server conversation persistence
+are not introduced. Local photos are reencoded JPEG and stored separately per
+user, never copied from a preview draft. Pending: candidate Termux checks/device
+review, complete coverage/E2E/quality certification. No Git writes/deployments.
+
+Foundation main docs were read during this checkpoint: live gateway remains
+fail-closed until real Admin membership/capability authorization and exact origins
+are connected. Client wiring is not live AI certification. Do not replace policy
+with unconditional access. Astro interpretation remains reserved until the
+calculation contract exists. Deterministic ephemeris engine, location selection,
+historical timezone resolution and accuracy fixtures are not implemented by
+this UI patch. Browser speech recognition may produce platform tones or stop
+unexpectedly; continuous/restart behavior cannot promise native silence.
+
+Next: apply candidate, run the supplied checks, inspect local runtime source and
+available dependencies in Foundation/Admin, then implement verified identity
+binding/policy and the deterministic calculation adapter. Personal chart facts
+must not be supplied by an LLM. Do not mark these stages complete before real
+owner-authorized requests and fixture validation succeed.
+
+
+## Ask Maya grounding and turn positioning — local patch 2026-10-07
+
+Owner RESPONSE-FIX report: 9 files / 67 tests PASS; runtime diagnostics show
+astro requests authorized, HF replies and gateway HTTP 200. This proves transport,
+not explanation quality. Screenshots show requests for already-supplied birth data
+and incorrect third-house topics.
+
+This patch supplies conventional house topics, explicit chart-present response
+instructions and user-only model history for natal discussions. UI retains all
+conversation messages. New questions anchor at top; assistant completion does
+not move the reading position. No new calculation, provider, storage or billing.
+
+Assistant validation: payload integrity and syntax only. Native application tests
+run on owner Termux through the installer; manual answer quality and mobile scroll
+remain unverified until owner checks. Exact next action: run installer, refresh
+existing localhost preview, ask house 3 and chart overview questions. Ensure actual
+placements are explained without re-requesting DOB. Full Linux/E2E/Sonar gates
+remain outstanding. No commit, push, remote deployment or public release.
+
+
+## Compact chat controls candidate — 2026-10-07
+
+Prepared from owner CHAT-SOURCE report at 21:31:56 IST. Groq provider and
+qwen/qwen3.8-27b settings were confirmed in owner integration/start reports;
+manual house-3/house-5 replies matched supplied chart facts and improved Bengali.
+Those checks do not certify arbitrary generated interpretations.
+
+Candidate replaces the chat header's notification action with one three-dot
+disclosure. Provides local archive, download/share, new conversation with archive
+before reset, confirmed current/all-chat deletion and access to Saved Insights.
+Profiles, calculated charts and dreams are outside the clear-chat boundary.
+Late aborted responses cannot restore a cleared conversation. Answers display
+as safe React text paragraphs/bullets. No HTML parsing/new dependencies.
+Foundation prompt adds ordered, detailed explanations and per-claim uncertainty;
+this is not complete semantic validation or a new ephemeris calculation.
+
+Termux targeted checks/device preview are pending this candidate. Complete Linux
+coverage/E2E/Sonar certification remains outstanding. No commit/push/deploy.
+Next: inspect the owner check report and preserve any failing output. Then wire
+image/document inputs using the current Foundation request/authorization contract
+and verified vision model support; raw attachments must not be stored in chat
+localStorage or ordinary request logs. Calculation-reference review remains
+separate outstanding work; this patch does not alter planet coordinates.
+
+
+## Chat tools repair candidate — 2026-10-07
+
+Owner chat-tools report: typecheck/lint/diff checks PASS; 17/19 targeted tests
+PASS. Runtime configuration and chart discussion tests FAIL; Foundation checks,
+build and gateway reload did not run. This is not provider failure evidence.
+Repair evaluates gateway availability on render, publishes the question before
+chart preparation, and prevents canceled preparation from restoring cleared chat.
+Chart discussion test seeds a real calculated saved chart to verify the saved
+profile path without including cold module loading in a one-second UI wait.
+Added cancellation-during-calculation regression. Assistant syntax inspection
+only; owner Termux tests and mobile checks remain pending. No commit/push/deploy.
+Next: run repair installer, inspect FINAL_EXIT, then verify house 3/5 discussions
+and menu behavior. Attachments and full release quality gates remain pending.
+
+
+## Bengali examples and attachment candidate — 2026-10-07
+
+Prior owner repair report: Maya 20 tests and Foundation 18 tests PASS, typecheck
+and lint PASS, core build PASS, local gateway reloaded. Build bundle-size warning
+remains. Full Linux coverage/E2E/Sonar certification has not run.
+New candidate: Foundation reviewed Bengali intent examples (provider prompting,
+not automatic weight updates), approved-only JSONL export, image/PDF/TXT chat
+attachments and menu shadow cleanup. PDF uses lazy bundled PDF.js worker; owner
+installer pins dependency and records lockfile change. Files are transient in the
+active account's screen, transmitted to Foundation/provider only on Send, never
+written to normal chat history or examples. Navigating away discards unsent
+files; follow-ups may need reattachment. Up to 3 images or PDF pages, 8 MB per
+source file; PDF documents exceeding 3 pages fail clearly without truncation.
+Attachment discussions use general chat and do not replace the profile chart.
+Manual PDF readability, provider vision and attachment mobile behavior unverified.
+Owner tests are embedded in installer; no assistant application tests, paid model
+download, commit, push or deployment. Next: run installer, inspect combined
+report, then send a non-sensitive 1-page PDF/image and ask what it contains.
+
+## Compact input follow-up — 2026-10-07
+Previous Bengali/attachments run: Maya 23 tests, Foundation 61 tests, typecheck/lint/core build PASS; gateway READY. Owner rejected the separate attachment row. Follow-up moves a compact plus inside the input, opens formats/help only on tap and constrains mobile width; selected files are a compact overlay. Phone preview and real image/PDF provider reading remain pending. Excel parsing is not implemented. Full Linux/E2E/coverage/Sonar remains pending. No commit/push/deployment.
+
+## Local workflow and chat viewport — 2026-10-08
+Prior owner run: 84 targeted tests PASS; typecheck/lint/build/audit PASS; gateway READY. Current follow-up pins the chat to the visual viewport (including keyboard resize), constrains body/root scroll and leaves only the transcript scrollable. Native report wrapper and local commands documented in docs/LOCAL_DEVELOPMENT.md. New patch checks and phone preview pending. Full Linux certification and remote Sonar pending; commit/push preparation authorized, nothing pushed yet. Foundation complete local chat bootstrap and Khata/Admin workflow propagation remain pending source inspection.

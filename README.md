@@ -1,8 +1,8 @@
-# ORBIS Maya
+# Orbis Astro
 
-**Maya — AI Mystic Dream & Astro Analyzer by ORBIS**
+**Orbis Astro — Astrology, dreams and Ask Maya by Orbis**
 
-Maya is a mobile-first Bengali-English ORBIS product for dream analysis, astrology-oriented insights, structured reflection and conversational AI.
+Orbis Astro is a mobile-first Bengali-English ORBIS product for dream analysis, astrology-oriented insights, structured reflection and conversational AI.
 
 ## Current phase
 
@@ -119,3 +119,13 @@ Maya already has a dedicated CI/Sonar configuration. Verify the current pushed
 commit, Quality Gate and open issues before release; an old certificate does not
 certify a new change. The manual Render Development static site is operational;
 Public publication and live Maya AI/membership remain pending.
+
+## Current product name and account candidate
+
+Owner approved Orbis Astro on 2026-10-06; Ask Maya remains the AI companion.
+Repository/project IDs and existing device data keys remain `orbis-maya`.
+The original approved Orbis emblem remains unchanged. Welcome/account pages
+share the three existing themes. Run `bash scripts/maya-local-dev.sh` for the
+foreground local preview and `python scripts/maya-local-account.py --check` for
+a redacted public Auth configuration report. Real login, canonical identity
+binding, membership and AI entitlement are separate verification steps.

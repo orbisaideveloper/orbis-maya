@@ -10,10 +10,17 @@ export default defineConfig({
     {
       name: 'mobile-chromium',
       testMatch: '**/maya-home.spec.ts',
+      grepInvert: /all six design cards|Home stays 2×3/,
       use: {
         ...devices['Pixel 7'],
         baseURL: 'http://127.0.0.1:4173',
       },
+    },
+    {
+      name: 'mobile-design',
+      testMatch: '**/maya-home.spec.ts',
+      grep: /all six design cards|Home stays 2×3/,
+      use: { ...devices['Pixel 7'], baseURL: 'http://127.0.0.1:4175' },
     },
     {
       name: 'mobile-auth',
@@ -22,6 +29,12 @@ export default defineConfig({
     },
   ],
   webServer: [{
+    command: 'npm run dev -- --host 127.0.0.1 --port 4175 --strictPort',
+    env: { VITE_SUPABASE_URL: '', VITE_SUPABASE_ANON_KEY: '', VITE_MAYA_GATEWAY_URL: '' },
+    url: 'http://127.0.0.1:4175',
+    timeout: 60_000,
+    reuseExistingServer: false,
+  }, {
     command:
       'npm run preview -- --host 127.0.0.1 --port 4173',
     url: 'http://127.0.0.1:4173',

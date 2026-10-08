@@ -113,13 +113,23 @@ describe('Protected navigation', () => {
   it.each(['/dream', '/astro', '/chat', '/history'])('opens the feature only for verified users: %s', async (path) => {
     mocked.state = { phase: 'signed-in', user: { id: 'user-a', email: 'user@example.com' } }
     window.history.replaceState(null, '', `/#${path}`); render(<App />)
-    expect(await screen.findByText(path === '/history' ? 'স্থানীয় history পড়া বা পরিবর্তন করা যায়নি। আবার চেষ্টা করুন।' : path === '/dream' ? 'Draft পড়া বা রাখা যায়নি। লেখা হারানোর আগে আবার save করুন।' : 'শীঘ্রই আসছে')).toBeInTheDocument()
+    if (path === '/history') {
+      expect(await screen.findByText('স্থানীয় history পড়া বা পরিবর্তন করা যায়নি। আবার চেষ্টা করুন।')).toBeInTheDocument()
+    } else if (path === '/dream') {
+      expect(await screen.findByRole('region', { name: 'Dream Analysis' })).toBeInTheDocument()
+      expect(screen.getByRole('textbox', { name: 'স্বপ্ন বা সম্পাদিত voice transcript' })).toBeInTheDocument()
+    } else if (path === '/chat') {
+      expect(await screen.findByRole('region', { name: 'Ask Maya' }, { timeout: 10000 })).toBeInTheDocument()
+      expect(screen.getByRole('textbox', { name: 'কী জানতে চান?' })).toBeInTheDocument()
+    } else {
+      expect(await screen.findByRole('heading', { name: 'জ্যোতিষ নির্দেশনা', level: 1 })).toBeInTheDocument()
+    }
     expect(screen.queryByLabelText('পাসওয়ার্ড')).not.toBeInTheDocument()
   })
   it('opens the explicit account route and translates document titles', async () => {
     window.history.replaceState(null, '', '/#/account'); setLocale('hi'); render(<App />)
     expect(screen.getByRole('heading', { name: 'ORBIS अकाउंट' })).toBeInTheDocument()
     expect(document.documentElement.lang).toBe('hi')
-    expect(document.title).toBe('ORBIS Maya · ORBIS अकाउंट')
+    expect(document.title).toBe('Orbis Astro · ORBIS अकाउंट')
   })
 })

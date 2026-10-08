@@ -38,7 +38,7 @@ Repository ownership:
 
 Do not create implicit cross-product database coupling.
 
-Do not create a second Maya admin platform.
+Do not duplicate central identity/accounting administration. Owner-approved Maya design/release-preview workspace belongs in this product; real release execution remains authorized server-side.
 
 ## 4. Permanent Termux workflow
 
@@ -263,3 +263,6 @@ Update durable documentation when architecture or accepted decisions change.
 - remote/main/production impact.
 
 A handoff is incomplete if another AI would need to reconstruct the project from chat history.
+
+## Owner local workflow and cross-project examples
+Read `docs/LOCAL_DEVELOPMENT.md` before start/test commands. Show live check output and publish final reports only after completion. Use the canonical Foundation Bengali bank for selected reviewed intent examples and candidate answer pairs; never treat silence as factual validation. Preserve repository-specific quality and authorization rules.

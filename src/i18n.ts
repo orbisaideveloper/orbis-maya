@@ -24,7 +24,7 @@ const bn = {
   "gatewayinvalid-response": "সম্পূর্ণ সঠিক ফল পাওয়া যায়নি। আবার চেষ্টা করুন।",
   "gatewaytimeout": "সময় শেষ হয়েছে। লেখা রাখা আছে; চাইলে আবার চেষ্টা করুন।",
   "gatewaycancelled": "অনুরোধ বাতিল হয়েছে। আপনার লেখা রাখা আছে।",
-  "gatewaynetwork": "সংযোগ হয়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।",
+  "gatewaynetwork": "সংযোগ হয়নি। মায়ার সার্ভার বা অনুরোধ প্রক্রিয়াকরণে সমস্যা হয়েছে। আবার চেষ্টা করুন।",
   "gatewayinvalid-input": "লেখা ও তার দৈর্ঘ্য দেখে আবার চেষ্টা করুন।",
 
   "dreamReflective": "স্বপ্নের ব্যাখ্যা আত্মঅন্বেষণের জন্য; বৈজ্ঞানিক নিশ্চয়তা বা ভবিষ্যদ্বাণী নয়।",
@@ -143,7 +143,7 @@ const en = {
   "gatewayinvalid-response": "A complete valid result was not received. Please try again.",
   "gatewaytimeout": "The request timed out. Your writing remains; you can try again.",
   "gatewaycancelled": "Request cancelled. Your writing remains.",
-  "gatewaynetwork": "Unable to connect. Check your internet and try again.",
+  "gatewaynetwork": "Unable to connect. Maya server connection or request processing failed. Try again.",
   "gatewayinvalid-input": "Check your writing and its length, then try again.",
 
   "dreamReflective": "Dream interpretation supports reflection; it is not scientific certainty or prediction.",
@@ -262,7 +262,7 @@ const hi = {
   "gatewayinvalid-response": "पूरा सही परिणाम नहीं मिला। फिर कोशिश करें।",
   "gatewaytimeout": "अनुरोध का समय समाप्त हुआ। लेखन मौजूद है; फिर कोशिश कर सकते हैं।",
   "gatewaycancelled": "अनुरोध रद्द हुआ। आपका लेखन मौजूद है।",
-  "gatewaynetwork": "कनेक्शन नहीं हुआ। इंटरनेट जाँचकर फिर कोशिश करें।",
+  "gatewaynetwork": "कनेक्शन नहीं हुआ। माया सर्वर या अनुरोध प्रक्रिया में समस्या हुई। फिर प्रयास करें।",
   "gatewayinvalid-input": "लेखन और उसकी लंबाई जाँचकर फिर कोशिश करें।",
 
   "dreamReflective": "सपने की व्याख्या आत्मचिंतन के लिए है; यह वैज्ञानिक निश्चितता या भविष्यवाणी नहीं है।",

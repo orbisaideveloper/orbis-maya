@@ -193,3 +193,47 @@ a persistent Settings language selector and an extensible typed i18n boundary.
 AI text replies must follow the user's input language independently of UI locale.
 Voice language support follows device capability and offers transcript editing.
 This authentication change implements UI language only; AI/voice remain later steps.
+
+## D-022 — Approved three-theme Home and inner-screen design
+**Status: ACCEPTED — owner 2026-10-06**
+
+Astral Blue, Astral Gold and Plain Light share exactly one layout, route order and functionality. Home contains six 2×3 feature cards and persistent five-item bottom navigation. This supersedes D-019's two-card/no-bottom-nav interim layout. Approved image references define the mystical artwork and glass surfaces; user-facing text and data are rendered by components, never baked into a screenshot. The earlier interlocking ORBIS emblem with Maya geometry halo is selected, not the rejected universe globe logo. Installed PWA name: Orbis Maya.
+
+## D-023 — Maya design workspace and publication boundary
+**Status: ACCEPTED — owner 2026-10-06; real release integration pending**
+
+Owner design-preview workspace lives in Maya, superseding D-010 only for this product-specific visual workspace. Central identity/accounting controls remain in Admin. Workspace is enabled locally or explicitly in the development build with VITE_MAYA_DESIGN_WORKSPACE=1. It exposes no privileged server operations. Design previews bypass no live authorization: they render only input/empty-state presentation and never submit AI requests or access personal history.
+
+Development/Published views must use distinct deployment origins and pinned published artifact revision. Preview configuration is not a release authority. Publish remains disabled until server-authorized publication, release records and rollback are connected and verified. An environment URL alone does not prove immutable publication.
+
+## D-024 — Orbis Astro product name and Maya companion
+**Status: ACCEPTED — owner 2026-10-06**
+
+Public product name is Orbis Astro (Bengali: অর্বিস অ্যাস্ট্রো). Ask Maya remains
+the conversational companion. Preserve the previously approved Orbis emblem
+and the dashboard typography. Astral Blue, Astral Gold and Plain Light use one
+welcome/account layout. This supersedes D-022's installed name only.
+
+Repository names, gateway project/capability identifiers and existing device
+storage keys remain stable: renaming a product label must not lose sessions,
+profiles or history. Orbis Astro is not a new identity provider.
+
+
+## D-025 — Compact chat controls and attachment boundary
+**Status: ACCEPTED — owner 2026-10-07**
+
+Ask Maya uses one three-dot disclosure in the existing header action position.
+No additional fixed toolbar, profile picker or explanatory row reduces the chat
+viewport. Save archives a conversation in existing per-user local history. New
+conversation archives the current conversation before clearing it; if archiving
+fails, preserve the original. Clearing one conversation does not delete archived
+copies. Clear-all deletes this account's chat records and current/legacy chat
+threads only, preserving profiles, calculated birth charts and dream records.
+Deletion and draft discard require explicit confirmation. Share/download operate
+on conversation text without embedding credentials or raw profile records.
+
+Owner also approved image/document discussion through Foundation. Attachment
+reading is a separate input source, never independently calculated astronomy.
+The existing maya.v1 contract accepts text/chart facts only; attachment transport,
+limits, consent and reader validation remain pending implementation. Do not
+expose a nonfunctional upload button or claim that this menu patch reads images.

@@ -1,5 +1,6 @@
 {
   "entry": [
-    "scripts/validate-workflows.mjs"
+    "scripts/validate-workflows.mjs",
+    "playwright.layout.config.ts"
   ]
 }

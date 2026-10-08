@@ -1,7 +1,11 @@
+import type {Attachment} from '../chat/attachments'
+import type {BirthChart} from '../astro/calculate'
+type ChartFacts=Pick<BirthChart,'utc'|'ascendant'|'ayanamsa'|'engine'|'method'|'timePolicy'|'planets'>
 type Language = 'bn' | 'en' | 'hi'
 type Request = { version: 'maya.v1'; language: Language } & (
   { capability: 'dream.analysis'; input: { dream: string; title?: string; context?: string; emotion?: string } }
-  | { capability: 'general.chat'; input: { messages: { role: 'user' | 'assistant'; content: string }[] } }
+  | { capability: 'astro.interpretation'; input: {messages: {role:'user'|'assistant';content:string}[];chart:ChartFacts} }
+  | { capability: 'general.chat'; input: { messages: { role: 'user' | 'assistant'; content: string }[];attachments?:Attachment[] } }
 )
 export type DreamResult = { symbols: string[]; themes: string[]; emotions: string[]; interpretation: string; reflectionQuestions: string[] }
 type Result = DreamResult | { reply: string }
@@ -49,7 +53,7 @@ export function parseDreamResult(result: unknown): DreamResult {
 function parseResult(request: Request, value: unknown): Result {
   if (!object(value) || !exactKeys(value, ['version', 'success', 'capability', 'language', 'result']) || value.version !== 'maya.v1' || value.success !== true || value.capability !== request.capability || value.language !== request.language || !object(value.result)) throw new MayaGatewayError('invalid-response')
   const result = value.result
-  if (request.capability === 'general.chat') {
+  if (request.capability !== 'dream.analysis') {
     if (!exactKeys(result, ['reply']) || !text(result.reply, 8000)) throw new MayaGatewayError('invalid-response')
     return { reply: result.reply.trim() }
   }
@@ -76,6 +80,7 @@ export function createMayaGateway(options: {
   const timeoutMs = options.timeoutMs ?? 65000
 
   function request(input: Extract<Request, { capability: 'dream.analysis' }>, signal?: AbortSignal): Promise<DreamResult>
+  function request(input: Extract<Request, { capability: 'astro.interpretation' }>, signal?: AbortSignal): Promise<{ reply: string }>
   function request(input: Extract<Request, { capability: 'general.chat' }>, signal?: AbortSignal): Promise<{ reply: string }>
   async function request(input: Request, signal?: AbortSignal): Promise<Result> {
     if (!url) throw new MayaGatewayError('unconfigured')
@@ -95,7 +100,7 @@ export function createMayaGateway(options: {
       if (controller.signal.aborted) throw new MayaGatewayError('cancelled')
       let body: string
       try { body = JSON.stringify(input) } catch { throw new MayaGatewayError('invalid-input') }
-      if (new TextEncoder().encode(body).byteLength > 32768) throw new MayaGatewayError('invalid-input')
+      if (new TextEncoder().encode(body).byteLength > (input.capability==='general.chat'&&input.input.attachments?.length?2097152:32768)) throw new MayaGatewayError('invalid-input')
       const response = await transport(url!, {
         method: 'POST', credentials: 'omit', cache: 'no-store', redirect: 'error',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },

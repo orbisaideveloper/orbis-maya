@@ -37,7 +37,9 @@ Allowlist the actual Maya callback origin plus `/#/account` in shared Auth setti
 before testing signup. Do not change the global Site URL to repoint other products.
 Confirmation requirement follows the existing shared Auth configuration. The UI
 shows a generic confirmation message and does not reveal whether an account exists.
-Recovery/password reset and native secure storage are later hardening work.
+The new account candidate provides email recovery and a reset route; allowlist
+`/#/reset-password` on the selected Auth service. A real email/reset lifecycle
+still requires owner verification. Native secure storage remains later work.
 
 ## Public configuration
 
@@ -73,3 +75,30 @@ separate local Vite fixture with fake public config and mocked Auth endpoints.
 It never authenticates a real user or calls Foundation Accounting. This verifies
 client behavior, not live shared Auth configuration or Admin identity integration.
 The ordinary production preview remains a separate mobile E2E project.
+
+## Orbis Astro account rollout, 2026-10-06
+
+The visible product is Orbis Astro; internal Auth storage keys and project IDs
+are unchanged. Normal signed-out Home shows a welcome page; development-only
+`?maya-design=1` still opens the approved dashboard without live/private access.
+Account screens hide product bottom navigation. Successful login on a protected
+route retains its destination; signing in on Account provides a Home link.
+
+Use `python scripts/maya-local-account.py --check` for a redacted configuration
+report and `bash scripts/maya-local-dev.sh` for persistent foreground startup.
+An optional `--configure` imports only matching public Auth values from existing
+Foundation local configuration when Maya lacks them. It never overwrites a
+different Maya Auth host/key, never copies server credentials, and requires Git
+to ignore `.env.local`. It does not mutate Auth provider settings or enroll users.
+
+Admin central identity is not Supabase Auth. Its current identity-write function
+requires a server product service key; the browser must never call it directly.
+The inspected dedicated Admin Auth project has zero users. Thus this UI cannot
+claim the owner's canonical ID is linked or AI membership is enabled. Verify
+the actual shared Auth host and user login, then implement/verify the explicit
+server binding contract through Foundation/Admin. No automatic owner privilege.
+
+Recovery uses resetPasswordForEmail with a same-origin callback and updateUser
+only after getUser verification. Generic failures do not disclose account
+existence. No password/token is printed or retained outside the existing SDK.
+A ten-second UI deadline does not cancel a provider request already in flight.

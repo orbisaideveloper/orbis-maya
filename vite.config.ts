@@ -9,16 +9,18 @@ export default defineConfig(async () => {
             await import('vite-plugin-pwa')
           ).VitePWA({
             registerType: 'autoUpdate',
+            workbox: { maximumFileSizeToCacheInBytes: 5 * 1024 * 1024 },
             manifest: {
-              name: 'ORBIS Maya',
-              short_name: 'Maya',
+              name: 'Orbis Astro',
+              short_name: 'Orbis Astro',
               description:
-                'AI Mystic Dream & Astro Analyzer by ORBIS',
+                'Astrology, dreams and Ask Maya by Orbis',
               start_url: '/',
               display: 'standalone',
-              background_color: '#070914',
-              theme_color: '#070914',
+              background_color: '#4553a8',
+              theme_color: '#4553a8',
               lang: 'bn',
+              icons: [{ src: '/brand/orbis-maya.png', sizes: '1254x1254', type: 'image/png', purpose: 'any' }],
             },
           }),
         ]

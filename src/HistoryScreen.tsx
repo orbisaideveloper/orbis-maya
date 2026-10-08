@@ -42,7 +42,7 @@ export default function HistoryScreen({ userId }: Readonly<{ userId: string }>) 
     }
   }
 
-  return <section className="feature-screen history-screen" aria-labelledby="history-title" aria-busy={loading || busy}>
+  return <section className="feature-screen history-screen glass inner-panel" aria-labelledby="history-title" aria-busy={loading || busy}>
     <p className="hero-kicker">{text(locale, 'historyEyebrow')}</p>
     <h1 id="history-title">{text(locale, 'historyTitle')}</h1>
     <p className="hero-copy">{text(locale, 'localOnly')}</p>

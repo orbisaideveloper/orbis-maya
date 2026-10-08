@@ -126,3 +126,6 @@ Do not create hidden shared-database joins between independently deployed produc
 ## 10. Architecture changes
 
 Any durable architecture change must update `docs/DECISIONS.md` and, where relevant, this document in the same verified change.
+
+## Owner-approved visual workspace (2026-10-06)
+Maya owns its product design-preview workspace. Central identity/accounting remains in Admin. See D-022/D-023 for themes and the separate pinned Published origin. Publication executor, authorization and release audit are not implemented by this UI patch.
