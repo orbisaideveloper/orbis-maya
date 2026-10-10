@@ -14,14 +14,14 @@ export default function DesignScreen({path,preview=false}:Readonly<{path:string;
   return <section className={`feature-screen design-screen design-${key}`} aria-labelledby="feature-title">
     <div className={`feature-hero ${path==='/chat'||path==='/dream'?'conversation-heading':''}`}><h1 id="feature-title">{feature?copy[key]:copy.notifications}</h1>
       <p>{feature?copy[feature.body]:copy.noNotifications}</p>{!['/chat','/dream','/settings'].includes(path)&&<Artwork name={key}/>}</div>
-    {preview&&!['/chat','/dream'].includes(path)&&<p className="preview-status" role="status">{copy.designOnly}</p>}
+    {preview&&!['/chat','/dream'].includes(path)&&<output className="preview-status status-message">{copy.designOnly}</output>}
     {path==='/dream'&&<ChatComposer key={locale} mode="dream"/>}
     {path==='/astro'&&<AstroPanel/>}
     {path==='/chat'&&<ChatComposer/>}
     {path==='/history'&&<section className="glass inner-panel"><Icon name="saved"/><h2>{copy.savedEmpty}</h2><p>{copy.savedLogin}</p><a className="primary-action" href="#/account">{text(locale,'login')}</a></section>}
     {path==='/today'&&<section className="glass inner-panel"><Icon name="today"/><h2>{copy.guidanceEmpty}</h2><p>{copy.pending}</p></section>}
     {path==='/notifications'&&<section className="glass inner-panel"><p>{copy.noNotifications}</p><p>{copy.notificationsBody}</p></section>}
-    {path==='/settings'&&<section className="glass inner-panel"><AccountSummary/><a className="settings-profile-link settings-row" href="#/profile">{locale === 'bn' ? 'প্রোফাইল' : locale === 'hi' ? 'प्रोफ़ाइल' : 'Profile'}<Icon name="arrow"/></a><ThemeSelector/><LanguagePicker/>
+    {path==='/settings'&&<section className="glass inner-panel"><AccountSummary/><a className="settings-profile-link settings-row" href="#/profile">{copy.profile}<Icon name="arrow"/></a><ThemeSelector/><LanguagePicker/>
       <details className="settings-row"><summary>{copy.notifications}</summary><p>{copy.notificationsBody}</p></details>
       <details className="settings-row"><summary>{copy.privacy}</summary><p>{copy.privacyBody}</p></details>
     </section>}

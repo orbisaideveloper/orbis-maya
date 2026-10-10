@@ -1,0 +1,10 @@
+<!doctype html><html lang="bn"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Maya layout refresh</title><style>body{font:16px system-ui;background:#f5f2ff;color:#291849;margin:0;padding:24px;box-sizing:border-box}main{max-width:480px;margin:auto}button,a{display:block;box-sizing:border-box;width:100%;padding:14px;margin-top:16px;border:1px solid #cabce7;border-radius:14px;background:#eee7ff;color:inherit;font:inherit;text-align:center}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style><main><h1>মায়া নতুন layout খুলুন</h1><p>শুধু app-এর পুরনো service worker ও static cache সরাবে। প্রোফাইল, চ্যাট, localStorage ও IndexedDB মুছবে না।</p><button id="refresh">পুরনো app cache সরিয়ে খুলুন</button><pre id="status"></pre></main><script>
+const button=document.getElementById('refresh'),status=document.getElementById('status');
+button.onclick=async()=>{button.disabled=true;try{
+ let workers=0,removed=0;
+ if('serviceWorker' in navigator){for(const registration of await navigator.serviceWorker.getRegistrations()){if(registration.scope.startsWith(location.origin+'/')){await registration.unregister();workers++}}}
+ if('caches' in window){for(const name of await caches.keys()){if(/workbox|orbis[-_]?maya|maya/i.test(name)){await caches.delete(name);removed++}}}
+ status.textContent=`Service workers: ${workers}; static caches: ${removed}. নতুন পেজ খুলছে…`;
+ location.replace('/?layout-refresh='+Date.now()+'#/');
+}catch(error){status.textContent='Refresh ব্যর্থ: '+String(error);button.disabled=false}};
+</script></html>

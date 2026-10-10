@@ -15,4 +15,4 @@ export function chartRows(chart:BirthChart,profile:Profile,locale:ReportLocale):
  return rows
 }
 export function chartText(rows:readonly (readonly string[])[]){return rows.map(row=>row.join(' | ')).join('\n')}
-export function escapeXml(value:string){return Array.from(value).filter(char=>{const code=char.charCodeAt(0);return code>=32||code===9||code===10||code===13}).join('').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&apos;')}
+export function escapeXml(value:string){return Array.from(value).filter(char=>{const code=char.codePointAt(0)!;return code>=32||code===9||code===10||code===13}).join('').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&apos;')}

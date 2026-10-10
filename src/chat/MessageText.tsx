@@ -1,7 +1,8 @@
+import {keyedItems} from '../listKeys'
 export default function MessageText({value}:Readonly<{value:string}>){
- return <div className="message-prose">{value.split(/\n\s*\n/).map((block,index)=>{
+ return <div className="message-prose">{keyedItems(value.split(/\n\s*\n/),block=>block).map(({item:block,key})=>{
   const lines=block.trim().split('\n')
-  if(lines.every(line=>/^\s*(?:[-•]|\d+[.)])\s+/.test(line)))return <ul key={index}>{lines.map((line,item)=><li key={item}>{line.replace(/^\s*(?:[-•]|\d+[.)])\s+/,'')}</li>)}</ul>
-  return <p key={index}>{block}</p>
+  if(lines.every(line=>/^\s*(?:[-•]|\d+[.)])\s+/.test(line)))return <ul key={key}>{keyedItems(lines,line=>line).map(({item:line,key:lineKey})=><li key={lineKey}>{line.replace(/^\s*(?:[-•]|\d+[.)])\s+/,'')}</li>)}</ul>
+  return <p key={key}>{block}</p>
  })}</div>
 }

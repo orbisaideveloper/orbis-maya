@@ -14,7 +14,7 @@ it('puts a new question at the top and leaves the reading position unchanged whe
  const next=[...first,{id:'a1',role:'assistant' as const,text:'First answer'},{id:'q2',role:'user' as const,text:'New question'}]
  view.rerender(<ChatComposer messages={next} onSend={()=>{}} progress="Thinking"/>)
  expect(viewport.scrollTop).toBe(320)
- expect(viewport.querySelector('.maya-thinking[role="status"]')?.textContent).toBe('Thinking')
+ expect(viewport.querySelector('output.maya-thinking')?.textContent).toBe('Thinking')
  viewport.scrollTop=250
  view.rerender(<ChatComposer messages={[...next,{id:'a2',role:'assistant',text:'Detailed answer'}]} onSend={()=>{}}/>)
  expect(viewport.scrollTop).toBe(250)

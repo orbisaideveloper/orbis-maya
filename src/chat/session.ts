@@ -4,6 +4,7 @@ import {authClient} from '../auth/client'
 import {createMayaGateway,MayaGatewayError} from '../ai/gateway'
 import {ensureChart,birthSignature} from '../astro/savedChart'
 import {readFamily} from '../profile/family'
+import type {BirthChart} from '../astro/calculate'
 import type {Locale} from '../i18n'
 import {responseLanguage} from '../dream/record'
 export type Message=Readonly<{id:string;role:'user'|'assistant';text:string}>
@@ -41,11 +42,33 @@ export function clearAllChats(user:string){
  }catch{return false}
 }
 export function useChat(user:string,person:string){const k=key(user,person);return useSyncExternalStore(listener=>{const set=listeners.get(k)??new Set();set.add(listener);listeners.set(k,set);return()=>{set.delete(listener);if(!set.size)listeners.delete(k)}},()=>read(user,person))}
-export const chatConfigured=()=>createMayaGateway({url:import.meta.env.VITE_MAYA_GATEWAY_URL,getToken:async()=>null}).configured
+export const chatConfigured=()=>createMayaGateway({url:import.meta.env.VITE_MAYA_GATEWAY_URL,getToken:()=>Promise.resolve(null)}).configured
+function modelHistory(full:readonly Message[],facts:unknown){
+ const history=full.slice(-5)
+ while(history.length>1&&history[0].role!=='user')history.shift()
+ const mapped=()=>history.map(m=>({role:m.role,content:m.role==='assistant'?m.text.slice(0,4000):m.text}))
+ while(history.length>1&&new TextEncoder().encode(JSON.stringify({messages:mapped(),chart:facts})).byteLength>28000)history.splice(0,2)
+ return mapped()
+}
+type ChatFacts=Pick<BirthChart,'utc'|'ascendant'|'ayanamsa'|'engine'|'method'|'timePolicy'|'planets'>
+function requestReply(user:string,language:Locale,messages:ReturnType<typeof modelHistory>,facts:ChatFacts|undefined,attachments:readonly Attachment[],signal:AbortSignal){
+ const gateway=createMayaGateway({url:import.meta.env.VITE_MAYA_GATEWAY_URL,getToken:async()=>{
+  if(!authClient){return null}
+  const {data,error}=await authClient.auth.getSession()
+  return !error&&data.session?.user.id===user?data.session.access_token:null
+ }})
+ if(facts)return gateway.request({version:'maya.v1',capability:'astro.interpretation',language,input:{messages,chart:facts}},signal)
+ return gateway.request({version:'maya.v1',capability:'general.chat',language,input:{messages,...(attachments.length?{attachments:[...attachments]}:{})}},signal)
+}
+function publishFailure(user:string,person:string,cause:unknown,stage:string,signal:AbortSignal){
+ if(signal.aborted)return
+ console.warn('MAYA_CHAT_FAILURE_STAGE:',stage)
+ update(user,person,{failure:cause instanceof MayaGatewayError?cause.code:'network'})
+}
 export async function sendChat(user:string,person:string,locale:Locale,targetPerson=person,attachments:readonly Attachment[]=[]){
  const k=key(user,person),initial=read(user,person);if(requests.has(k)||!initial.draft.trim())return
  const controller=new AbortController();requests.set(k,controller);update(user,person,{busy:true,failure:null})
- const auth=authClient?.auth.onAuthStateChange((_event,session)=>{if(!session||session.user.id!==user)controller.abort()})
+ const auth=authClient?.auth.onAuthStateChange((_event,session)=>{if(session?.user.id!==user)controller.abort()})
  let stage='profile'
  try{
   const profile=readFamily(`user:${user}`).people.find(p=>p.id===targetPerson)?.profile;if(!profile)throw new MayaGatewayError('invalid-input')
@@ -56,18 +79,16 @@ export async function sendChat(user:string,person:string,locale:Locale,targetPer
   stage='chart-preparation'
   const chart=attachments.length?undefined:await ensureChart(`user:${user}`,targetPerson,profile)
   if(controller.signal.aborted||requests.get(k)!==controller)return
-  const history=(initial.signature===signature?full:[next]).slice(-5)
-  while(history.length>1&&history[0].role!=='user')history.shift()
   const facts=chart?{utc:chart.utc,ascendant:chart.ascendant,ayanamsa:chart.ayanamsa,engine:chart.engine,method:chart.method,timePolicy:chart.timePolicy,planets:chart.planets.map(p=>({...p}))}:undefined
-  const mapped=()=>history.map(m=>({role:m.role,content:m.role==='assistant'?m.text.slice(0,4000):m.text}))
-  while(history.length>1&&new TextEncoder().encode(JSON.stringify({messages:mapped(),chart:facts})).byteLength>28000)history.splice(0,2)
+  const messages=modelHistory(initial.signature===signature?full:[next],facts)
   stage='gateway'
-  const gateway=createMayaGateway({url:import.meta.env.VITE_MAYA_GATEWAY_URL,getToken:async()=>{if(!authClient)return null;const {data,error}=await authClient.auth.getSession();return !error&&data.session?.user.id===user?data.session.access_token:null}})
-  const language=responseLanguage(next.text,locale)
-  const result=facts?await gateway.request({version:'maya.v1',capability:'astro.interpretation',language,input:{messages:mapped(),chart:facts}},controller.signal):await gateway.request({version:'maya.v1',capability:'general.chat',language,input:{messages:mapped(),...(attachments.length?{attachments:[...attachments]}:{})}},controller.signal)
+  const result=await requestReply(user,responseLanguage(next.text,locale),messages,facts,attachments,controller.signal)
   if(!controller.signal.aborted){update(user,person,{messages:[...full,{id:crypto.randomUUID(),role:'assistant',text:result.reply}],draft:'',signature});return true}
- }catch(cause){if(!controller.signal.aborted){console.warn('MAYA_CHAT_FAILURE_STAGE:',stage);update(user,person,{failure:cause instanceof MayaGatewayError?cause.code:'network'})}}
- finally{auth?.data.subscription.unsubscribe();if(requests.get(k)===controller){requests.delete(k);update(user,person,{busy:false})}}
+ }catch(cause){publishFailure(user,person,cause,stage,controller.signal)}
+ finally{auth?.data.subscription.unsubscribe();if(requests.get(k)===controller){
+   requests.delete(k)
+   update(user,person,{busy:false})
+  }}
 }
 
 export function addClarification(user:string,thread:string,reply:string){const s=read(user,thread);update(user,thread,{messages:[...s.messages,{id:crypto.randomUUID(),role:'user',text:s.draft},{id:crypto.randomUUID(),role:'assistant',text:reply}],draft:''})}

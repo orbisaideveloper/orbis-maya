@@ -13,6 +13,11 @@ export function taiMinusUtc(stamp:number):number {
  while(index+1<leapEpochs.length&&stamp>=leapEpochs[index+1])index++
  return 10+index
 }
+function orientationQuality(value:number){
+ if(value===2)return 'IERS Bulletin A predicted'
+ if(value===1)return 'IERS Bulletin A measured'
+ return 'IERS Bulletin B final'
+}
 export function earthOrientationAt(utc:string):Readonly<{seconds:number;quality:string}> {
  const stamp=Date.parse(utc)
  if(!Number.isFinite(stamp))throw new Error('INVALID_TIME')
@@ -22,7 +27,7 @@ export function earthOrientationAt(utc:string):Readonly<{seconds:number;quality:
  const leftStamp=(Math.floor(mjd)-40587)*dayMs
  // Interpolate UT1-TAI, which stays continuous across a leap-second step.
  const a=left[0]/1e7-taiMinusUtc(leftStamp),b=right[0]/1e7-taiMinusUtc(leftStamp+dayMs)
- return {seconds:a+(b-a)*fraction+taiMinusUtc(stamp),quality:Math.max(left[1],right[1])===2?'IERS Bulletin A predicted':Math.max(left[1],right[1])===1?'IERS Bulletin A measured':'IERS Bulletin B final'}
+ return {seconds:a+(b-a)*fraction+taiMinusUtc(stamp),quality:orientationQuality(Math.max(left[1],right[1]))}
 }
 const firstStamp=(eopStart-40587)*dayMs
 function engineDeltaT(ut:number):number {

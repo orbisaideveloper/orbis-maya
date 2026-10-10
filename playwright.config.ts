@@ -27,6 +27,11 @@ export default defineConfig({
       testMatch: '**/maya-auth.spec.ts',
       use: { ...devices['Pixel 7'], baseURL: 'http://127.0.0.1:4174' },
     },
+    {
+      name: 'mobile-layout',
+      testMatch: ['**/maya-layout.spec.ts', '**/maya-all-pages-layout.spec.ts', '**/sonar-style-regression.spec.ts'],
+      use: { ...devices['Pixel 7'], baseURL: 'http://127.0.0.1:4175' },
+    },
   ],
   webServer: [{
     command: 'npm run dev -- --host 127.0.0.1 --port 4175 --strictPort',

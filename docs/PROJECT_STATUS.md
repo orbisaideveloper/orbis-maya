@@ -226,3 +226,43 @@ Previous Bengali/attachments run: Maya 23 tests, Foundation 61 tests, typecheck/
 
 ## Local workflow and chat viewport — 2026-10-08
 Prior owner run: 84 targeted tests PASS; typecheck/lint/build/audit PASS; gateway READY. Current follow-up pins the chat to the visual viewport (including keyboard resize), constrains body/root scroll and leaves only the transcript scrollable. Native report wrapper and local commands documented in docs/LOCAL_DEVELOPMENT.md. New patch checks and phone preview pending. Full Linux certification and remote Sonar pending; commit/push preparation authorized, nothing pushed yet. Foundation complete local chat bootstrap and Khata/Admin workflow propagation remain pending source inspection.
+
+
+## Sonar repair candidate — 2026-10-09 (Asia/Kolkata)
+
+Canonical main baseline: `24ad9a28777d142c339eacd611be686e2e7c949f`.
+The owner pushed this commit. Its Sonar scan uploaded successfully but the gate
+failed: one S2245 vulnerability and 159 code smells. Existing pre-push reports
+showed 620 tests, 100% production coverage, clean lint/types/KNIP, 0% runtime
+duplication, PWA build and 10 app plus 10 layout E2E checks passing. These are
+baseline results, not certification of this repair candidate.
+
+The owner applied the secure UUID token fix locally and reported typecheck,
+zero-warning lint and all 29 affected report-popup tests passing. It is not yet
+confirmed resolved by a subsequent remote Sonar analysis.
+
+This candidate addresses the other 159 findings: 53 duplicate CSS blocks,
+contrast, nested conditionals/templates, function complexity, native status/
+dialog/group semantics, stable repeated-content keys, serial attachment/PDF
+processing, statement boundaries, optional chaining, Unicode-safe XML and
+public-config parsing. The base theme rule stays before theme overrides.
+Existing array-like speech results remain supported. Chat cancellation, browser
+Back/focus handling, local data boundaries and ordered PDF processing remain
+part of the existing regression suite. Quality thresholds and Sonar exclusions
+are unchanged. Mobile layout and the new style comparison now run in the main
+Playwright configuration used by CI.
+
+Assistant verification: source review, Python/shell syntax and CSS selector
+winning-declaration comparison. Application tests run only on the owner's
+Termux/Ubuntu environment. This entry does not claim the candidate passed tests,
+full coverage, mobile E2E or the remote zero-issue gate.
+
+Next action: run ORBIS-MAYA-SONAR-ALL-FIX.sh in a separate Termux session.
+It streams one combined report, performs native checks, synchronizes the current
+source into the existing Linux certification checkout, and runs coverage once,
+KNIP/duplication/audit/PWA and all configured mobile/browser checks. It does not
+install shared tooling or restart the existing app/gateway. Review failures
+before further work. After full local verification and owner approval, commit
+and push one combined repair; require new CI/Sonar results with zero open issues
+before any separately authorized release. No commit/push/deployment is performed
+by applying or testing this candidate.

@@ -2,8 +2,8 @@ export type SpeechResult = {isFinal:boolean;0:{transcript:string}}
 // Reconcile the complete indexed result list, rather than append repeated events.
 export function speechText(prefix:string,results:ArrayLike<SpeechResult>,limit=8000){
  let recognized=''
- for(let index=0;index<results.length;index++){
-  const next=results[index][0].transcript.trim().replace(/\s+/g,' ')
+ for(const result of Array.from(results)){
+  const next=result[0].transcript.trim().replace(/\s+/g,' ')
   if(!next)continue
   if(!recognized){recognized=next;continue}
   // Android providers can repeat a whole cumulative phrase in a later slot.
@@ -19,6 +19,6 @@ export function speechText(prefix:string,results:ArrayLike<SpeechResult>,limit=8
 // Only confirmed words cross automatic recognition-session boundaries.
 export function finalSpeechText(prefix:string,results:ArrayLike<SpeechResult>,limit=8000){
  const finals:SpeechResult[]=[]
- for(let index=0;index<results.length;index++)if(results[index].isFinal)finals.push(results[index])
+ for(const result of Array.from(results))if(result.isFinal)finals.push(result)
  return speechText(prefix,finals,limit)
 }

@@ -26,7 +26,7 @@ export default function ChatComposer({messages=[],mode='chat',value,onChange,onS
   useEffect(()=>{latest.current=draft},[draft])
   const conversation=useRef<HTMLDivElement>(null),turnSpace=useRef<HTMLDivElement>(null)
   const anchoredQuestion=useRef<string|undefined>(undefined)
-  const latestQuestion=messages.filter(message=>message.role==='user').at(-1)?.id
+  const latestQuestion=messages.findLast(message=>message.role==='user')?.id
   const input=useRef<HTMLTextAreaElement>(null)
   useEffect(()=>{const field=input.current!;field.style.height='38px';field.style.height=`${Math.min(130,field.scrollHeight)}px`},[draft])
   useEffect(()=>{
@@ -77,14 +77,14 @@ export default function ChatComposer({messages=[],mode='chat',value,onChange,onS
     begin(draft.trim())
   }
   return <section className="glass inner-panel chat-panel" aria-label={mode==='dream'?copy.dream:copy.conversation}>
-    <div className="chat-conversation" ref={conversation}>{messages.length===0&&!children?<><h2>{mode==='dream'?copy.writeDream:copy.ask}</h2>{!onSend&&<p>{copy.pending}</p>}</>:messages.map(message=><article className="chat-message" key={message.id} data-question-id={message.role==='user'?message.id:undefined}>{message.role==='assistant'?<MessageText value={message.text}/>:<p>{message.text}</p>}{message.role==='assistant'&&<MessageActions value={message.text}/>}</article>)}{children}{progress&&<div className="maya-thinking" role="status">{progress}</div>}{mode==='chat'&&messages.length>0&&<div ref={turnSpace} className="chat-turn-space" aria-hidden="true"/>}</div>
+    <div className="chat-conversation" ref={conversation}>{messages.length===0&&!children?<><h2>{mode==='dream'?copy.writeDream:copy.ask}</h2>{!onSend&&<p>{copy.pending}</p>}</>:messages.map(message=><article className="chat-message" key={message.id} data-question-id={message.role==='user'?message.id:undefined}>{message.role==='assistant'?<MessageText value={message.text}/>:<p>{message.text}</p>}{message.role==='assistant'&&<MessageActions value={message.text}/>}</article>)}{children}{progress&&<output className="maya-thinking">{progress}</output>}{mode==='chat'&&messages.length>0&&<div ref={turnSpace} className="chat-turn-space" aria-hidden="true"/>}</div>
     <div className={`chat-composer${attachmentControl?' has-attachments':''}`}>
       {attachmentControl}
       <textarea ref={input} rows={1} maxLength={mode==='dream'?8000:4000} disabled={disabled} aria-label={inputLabel??(mode==='dream'?copy.writeDream:copy.ask)} placeholder={mode==='dream'?copy.dreamPlaceholder:copy.askPlaceholder} value={draft} readOnly={listening} onChange={event=>setDraft(event.target.value)}/>
       <button type="button" aria-label={listening?label.stop:label.mic} aria-pressed={listening} disabled={disabled} onClick={listening?stop:start}><Icon name={listening?'stop':'mic'}/></button>
       <button type="button" disabled={disabled||listening||!onSend||!draft.trim()} onClick={onSend} aria-label={label.send} title={onSend?label.send:copy.pending}><Icon name="send"/></button>
     </div>
-    {(status||!onSend)&&<p className="voice-status" role="status">{status||label.ready}</p>}
+    {(status||!onSend)&&<output className="voice-status status-message">{status||label.ready}</output>}
   </section>
 }
 
@@ -97,6 +97,6 @@ export function MessageActions({value}:Readonly<{value:string}>){
     <button type="button" aria-label={labels.like} aria-pressed={vote==='like'} onClick={()=>setVote(vote==='like'?null:'like')}><Icon name="like"/></button>
     <button type="button" aria-label={labels.dislike} aria-pressed={vote==='dislike'} onClick={()=>setVote(vote==='dislike'?null:'dislike')}><Icon name="dislike"/></button>
     <button type="button" aria-label={labels.copy} onClick={()=>{void copy()}}><Icon name="copy"/></button>
-    <span role="status">{status}</span>
+    <output>{status}</output>
   </div>
 }

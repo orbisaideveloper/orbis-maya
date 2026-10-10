@@ -15,17 +15,18 @@ export default function ProfilePanel(){
 function ProfileForm({scope,personId,relation:initialRelation,initial,preview}:Readonly<{scope:string|null;personId:string;relation:string;initial:Profile;preview:boolean}>){
  const locale=useLocale(),copy=ui(locale),label=labels[locale]
  const [profile,setProfile]=useState(initial),[relation,setRelation]=useState(initialRelation),[status,setStatus]=useState('')
+ const loginNotice=scope?'':label.login
  function update(key:keyof Profile,value:string){setProfile({...profile,[key]:value});setStatus('')}
  return <section className="glass inner-panel profile-section"><h1>{label.title}</h1>{personId==='self'&&<ProfilePhoto/>}
-  <p>{preview?label.draft:scope?'':label.login}</p>
+  <p>{preview?label.draft:loginNotice}</p>
   <form onSubmit={event=>{event.preventDefault();try{savePerson(scope!,personId,profile,relation);setStatus(label.saved)}catch{setStatus(label.failed)}}}>
-   {personId!=='self'&&<label>{locale==='bn'?'সম্পর্ক':locale==='hi'?'संबंध':'Relationship'}<input maxLength={100} value={relation} onChange={event=>setRelation(event.target.value)}/></label>}
+   {personId!=='self'&&<label>{{bn:'সম্পর্ক',hi:'संबंध',en:'Relationship'}[locale]}<input maxLength={100} value={relation} onChange={event=>setRelation(event.target.value)}/></label>}
    <label>{label.name}<input type="text" maxLength={100} value={profile.name} onChange={event=>update('name',event.target.value)}/></label>
    <label>{copy.birthDate}<input type="date" value={profile.birthDate} onChange={event=>update('birthDate',event.target.value)}/></label>
    <label>{copy.birthTime}<input type="time" value={profile.birthTime} onChange={event=>update('birthTime',event.target.value)}/></label>
    <BirthLocationField place={profile.birthPlace} location={profile.birthLocation} onChange={(birthPlace,birthLocation)=>{setProfile({...profile,birthPlace,birthLocation});setStatus('')}}/>
    <button type="submit" className="primary-action" disabled={!scope}>{label.save}</button>
-   <p role="status">{status}</p><p>{locale==='bn'?'জন্মতথ্য সেভ করে জ্যোতিষ নির্দেশনায় গণনা করুন।':'Save birth details, then calculate in Birth chart.'}</p>
+   <output className="status-message">{status}</output><p>{locale==='bn'?'জন্মতথ্য সেভ করে জ্যোতিষ নির্দেশনায় গণনা করুন।':'Save birth details, then calculate in Birth chart.'}</p>
   </form>
  </section>
 }

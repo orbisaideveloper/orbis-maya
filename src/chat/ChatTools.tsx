@@ -19,19 +19,32 @@ export default function ChatTools({userId}:Readonly<{userId:string}>){
  const [working,setWorking]=useState(false),[status,setStatus]=useState('')
  useEffect(()=>{
   function outside(event:PointerEvent){if(event.target instanceof Node&&!details.current?.contains(event.target)&&details.current)details.current.open=false}
+  function escape(event:KeyboardEvent){
+   const menu=details.current!
+   if(event.key==='Escape'&&menu.contains(event.target as Node|null)){
+    event.preventDefault();menu.open=false;menu.querySelector('summary')?.focus()
+   }
+  }
   document.addEventListener('pointerdown',outside)
-  return()=>document.removeEventListener('pointerdown',outside)
+  document.addEventListener('keydown',escape)
+  return()=>{document.removeEventListener('pointerdown',outside);document.removeEventListener('keydown',escape)}
  },[])
+ function clearCurrent(action:Action){
+  if((action==='clear'||action==='fresh')&&!clearChat(userId,'conversation'))throw new Error('DEVICE_SAVE_FAILED')
+ }
+ function updateHistory(action:Action){
+  const history=createLocalHistory(userId).repository('chat')
+  if(action==='save'||(action==='fresh'&&chat.messages.length))return history.save(chatArchive(chat.messages,locale)).then(()=>clearCurrent(action))
+  if(action==='all')return history.clear().then(()=>{
+   if(!clearAllChats(userId))throw new Error('DEVICE_SAVE_FAILED')
+  })
+  clearCurrent(action)
+ }
  async function act(action:Action){
   setWorking(true);setStatus('')
   try{
-   const history=createLocalHistory(userId).repository('chat')
-   if(action==='save'||(action==='fresh'&&chat.messages.length))await history.save(chatArchive(chat.messages,locale))
-   if(action==='all'){
-    await history.clear()
-    if(!clearAllChats(userId))throw new Error('DEVICE_SAVE_FAILED')
-   }
-   if((action==='clear'||action==='fresh')&&!clearChat(userId,'conversation'))throw new Error('DEVICE_SAVE_FAILED')
+   const pending=updateHistory(action)
+   if(pending)await pending
    const content=chatTranscript(chat.messages,locale)
    if(action==='download')downloadChat(content)
    if(action==='share'){
@@ -44,9 +57,8 @@ export default function ChatTools({userId}:Readonly<{userId:string}>){
    setStatus(error instanceof Error&&error.message==='CHAT_TOO_LARGE'?c.large:c.failed)
   }finally{setWorking(false)}
  }
- return <details ref={details} className="chat-tools" onKeyDown={event=>{
-  if(event.key==='Escape'){event.preventDefault();details.current!.open=false;details.current!.querySelector('summary')?.focus()}
- }}>
+ const confirmationNote=confirmation&&({all:c.allNote,fresh:c.freshNote,clear:c.clearNote}[confirmation])
+ return <details ref={details} className="chat-tools">
   <summary className="icon-button" aria-label={c.options} title={c.options}><span aria-hidden="true">⋮</span></summary>
   <div className="chat-tools-popover">
    <button type="button" disabled={working||chat.busy} onClick={()=>{setStatus('');setConfirmation('fresh')}}>{c.fresh}</button>
@@ -57,11 +69,11 @@ export default function ChatTools({userId}:Readonly<{userId:string}>){
    <button type="button" disabled={working||chat.busy||(!chat.messages.length&&!chat.draft)} onClick={()=>{setStatus('');setConfirmation('clear')}}>{c.clear}</button>
    <button type="button" disabled={working||chat.busy} onClick={()=>{setStatus('');setConfirmation('all')}}>{c.all}</button>
    {confirmation&&<fieldset className="chat-tools-confirm"><legend>{c[confirmation]}</legend>
-    <p>{confirmation==='all'?c.allNote:confirmation==='fresh'?c.freshNote:c.clearNote}</p>
+    <p>{confirmationNote}</p>
     <button type="button" disabled={working||chat.busy} onClick={()=>{void act(confirmation)}}>{c.confirm}</button>
     <button type="button" disabled={working} onClick={()=>setConfirmation(null)}>{c.cancel}</button>
    </fieldset>}
-   {(status||working)&&<p role="status">{working?c.busy:status}</p>}
+   {(status||working)&&<output className="status-message">{working?c.busy:status}</output>}
    <small>{c.local}</small>
   </div>
  </details>

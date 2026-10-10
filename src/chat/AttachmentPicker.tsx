@@ -1,4 +1,5 @@
 import {useEffect,useRef,useState} from 'react'
+import {keyedItems} from '../listKeys'
 import {useLocale} from '../i18n'
 import {prepareAttachments,type Attachment} from './attachments'
 export default function AttachmentPicker({value,onChange,onBusy,disabled}:Readonly<{value:readonly Attachment[];onChange:(value:Attachment[])=>void;onBusy:(value:boolean)=>void;disabled:boolean}>){
@@ -21,7 +22,7 @@ export default function AttachmentPicker({value,onChange,onBusy,disabled}:Readon
     <p>JPEG · PNG · WebP · PDF · TXT</p><p>{labels.notice}</p>
    </div>
   </details>
-  {value.length>0&&<div className="attachment-selection"><ul>{value.map((file,index)=><li key={index}>{file.name}</li>)}</ul><button type="button" disabled={disabled||busy} onClick={()=>onChange([])}>{labels.remove}</button></div>}
-  {busy&&<p className="attachment-feedback" role="status">{labels.busy}</p>}{error&&<p className="attachment-feedback" role="alert">{error}</p>}
+  {value.length>0&&<div className="attachment-selection"><ul>{keyedItems(value,file=>file.kind+':'+file.name).map(({item:file,key})=><li key={key}>{file.name}</li>)}</ul><button type="button" disabled={disabled||busy} onClick={()=>onChange([])}>{labels.remove}</button></div>}
+  {busy&&<output className="attachment-feedback status-message">{labels.busy}</output>}{error&&<p className="attachment-feedback" role="alert">{error}</p>}
  </div>
 }

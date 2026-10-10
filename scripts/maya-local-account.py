@@ -5,31 +5,35 @@ import argparse
 import base64
 import json
 import os
-import re
 import shlex
 import subprocess
 import urllib.request
-import urllib.error
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
 KEYS = ('VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY')
+ENV_LOCAL = '.env.local'
 
 def public_values(path):
     values = {}
     if not path.is_file():
         return values
     for line in path.read_text().splitlines():
-        match = re.match(r'^\s*(?:export\s+)?(VITE_SUPABASE_URL|VITE_SUPABASE_ANON_KEY)\s*=\s*(.*)$', line)
-        if not match:
+        content = line.lstrip()
+        parts = content.split(maxsplit=1)
+        if parts and parts[0] == 'export':
+            content = parts[1] if len(parts) == 2 else ''
+        name, separator, value = content.partition('=')
+        name = name.strip()
+        if not separator or name not in KEYS:
             continue
         try:
-            tokens = shlex.split(match[2], comments=True)
+            tokens = shlex.split(value, comments=True)
         except ValueError:
             raise SystemExit('STOP: invalid public Auth configuration line')
         if len(tokens) != 1 or '$' in tokens[0] or '`' in tokens[0]:
             raise SystemExit('STOP: Auth value needs a literal public value')
-        values[match[1]] = tokens[0]
+        values[name] = tokens[0]
     return values
 
 def complete(values):
@@ -55,7 +59,7 @@ def validate(values):
 
 def sources():
     own = {}
-    for name in ('.env', '.env.local', '.env.development', '.env.development.local'):
+    for name in ('.env', ENV_LOCAL, '.env.development', '.env.development.local'):
         own.update(public_values(ROOT/name))
     for key in KEYS:
         if os.environ.get(key):
@@ -74,9 +78,9 @@ def configure(own, foundation):
         raise SystemExit('STOP: no complete existing public Auth config; no values copied')
     if any(own.get(key) and own[key] != foundation[key] for key in KEYS):
         raise SystemExit('STOP: different existing Auth config; no values overwritten')
-    target = ROOT/'.env.local'
-    tracked = subprocess.check_output(['git','ls-files','--','.env.local'], cwd=ROOT, text=True).strip()
-    ignored = subprocess.run(['git','check-ignore','-q','.env.local'], cwd=ROOT).returncode == 0
+    target = ROOT/ENV_LOCAL
+    tracked = subprocess.check_output(['git','ls-files','--',ENV_LOCAL], cwd=ROOT, text=True).strip()
+    ignored = subprocess.run(['git','check-ignore','-q',ENV_LOCAL], cwd=ROOT).returncode == 0
     if tracked or not ignored:
         raise SystemExit('STOP: .env.local must be untracked and Git-ignored')
     existing = target.read_text() if target.exists() else ''
@@ -110,7 +114,7 @@ def check(own, foundation):
             print('Email login provider:', 'ENABLED' if data.get('external', {}).get('email') else 'DISABLED/UNKNOWN')
             print('Signup disabled:', str(data.get('disable_signup', 'UNKNOWN')))
             print('Email confirmation auto-confirm:', str(data.get('mailer_autoconfirm', 'UNKNOWN')))
-        except (urllib.error.URLError, ValueError, TimeoutError, OSError):
+        except (ValueError, OSError):
             print('Auth settings endpoint: UNVERIFIED — check connectivity/configuration')
     print('Canonical ORBIS ID: NOT VERIFIED by this configuration check')
     print('Maya membership / owner rights / AI access: NOT VERIFIED')

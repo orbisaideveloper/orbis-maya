@@ -36,7 +36,8 @@ export function saveProfile(scope:string,profile:Profile){
 export function useProfile(){
   const auth=useAuth()
   const preview=(import.meta.env.DEV||import.meta.env.VITE_MAYA_DESIGN_WORKSPACE==='1')&&new URLSearchParams(window.location.search).get('maya-design')==='1'
-  const scope=auth.phase==='signed-in'&&auth.user?`user:${auth.user.id}`:preview?'preview-device-draft':null
+  const previewScope=preview?'preview-device-draft':null
+  const scope=auth.phase==='signed-in'&&auth.user?`user:${auth.user.id}`:previewScope
   const raw=useSyncExternalStore(subscribe,()=>read(scope))
   const profile=useMemo(()=>decodeProfile(raw),[raw])
   return {scope,profile,preview:scope==='preview-device-draft'}

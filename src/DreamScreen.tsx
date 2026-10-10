@@ -99,7 +99,7 @@ export default function DreamScreen({ userId }: Readonly<{ userId: string }>) {
     </>}
       {record&&<article className="chat-message"><DreamResultView record={record}/><MessageActions value={record.result.interpretation}/></article>}
     </ChatComposer>
-    <details className="dream-extra glass"><summary>{locale==='bn'?'অতিরিক্ত তথ্য ও Draft':locale==='hi'?'अतिरिक्त जानकारी और Draft':'Extra details and Draft'}</summary><p>{text(locale,'dreamReflective')}</p>
+    <details className="dream-extra glass"><summary>{{bn:'অতিরিক্ত তথ্য ও Draft',hi:'अतिरिक्त जानकारी और Draft',en:'Extra details and Draft'}[locale]}</summary><p>{text(locale,'dreamReflective')}</p>
     <form onSubmit={event=>{event.preventDefault();const valid=validDream(input);setInvalid(!valid);setReview(valid)}}>
       <fieldset disabled={loading||busy||analyzing}>
         {(Object.keys(dreamFields) as (keyof typeof dreamFields)[]).filter(field=>field!=='dream').map(field=><label key={field}>{text(locale,`input${field}`)}<textarea name={field} rows={2} maxLength={dreamFields[field]} value={input[field]} onChange={event=>{setInput({...input,[field]:event.target.value});setSaved(false);setReview(false);setInvalid(false)}}/></label>)}

@@ -31,20 +31,21 @@ async function pdf(file:File):Promise<Attachment[]>{
  try{
   const documentPdf=await loading.promise
   if(documentPdf.numPages>3)throw new Error('PAGES')
-  const results:Attachment[]=[]
-  for(let number=1;number<=documentPdf.numPages;number++){
+  return await Array.from({length:documentPdf.numPages},(_,index)=>index+1).reduce(async(previous,number)=>{
+   const results=await previous
    const page=await documentPdf.getPage(number),base=page.getViewport({scale:1}),viewport=page.getViewport({scale:Math.min(2,1400/Math.max(base.width,base.height))})
    const canvas=document.createElement('canvas');canvas.width=Math.ceil(viewport.width);canvas.height=Math.ceil(viewport.height)
    const context=canvas.getContext('2d');if(!context)throw new Error('READ')
    await page.render({canvas,canvasContext:context,viewport}).promise
    results.push(canvasImage(canvas,file.name+' · '+number));page.cleanup();canvas.width=0;canvas.height=0
-  }
-  return results
+   return results
+  },Promise.resolve<Attachment[]>([]))
  }finally{clearTimeout(timer);await loading.destroy()}
 }
 export async function prepareAttachments(files:readonly File[]):Promise<Attachment[]>{
- validateFiles(files);const results:Attachment[]=[]
- for(const file of files){
+ validateFiles(files)
+ const prepared=await files.reduce(async(previous,file)=>{
+  const results=await previous
   if(file.type==='application/pdf')results.push(...await pdf(file))
   else if(file.type==='text/plain'){
    if(file.size>48000)throw new Error('SIZE')
@@ -52,6 +53,7 @@ export async function prepareAttachments(files:readonly File[]):Promise<Attachme
    results.push({kind:'text',name:file.name.slice(0,120),content})
   }else results.push(await image(file))
   if(results.length>3)throw new Error('COUNT')
- }
- return results
+  return results
+ },Promise.resolve<Attachment[]>([]))
+ return prepared
 }

@@ -4,7 +4,8 @@ const valid=(value:string)=>value.length<=150000&&/^data:image\/jpeg;base64,[A-Z
 function read(scope:string|null){try{const value=scope?localStorage.getItem(key(scope))??'':'';return valid(value)?value:''}catch{return ''}}
 function subscribe(listener:()=>void){window.addEventListener('maya-photo',listener);window.addEventListener('storage',listener);return()=>{window.removeEventListener('maya-photo',listener);window.removeEventListener('storage',listener)}}
 export function usePhoto(scope:string|null){return useSyncExternalStore(subscribe,()=>read(scope))}
-export function savePhoto(scope:string,value:string){if(!scope||!valid(value))throw new Error('INVALID_PHOTO');localStorage.setItem(key(scope),value);window.dispatchEvent(new Event('maya-photo'))}
+export function savePhoto(scope:string,value:string){if(!scope||!valid(value)){throw new Error('INVALID_PHOTO')}
+ localStorage.setItem(key(scope),value);window.dispatchEvent(new Event('maya-photo'))}
 export function removePhoto(scope:string){localStorage.removeItem(key(scope));window.dispatchEvent(new Event('maya-photo'))}
 export async function preparePhoto(file:File){
  if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>5*1024*1024)throw new Error('INVALID_PHOTO')

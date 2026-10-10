@@ -17,10 +17,12 @@ export default function Workspace() {
   const release=safeRelease(import.meta.env.VITE_MAYA_PUBLISHED_URL)
   const revision=import.meta.env.VITE_MAYA_PUBLISHED_REVISION
   if(!enabled) return <section className="glass inner-panel"><h1>{copy.workspace}</h1><p>{copy.releasePending}</p></section>
+  let content=<section className="glass inner-panel"><h2>{copy.noPublished}</h2><p>{copy.releasePending}</p></section>
+  if(view==='development')content=<><a href="/?maya-design=1#/" target="_blank" rel="noreferrer">{copy.viewApp}</a><iframe title={copy.development} src="/?maya-design=1#/"/></>
+  else if(release&&revision)content=<><p>Release: {revision}</p><a href={release} target="_blank" rel="noreferrer">{copy.viewApp}</a><iframe title={copy.published} src={release}/></>
   return <section className="workspace"><header><h1>{copy.workspace}</h1><p>{copy.designOnly}</p><ThemeSelector/></header>
-    <div className="workspace-tabs" role="group" aria-label={copy.workspace}><button type="button" aria-pressed={view==='development'} onClick={()=>setView('development')}>{copy.development}</button><button type="button" aria-pressed={view==='published'} onClick={()=>setView('published')}>{copy.published}</button></div>
-    {view==='development'?<><a href="/?maya-design=1#/" target="_blank" rel="noreferrer">{copy.viewApp}</a><iframe title={copy.development} src="/?maya-design=1#/"/></>
-      :release&&revision?<><p>Release: {revision}</p><a href={release} target="_blank" rel="noreferrer">{copy.viewApp}</a><iframe title={copy.published} src={release}/></>:<section className="glass inner-panel"><h2>{copy.noPublished}</h2><p>{copy.releasePending}</p></section>}
+    <fieldset className="workspace-tabs" aria-label={copy.workspace}><button type="button" aria-pressed={view==='development'} onClick={()=>setView('development')}>{copy.development}</button><button type="button" aria-pressed={view==='published'} onClick={()=>setView('published')}>{copy.published}</button></fieldset>
+    {content}
     <button type="button" disabled>{copy.publish}</button><p>{copy.releasePending}</p>
   </section>
 }

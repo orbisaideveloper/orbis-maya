@@ -43,7 +43,8 @@ export default function AccountScreen({reset=false}:Readonly<{reset?:boolean}>) 
     const outcome = await authStore.submit(mode, email, password, name)
     element.reset()
     setBusy(false)
-    setMessage(outcome === 'done' ? null : outcome === 'confirm' ? 'confirmEmail' : 'authFailed')
+    const failureMessage=outcome === 'confirm'?'confirmEmail':'authFailed'
+    setMessage(outcome === 'done'?null:failureMessage)
   }
 
   async function logout() {
@@ -68,22 +69,19 @@ export default function AccountScreen({reset=false}:Readonly<{reset?:boolean}>) 
     else setMessage('authFailed')
   }
 
-  function accountContent() {
-    if (auth.phase === 'unconfigured') return <output>{t('unconfigured')}</output>
-    if (auth.phase === 'checking') return <output>{t('checking')}</output>
-    if (auth.phase === 'error') return <div role="alert"><p>{t('authFailed')}</p><button type="button" onClick={() => { void authStore.verify() }}>{t('retry')}</button></div>
-    if(reset||recover)return <>
+  function recoveryContent(){
+    const submitLabel=reset?entry.savePassword:entry.send
+    return <>
       <p>{reset?entry.newPassword:entry.recover}</p>
       {reset&&auth.phase!=='signed-in'?<output>{entry.resetLogin}</output>:<form noValidate onSubmit={event=>{void submitRecovery(event)}}>
         {reset?<><label>{entry.newPassword}<input name="password" type="password" autoComplete="new-password" maxLength={256} disabled={busy}/></label><label>{t('confirmPassword')}<input name="confirmation" type="password" autoComplete="new-password" maxLength={256} disabled={busy}/></label></>:<label>{t('email')}<input name="email" type="email" autoComplete="email" maxLength={254} disabled={busy}/></label>}
-        <button type="submit" className="primary-action" disabled={busy}>{busy?t('busy'):reset?entry.savePassword:entry.send}</button>
+        <button type="submit" className="primary-action" disabled={busy}>{busy?t('busy'):submitLabel}</button>
       </form>}
       <button type="button" disabled={busy} onClick={()=>{setRecover(false);setMessage(null);setRecoveryMessage('');window.location.hash='/account'}}>{t('login')}</button>
     </>
-    if (auth.phase === 'signed-in') return <>
-      <p>{t('signedIn')}</p><p className="account-email">{auth.user!.email}</p>
-      <button type="button" disabled={busy} onClick={() => { void logout() }}>{busy ? t('busy') : t('logout')}</button>
-    </>
+  }
+
+  function loginContent(){
     return <>
         <p className="entry-intro">{mode==='login'?entry.intro:entry.create}</p>
         <div className="auth-modes">
@@ -101,6 +99,18 @@ export default function AccountScreen({reset=false}:Readonly<{reset?:boolean}>) 
     </>
   }
 
+  function accountContent() {
+    if (auth.phase === 'unconfigured') return <output>{t('unconfigured')}</output>
+    if (auth.phase === 'checking') return <output>{t('checking')}</output>
+    if (auth.phase === 'error') return <div role="alert"><p>{t('authFailed')}</p><button type="button" onClick={() => { void authStore.verify() }}>{t('retry')}</button></div>
+    if(reset||recover)return recoveryContent()
+    if (auth.phase === 'signed-in') return <>
+      <p>{t('signedIn')}</p><p className="account-email">{auth.user!.email}</p>
+      <button type="button" disabled={busy} onClick={() => { void logout() }}>{busy ? t('busy') : t('logout')}</button>
+    </>
+    return loginContent()
+  }
+
   return <section className="account-screen" aria-labelledby="account-title">
     <a className="icon-button entry-back" href="#/welcome" aria-label={t('back')}><Icon name="back"/></a>
     <div className="entry-brand"><img src="/brand/orbis-maya.png" alt=""/><strong>{copy.title}</strong></div>
@@ -109,7 +119,7 @@ export default function AccountScreen({reset=false}:Readonly<{reset?:boolean}>) 
     <h1 id="account-title">{t('accountTitle')}</h1>
     {accountContent()}
     {logoutFailed&&<p role="alert">{t('authFailed')}</p>}
-    {recoveryMessage&&<p role="status">{recoveryMessage}</p>}
+    {recoveryMessage&&<output className="status-message">{recoveryMessage}</output>}
     {message === 'confirmEmail' && <output>{t(message)}</output>}
     {message && message !== 'confirmEmail' && (auth.phase!=='signed-in'||recover||reset) && <p role="alert">{t(message)}</p>}
     <p className="account-boundary">{entry.identity}</p>

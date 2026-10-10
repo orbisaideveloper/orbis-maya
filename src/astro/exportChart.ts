@@ -17,9 +17,20 @@ function zip(files:Readonly<Record<string,string>>):ArrayBuffer{
  const buffer=new ArrayBuffer(offset+size+22),result=new Uint8Array(buffer);let cursor=0
  for(const part of [...parts,...directory,end]){result.set(part,cursor);cursor+=part.length}return buffer
 }
+function workbookCell(value:string,column:number,row:number){
+ return `<c r="${String.fromCodePoint(65+column)}${row}" t="inlineStr"><is><t xml:space="preserve">${escapeXml(value)}</t></is></c>`
+}
+function htmlRow(row:readonly string[]){
+ const cells=row.length?row.map(value=>'<td>'+escapeXml(value)+'</td>').join(''):'<td colspan="6"> </td>'
+ return '<tr>'+cells+'</tr>'
+}
 export function workbookBytes(rows:readonly (readonly string[])[]):ArrayBuffer{
  const xml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',ns='http://schemas.openxmlformats.org/spreadsheetml/2006/main'
- const sheet=rows.map((row,i)=>`<row r="${i+1}">${row.map((value,j)=>`<c r="${String.fromCharCode(65+j)}${i+1}" t="inlineStr"><is><t xml:space="preserve">${escapeXml(value)}</t></is></c>`).join('')}</row>`).join('')
+ const sheet=rows.map((row,index)=>{
+  const number=index+1
+  const cells=row.map((value,column)=>workbookCell(value,column,number)).join('')
+  return `<row r="${number}">${cells}</row>`
+ }).join('')
  return zip({'[Content_Types].xml':xml+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/></Types>',
  '_rels/.rels':xml+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>',
  'xl/workbook.xml':xml+`<workbook xmlns="${ns}" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Birth Chart" sheetId="1" r:id="rId1"/></sheets></workbook>`,
@@ -30,7 +41,7 @@ export function downloadWorkbook(rows:readonly (readonly string[])[]){
  const url=URL.createObjectURL(new Blob([workbookBytes(rows)],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})),link=document.createElement('a')
  link.href=url;link.download='Orbis-Astro-Birth-Chart.xlsx';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)
 }
-export function reportHtml(rows:readonly (readonly string[])[],locale:string){return `<!doctype html><html lang="${escapeXml(locale)}"><head><meta charset="utf-8"><title>Orbis Astro — Birth Chart</title><style>@page{size:A4;margin:14mm}body{font:12px sans-serif;color:#231840;background:white}h1{font-size:22px}table{width:100%;border-collapse:collapse;table-layout:fixed}td{border:1px solid #c6bdd5;padding:6px;overflow-wrap:anywhere;vertical-align:top}tr{break-inside:avoid}tr:first-child{font-weight:bold}footer{margin-top:12px}</style></head><body><h1>Orbis Astro</h1><table>${rows.map(row=>`<tr>${row.length?row.map(value=>`<td>${escapeXml(value)}</td>`).join(''):'<td colspan="6"> </td>'}</tr>`).join('')}</table></body></html>`}
+export function reportHtml(rows:readonly (readonly string[])[],locale:string){return `<!doctype html><html lang="${escapeXml(locale)}"><head><meta charset="utf-8"><title>Orbis Astro — Birth Chart</title><style>@page{size:A4;margin:14mm}body{font:12px sans-serif;color:#231840;background:white}h1{font-size:22px}table{width:100%;border-collapse:collapse;table-layout:fixed}td{border:1px solid #c6bdd5;padding:6px;overflow-wrap:anywhere;vertical-align:top}tr{break-inside:avoid}tr:first-child{font-weight:bold}footer{margin-top:12px}</style></head><body><h1>Orbis Astro</h1><table>${rows.map(htmlRow).join('')}</table></body></html>`}
 export function printReport(rows:readonly (readonly string[])[],locale:string){
  const frame=document.createElement('iframe');frame.title='Orbis Astro printable report';frame.style.cssText='position:fixed;width:1px;height:1px;left:-10000px;top:0;border:0'
  frame.onload=()=>{const view=frame.contentWindow;if(!view){frame.remove();return}view.addEventListener('afterprint',()=>frame.remove(),{once:true});void (frame.contentDocument?.fonts?.ready??Promise.resolve()).then(()=>{view.focus();view.print()})}

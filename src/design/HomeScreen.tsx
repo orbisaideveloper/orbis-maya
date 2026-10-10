@@ -16,7 +16,8 @@ export default function HomeScreen() {
   const rawAvatar=metadata?.avatar_url ?? metadata?.picture
   const avatar=localPhoto|| (typeof rawAvatar==='string'&&rawAvatar.startsWith('https://')&&!avatarFailed?rawAvatar:'/brand/orbis-maya.png')
   const now=new Date(), hour=now.getHours()
-  const greeting=hour<12?copy.morning:hour<17?copy.afternoon:copy.evening
+  const laterGreeting=hour<17?copy.afternoon:copy.evening
+  const greeting=hour<12?copy.morning:laterGreeting
   const date=new Intl.DateTimeFormat(`${locale}-IN`,{day:'numeric',month:'long',year:'numeric'}).format(now)
   return <section className="dashboard-home" aria-labelledby="maya-title">
     <header className="dashboard-topbar"><div className="dashboard-profile">
