@@ -14,6 +14,16 @@ ROOT = Path(__file__).resolve().parent.parent
 KEYS = ('VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY')
 ENV_LOCAL = '.env.local'
 
+def parse_public_literal(value):
+    try:
+        tokens = shlex.split(value, comments=True)
+    except ValueError:
+        raise SystemExit('STOP: invalid public Auth configuration line')
+    if len(tokens) != 1 or '$' in tokens[0] or '`' in tokens[0]:
+        raise SystemExit('STOP: Auth value needs a literal public value')
+    return tokens[0]
+
+
 def public_values(path):
     values = {}
     if not path.is_file():
@@ -27,13 +37,7 @@ def public_values(path):
         name = name.strip()
         if not separator or name not in KEYS:
             continue
-        try:
-            tokens = shlex.split(value, comments=True)
-        except ValueError:
-            raise SystemExit('STOP: invalid public Auth configuration line')
-        if len(tokens) != 1 or '$' in tokens[0] or '`' in tokens[0]:
-            raise SystemExit('STOP: Auth value needs a literal public value')
-        values[name] = tokens[0]
+        values[name] = parse_public_literal(value)
     return values
 
 def complete(values):

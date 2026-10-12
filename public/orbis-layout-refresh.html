@@ -2,8 +2,8 @@
 const button=document.getElementById('refresh'),status=document.getElementById('status');
 button.onclick=async()=>{button.disabled=true;try{
  let workers=0,removed=0;
- if('serviceWorker' in navigator){for(const registration of await navigator.serviceWorker.getRegistrations()){if(registration.scope.startsWith(location.origin+'/')){await registration.unregister();workers++}}}
- if('caches' in window){for(const name of await caches.keys()){if(/workbox|orbis[-_]?maya|maya/i.test(name)){await caches.delete(name);removed++}}}
+ if('serviceWorker' in navigator){const registrations=(await navigator.serviceWorker.getRegistrations()).filter(registration=>registration.scope.startsWith(location.origin+'/'));await Promise.all(registrations.map(registration=>registration.unregister()));workers=registrations.length}
+ if('caches' in window){const names=(await caches.keys()).filter(name=>/workbox|orbis[-_]?maya|maya/i.test(name));await Promise.all(names.map(name=>caches.delete(name)));removed=names.length}
  status.textContent=`Service workers: ${workers}; static caches: ${removed}. নতুন পেজ খুলছে…`;
  location.replace('/?layout-refresh='+Date.now()+'#/');
 }catch(error){status.textContent='Refresh ব্যর্থ: '+String(error);button.disabled=false}};

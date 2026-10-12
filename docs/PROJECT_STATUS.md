@@ -1,3 +1,44 @@
+# Current verified PWA checkpoint — 2026-10-12
+
+Owner approved Maya-only commit/push on 2026-10-12 while Foundation/Admin checks
+run separately. Reviewed base main: 0ec866132343b56e9b5d525810d61e230e004f32.
+The new commit hash and remote verification are recorded in the Termux push report;
+this document cannot contain its own future commit hash.
+
+Owner Ubuntu certification: ORBIS-MAYA-LINUX-CERT-20261012-064046-25612.txt,
+06:40:50–06:58:43 IST. 81 files / 624 unit tests, 21 mobile Chromium E2E PASS;
+lines/statements/functions/branches each100%; lint, types, KNIP, workflow/preflight,
+0.00% duplication, audit0 and full PWA manifest/service-worker generation PASS.
+Native/source repositories were not modified/bound into the certification workspace.
+
+Current source change scope: preserve CSS winning values while removing redundant
+declarations, Set-based equivalent protected-route membership, extracted literal
+public-config parser, parallel static-cache/service-worker cleanup and this status.
+The layout regression test was restored to canonical main and compared actual
+semantic DOM; it is no longer a changed file. Application source was certified;
+this final checkpoint text is a documentation-only addition after that run.
+
+Remaining: exact new pushed commit's GitHub CI/Sonar including zero open issues;
+real Auth/entitlement/gateway/vision checks; unfinished daily guidance/notifications,
+calculation reference fixtures and other MVP work. Full PWA certification does not
+certify every planned feature or live backend. Foundation/Admin check outcomes
+are not established by this Maya commit.
+
+Android starter is PAUSED: owner wants existing three-repo checkpoints cleaned,
+then PWA product completion, then Android APK/AAB. No Android source/dependencies,
+Foundation accounting or other product accounts are changed by this commit.
+
+Non-fatal certification warnings: shared npm globalignorefile setting, transitive
+glob deprecation and543.74kB main JS chunk; audit and all local gates still PASS.
+No setting/quality threshold is changed to silence these warnings.
+
+Next: verify this commit's remote CI/Sonar, repair actual issues if needed; finish
+Foundation/Admin checks without interrupting them. Release/deploy remains separate
+owner authorization. Older checkpoint entries below are historical; current facts
+above supersede previous statements that this Linux PWA/E2E run was pending.
+
+---
+
 # Orbis Astro Project Status
 
 Evidence checkpoint: 2026-10-06, Asia/Kolkata. This is a documentation update,
@@ -266,3 +307,27 @@ before further work. After full local verification and owner approval, commit
 and push one combined repair; require new CI/Sonar results with zero open issues
 before any separately authorized release. No commit/push/deployment is performed
 by applying or testing this candidate.
+
+
+## 2026-10-11 guarded audit repair candidate
+
+Reviewed owner snapshot: Maya main 0ec866132343b56e9b5d525810d61e230e004f32.
+Owner combined targeted evidence: Maya 91, Foundation 88, Admin 4 tests PASS;
+Maya production core build rerun PASS. These certify the preceding source,
+not this repair. Current candidate restores comparison of prior retagged HTML
+against actual current semantic HTML in the CSS layout regression test.
+The test must run in the existing Ubuntu Chromium certification environment.
+Do not retag both frames to obtain a false layout pass.
+
+Read-only Admin inspection now confirms membership migrations dated Oct 7,
+forced-RLS tables and ACTIVE maya-access v2; prior not-deployed statements are
+historical. Live allow/deny/revocation and provider attachment reading still
+need explicit runtime evidence. Foundation candidate separates rulership and
+negated sign wording from natal-location contradictions; prose verification
+remains partial and is not certification of houses/degrees/motion.
+
+Next: run guarded repair through owner Termux, inspect timestamped report,
+then existing Maya Ubuntu Linux certification and phone Astro/attachment review.
+Preserve failures, fix actual semantic CSS differences rather than weakening tests.
+No accounting changes, database writes, migration execution, provider configuration,
+server restart, commit, push or deployment are included.

@@ -417,7 +417,7 @@ fieldset {min-width:0;}
 }
 .account-screen :is(p,output:where(.status-message)) {margin:6px 0;font-size:12px;}
 .account-screen .entry-intro {
- text-align:center;margin-top:8px;margin:5px 0 8px;
+ text-align:center;margin:5px 0 8px;
 }
 .account-screen form {
  display:grid;gap:8px;margin:8px 0;
@@ -431,7 +431,7 @@ fieldset {min-width:0;}
  padding:6px;font-size:12px;min-height:44px;
 }
 .account-screen .recovery-link {
- display:block;margin-left:auto;font-size:12px;padding:6px 0;background:transparent;border:0;text-decoration:underline;min-height:44px;margin:0 0 0 auto;
+ display:block;font-size:12px;padding:6px 0;background:transparent;border:0;text-decoration:underline;min-height:44px;margin:0 0 0 auto;
 }
 .account-screen .journey-action {
  width:100%;text-align:center;min-height:44px;margin-top:8px;padding:8px;

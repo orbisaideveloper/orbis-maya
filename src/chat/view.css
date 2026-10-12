@@ -60,7 +60,7 @@ body:has(.design-chat) {position:fixed;inset:0;width:100%}
 .maya-shell:has(.design-chat) {position:fixed;top:var(--chat-viewport-top,0px);left:50%;transform:translateX(-50%);width:min(100%,520px);height:var(--chat-viewport-height,100dvh);min-height:0;max-height:100dvh;margin:0;overflow:hidden;box-sizing:border-box;gap:6px;padding:max(6px,env(safe-area-inset-top)) 10px max(6px,env(safe-area-inset-bottom))}
 .maya-shell:has(.design-chat) #maya-content {flex:1;min-height:0;overflow:hidden}
 .maya-shell:has(.design-chat) .crystal-header {
- min-height:50px;padding:3px 7px;gap:7px;flex-shrink:0;overflow:visible;position:relative;z-index:20;flex:0 0 auto;top:auto;
+ min-height:50px;padding:3px 7px;gap:7px;overflow:visible;position:relative;z-index:20;flex:0 0 auto;top:auto;
 }
 .maya-shell:has(.design-chat) .dashboard-bottom-nav {position:relative;bottom:auto;flex:0 0 auto;margin-top:0;min-height:54px;padding:4px}
 .design-chat .chat-conversation {

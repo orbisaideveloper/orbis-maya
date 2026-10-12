@@ -23,7 +23,7 @@ const Workspace=lazy(()=>import('./design/Workspace'))
 
 type ScreenAuth=ReturnType<typeof useAuth>
 type ScreenCopy=ReturnType<typeof ui>
-const authenticatedPaths=['/dream','/astro','/chat','/history','/profile']
+const authenticatedPaths=new Set(['/dream','/astro','/chat','/history','/profile'])
 function routeTitle(path:string,locale:Locale,copy:ScreenCopy){
  const destination=destinations.find(item=>item.path===path)
  if(destination)return text(locale,`${destination.key}Title`)
@@ -47,7 +47,7 @@ function headerLabel(path:string,locale:Locale,copy:ScreenCopy){
 }
 function routeScreen(path:string,preview:boolean,auth:ScreenAuth){
  if(preview&&['/dream','/astro','/chat','/history'].includes(path))return <DesignScreen path={path} preview/>
- if(authenticatedPaths.includes(path)&&auth.phase!=='signed-in'&&!preview)return <AccountScreen/>
+ if(authenticatedPaths.has(path)&&auth.phase!=='signed-in'&&!preview)return <AccountScreen/>
  switch(path){
   case '/':return preview||auth.phase==='signed-in'?<HomeScreen/>:<WelcomeScreen/>
   case '/welcome':return <WelcomeScreen/>
@@ -96,7 +96,7 @@ export default function App() {
   },[path,locale,theme,copy])
   const pageLabel=headerLabel(path,locale,copy)
   const screen=routeScreen(path,preview,auth)
-  const accountView=path==='/account'||path==='/reset-password'||(!preview&&authenticatedPaths.includes(path)&&auth.phase!=='signed-in')
+  const accountView=path==='/account'||path==='/reset-password'||(!preview&&authenticatedPaths.has(path)&&auth.phase!=='signed-in')
   const welcomeView=path==='/welcome'||(path==='/'&&!preview&&auth.phase!=='signed-in')
   return <div className={frameClasses(path,theme,accountView,welcomeView)}>
     <button className="skip-link" type="button" onClick={()=>main.current!.focus()}>{text(locale,'skip')}</button>
