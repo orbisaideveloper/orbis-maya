@@ -12,5 +12,5 @@ export default function AccountSummary(){
  const metadata=auth.user?.user_metadata
  const fullName=typeof metadata?.full_name==='string'?metadata.full_name:''
  const name=profile.name||(typeof metadata?.display_name==='string'?metadata.display_name:fullName)
- return <section className="settings-account" aria-label={text(locale,'account')}><dl><dt>{labels.name}</dt><dd>{name||labels.unknown}</dd><dt>{labels.email}</dt><dd>{auth.user?.email}</dd></dl><button type="button" className="primary-action" disabled={busy} onClick={()=>{void signOut()}}>{busy?text(locale,'busy'):labels.out}</button>{failed&&<p role="alert">{text(locale,'authFailed')}</p>}</section>
+ return <section className="settings-account" aria-label={text(locale,'account')}><dl><dt>{labels.name}</dt><dd>{name||labels.unknown}</dd><dt>{labels.email}</dt><dd>{auth.user?.email}</dd></dl><a className="primary-action" href="#/account">{text(locale,'account')}</a><button type="button" className="primary-action" disabled={busy} onClick={()=>{void signOut()}}>{busy?text(locale,'busy'):labels.out}</button>{failed&&<p role="alert">{text(locale,'authFailed')}</p>}</section>
 }

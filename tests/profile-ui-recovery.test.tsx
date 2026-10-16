@@ -7,6 +7,8 @@ vi.mock('../src/profile/store',()=>({useProfile:()=>({scope:state.scope,preview:
 vi.mock('../src/profile/photo',()=>({usePhoto:()=>state.photo}))
 vi.mock('../src/profile/family',()=>({useFamily:()=>({active:state.person,people:[{id:state.person,relation:'daughter',profile:{name:'Owner',birthDate:'',birthTime:'',birthPlace:''}}]}),savePerson:state.save,addPerson:state.add}))
 vi.mock('../src/profile/PersonPicker',()=>({default:()=>null}))
+// Local profile recovery is isolated from cloud loading/status; cloud behavior has its own UI and browser suites.
+vi.mock('../src/profile/CloudBirthProfiles',()=>({default:()=>null}))
 vi.mock('../src/profile/ProfilePhoto',()=>({default:()=> <span>Photo editor</span>}))
 vi.mock('../src/astro/BirthLocationField',()=>({default:({onChange}:Readonly<{onChange:(place:string)=>void}>)=><button type="button" onClick={()=>onChange('Kolkata')}>Choose location</button>}))
 import ProfilePanel from '../src/profile/ProfilePanel'

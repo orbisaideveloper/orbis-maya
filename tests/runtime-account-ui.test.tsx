@@ -11,6 +11,7 @@ afterEach(()=>cleanup())
 it('shows the signed-in identity and a profile entry, keeping the edit form off Settings',()=>{
  render(<DesignScreen path="/settings"/>);expect(screen.getByText('alice@example.com')).toBeInTheDocument();expect(screen.getByText('Alice')).toBeInTheDocument()
  expect(screen.getByRole('link',{name:'প্রোফাইল'})).toHaveAttribute('href','#/profile')
+ expect(document.querySelector('.settings-account a')).toHaveAttribute('href','#/account')
  expect(screen.queryByLabelText('জন্ম তারিখ')).not.toBeInTheDocument()
  expect(screen.getByRole('button',{name:'সাইন আউট'})).toBeEnabled()
 })

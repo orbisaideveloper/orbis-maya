@@ -331,3 +331,65 @@ then existing Maya Ubuntu Linux certification and phone Astro/attachment review.
 Preserve failures, fix actual semantic CSS differences rather than weakening tests.
 No accounting changes, database writes, migration execution, provider configuration,
 server restart, commit, push or deployment are included.
+
+
+## 2026-10-15 — Canonical account ID display candidate
+
+Read-only central Auth inspection confirmed one confirmed account and a successful
+sign-in. The central customer binding count was zero: direct Maya Supabase signup
+does not itself invoke the Admin customer bootstrap. This candidate reuses Maya's
+existing device session and calls the approved Admin customer/session boundary
+from the account page. The server verifies the live session and creates/reuses
+its canonical UUIDv7/display ID. UI displays only the validated server-issued
+ORB-U identifier; neither Auth IDs nor user metadata are relabeled as Orbis IDs.
+Three-language loading/error/retry behavior, bounded request cancellation and
+unmount/account separation are included. Credentials are not copied into URLs,
+profile metadata, reports or an additional session store. Product permissions,
+owner rights and personal device data are unchanged.
+
+Owner Ubuntu report ORBIS-ACCOUNT-RESUME-20261015-005828 confirmed Maya
+90 tests and Admin 25 tests, TypeScript and affected lint PASS. Final whitespace
+check stopped on an extra document EOF blank line, corrected in the next
+certification candidate. A mocked mobile account-ID/reload regression is included
+in the browser suite; it never authenticates with live Admin. Full Linux
+coverage, E2E, remote Sonar and real ID display remain pending. Admin has a related
+isolated menu/email-default patch; Khata main contains the central auth client,
+but its live build configuration and sign-in are unverified. Foundation still
+uses its existing configurable Auth/account path; compatibility, existing user
+mapping and product permissions must be checked before changing it. This is not
+an all-products login certification. No commit, push, merge or deployment is
+performed by this candidate. Next: review the combined owner test report, repair
+failures, complete certification, obtain owner Git delivery approval and verify
+the same ID on the released account screens.
+
+## 2026-10-15 — Account route restoration repair candidate
+
+Owner full-cert report ORBIS-ACCOUNT-CERT-20261015-153059 confirmed Maya
+654 tests, all four production coverage metrics 100%, lint/types/workflow checks,
+KNIP, zero duplication, zero audit vulnerabilities and PWA build PASS. Mobile
+E2E passed 21/22; the new account-ID test exposed a real redirect: a signed-in
+/account route was sent to Home. Admin full certification did not start.
+
+Candidate limits the account-to-Home redirect to an interactive signed-out to
+signed-in transition; restored sessions and deliberate account navigation remain
+on /account. Existing welcome and logout navigation remain. Settings gains an
+account link. Route regressions cover restoration, navigation and fresh login;
+the mobile ID test also reopens the account through Settings. Backend identity,
+profile persistence and product permissions are unchanged by this route repair.
+Assistant affected lint/types passed; owner certification pending. No Git writes
+or deployment. Central profile/Maya saved-profile integration and live acceptance
+remain explicit unfinished work after this navigation checkpoint.
+
+
+## 2026-10-16 — Central ID five-family closeout prepared
+
+One central account/profile for Admin, Maya and Khata; Maya five cloud birth slots and explicit idempotent family restore. Source verification, private disposable SQL and real API acceptance are recorded separately in the ORBIS-CENTRAL-FINISH report. No commit/push/deployment/remote migration in this runner. Browser/PWA acceptance and owner-role Admin login remain distinct. Next: inspect this report, deliver verified source through the owner Git workflow, then reviewed migration/deployment and browser acceptance.
+
+
+## 2026-10-16 — Live central-ID proof and birth-storage migration
+
+- Live Khata `841428a` login and reload returned the same `ORB-U-365HD9A3` as Admin.
+- Managed Admin migration `20261016154208_maya_five_account_birth_profiles` applied; one account and one common profile preserved, zero birth-profile rows. Forced RLS and service-only RPC grants verified.
+- Profile and five-slot browser fixture acceptance added; exact local full certification, Termux publication, remote CI/Sonar and post-deploy persistence remain pending.
+- Current Supabase app connections cannot access Khata product `gqyaxsczlmvppxuoqbox`; the financial data gateway is not certified or live-ready. No financial database write or replacement book created.
+- Next: run the resumable `ORBIS-CENTRAL-RELEASE-20261016.sh`; successful local gates authorize selected owner-Termux commit/push and an Admin PR. No merge/deployment occurs inside this runner. Inspect the single Downloads report before completing remote release.

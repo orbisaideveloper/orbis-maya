@@ -31,3 +31,14 @@ export function useFamily(scope:string|null){const value=useSyncExternalStore(su
 export function namedPerson(scope:string,query:string){const f=readFamily(scope),lower=query.toLocaleLowerCase();const matches=f.people.filter(p=>p.profile.name.trim().length>=2&&lower.includes(p.profile.name.trim().toLocaleLowerCase()));if(matches.length===1)return matches[0]
  if(matches.length>1)return null
  return f.people.find(p=>p.id===f.active)!}
+
+/** Explicit account restore; stable slot IDs make repeated imports idempotent. */
+export function restoreSavedFamily(scope:string,entries:ReadonlyArray<{slot:number;relation:string;profile:Profile}>){
+ if(!scope.startsWith('user:')||!entries.length||entries.length>5||new Set(entries.map(e=>e.slot)).size!==entries.length||
+  entries.some(e=>!Number.isInteger(e.slot)||e.slot<1||e.slot>5||typeof e.relation!=='string'||e.relation.length>100||!validProfile(e.profile)))throw new Error('INVALID_PROFILE')
+ const family=readFamily(scope)
+ const restored=entries.map(e=>({id:`cloud-birth-slot-${e.slot}`,relation:e.relation,profile:e.profile}))
+ const ids=new Set(restored.map(e=>e.id)),people=[...family.people.filter(p=>!ids.has(p.id)),...restored]
+ if(people.length>31)throw new Error('PROFILE_LIMIT')
+ write(scope,{active:family.active,people})
+}

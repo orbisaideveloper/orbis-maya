@@ -1,3 +1,4 @@
+import CloudBirthProfiles from './CloudBirthProfiles'
 import { useState } from 'react'
 import { useLocale } from '../i18n'
 import { ui } from '../design/copy'
@@ -10,7 +11,7 @@ const labels={bn:{title:'প্রোফাইল',name:'নাম',save:'প্
 export default function ProfilePanel(){
  const locale=useLocale(),{scope,preview}=useProfile()
  const family=useFamily(scope),person=family.people.find(p=>p.id===family.active)!
- return <><PersonPicker scope={scope}/><button type="button" disabled={!scope} onClick={scope?()=>addPerson(scope):undefined}>＋ {locale==='bn'?'পরিবারের প্রোফাইল যোগ করুন':'Add family profile'}</button><ProfileForm key={`${scope}:${person.id}`} scope={scope} personId={person.id} relation={person.relation} initial={person.profile} preview={preview}/></>
+ return <><PersonPicker scope={scope}/><button type="button" disabled={!scope} onClick={scope?()=>addPerson(scope):undefined}>＋ {locale==='bn'?'পরিবারের প্রোফাইল যোগ করুন':'Add family profile'}</button><ProfileForm key={`${scope}:${person.id}`} scope={scope} personId={person.id} relation={person.relation} initial={person.profile} preview={preview}/>{scope?.startsWith('user:')&&<CloudBirthProfiles key={scope} userId={scope.slice(5)} scope={scope}/>}</>
 }
 function ProfileForm({scope,personId,relation:initialRelation,initial,preview}:Readonly<{scope:string|null;personId:string;relation:string;initial:Profile;preview:boolean}>){
  const locale=useLocale(),copy=ui(locale),label=labels[locale]

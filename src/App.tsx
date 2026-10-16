@@ -74,8 +74,8 @@ export default function App() {
   const previousPhase=useRef(auth.phase)
   useEffect(()=>{
     const loggedOut=previousPhase.current==='signed-in'&&auth.phase==='signed-out'
+    const loggedIn=auth.phase==='signed-in'&&(path==='/welcome'||(path==='/account'&&previousPhase.current==='signed-out'))
     if(auth.phase==='signed-in'||auth.phase==='signed-out')previousPhase.current=auth.phase
-    const loggedIn=auth.phase==='signed-in'&&['/account','/welcome'].includes(path)
     if(!loggedOut&&!loggedIn)return
     const url=new URL(window.location.href)
     if(loggedOut){url.searchParams.delete('maya-design');url.hash='/account'}
