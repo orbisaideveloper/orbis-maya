@@ -266,3 +266,13 @@ A handoff is incomplete if another AI would need to reconstruct the project from
 
 ## Owner local workflow and cross-project examples
 Read `docs/LOCAL_DEVELOPMENT.md` before start/test commands. Show live check output and publish final reports only after completion. Use the canonical Foundation Bengali bank for selected reviewed intent examples and candidate answer pairs; never treat silence as factual validation. Preserve repository-specific quality and authorization rules.
+
+## 2026-10-16 account delivery clarification
+
+The owner approved main delivery after full local certification. For this
+account change, create an isolated PR branch from the certified native source;
+run the existing complete quality and Sonar workflow on the exact PR head before
+an explicit merge. CI preflight permits the verified detached PR checkout; this
+does not change native main-based development or authorize background auto-merge.
+No separate Render staging/PR Preview is required. Deploy main separately after
+merge and verify real account behavior before claiming live login completion.

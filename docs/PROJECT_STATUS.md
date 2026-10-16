@@ -331,3 +331,65 @@ then existing Maya Ubuntu Linux certification and phone Astro/attachment review.
 Preserve failures, fix actual semantic CSS differences rather than weakening tests.
 No accounting changes, database writes, migration execution, provider configuration,
 server restart, commit, push or deployment are included.
+
+
+## 2026-10-15 — Canonical account ID display candidate
+
+Read-only central Auth inspection confirmed one confirmed account and a successful
+sign-in. The central customer binding count was zero: direct Maya Supabase signup
+does not itself invoke the Admin customer bootstrap. This candidate reuses Maya's
+existing device session and calls the approved Admin customer/session boundary
+from the account page. The server verifies the live session and creates/reuses
+its canonical UUIDv7/display ID. UI displays only the validated server-issued
+ORB-U identifier; neither Auth IDs nor user metadata are relabeled as Orbis IDs.
+Three-language loading/error/retry behavior, bounded request cancellation and
+unmount/account separation are included. Credentials are not copied into URLs,
+profile metadata, reports or an additional session store. Product permissions,
+owner rights and personal device data are unchanged.
+
+Owner Ubuntu report ORBIS-ACCOUNT-RESUME-20261015-005828 confirmed Maya
+90 tests and Admin 25 tests, TypeScript and affected lint PASS. Final whitespace
+check stopped on an extra document EOF blank line, corrected in the next
+certification candidate. A mocked mobile account-ID/reload regression is included
+in the browser suite; it never authenticates with live Admin. Full Linux
+coverage, E2E, remote Sonar and real ID display remain pending. Admin has a related
+isolated menu/email-default patch; Khata main contains the central auth client,
+but its live build configuration and sign-in are unverified. Foundation still
+uses its existing configurable Auth/account path; compatibility, existing user
+mapping and product permissions must be checked before changing it. This is not
+an all-products login certification. No commit, push, merge or deployment is
+performed by this candidate. Next: review the combined owner test report, repair
+failures, complete certification, obtain owner Git delivery approval and verify
+the same ID on the released account screens.
+
+## 2026-10-15 — Account route restoration repair candidate
+
+Owner full-cert report ORBIS-ACCOUNT-CERT-20261015-153059 confirmed Maya
+654 tests, all four production coverage metrics 100%, lint/types/workflow checks,
+KNIP, zero duplication, zero audit vulnerabilities and PWA build PASS. Mobile
+E2E passed 21/22; the new account-ID test exposed a real redirect: a signed-in
+/account route was sent to Home. Admin full certification did not start.
+
+Candidate limits the account-to-Home redirect to an interactive signed-out to
+signed-in transition; restored sessions and deliberate account navigation remain
+on /account. Existing welcome and logout navigation remain. Settings gains an
+account link. Route regressions cover restoration, navigation and fresh login;
+the mobile ID test also reopens the account through Settings. Backend identity,
+profile persistence and product permissions are unchanged by this route repair.
+Assistant affected lint/types passed; owner certification pending. No Git writes
+or deployment. Central profile/Maya saved-profile integration and live acceptance
+remain explicit unfinished work after this navigation checkpoint.
+
+## 2026-10-16 — Account candidate locally certified; PR delivery prepared
+
+Maya passed 657 unit tests and 22 browser tests. Admin passed 607 tests. Both
+reported 100% in all four production coverage metrics, and the required local
+quality/build checks passed. Source hashes were rechecked by the runtime-only
+report ending 20261016-111519; Admin account HTML/client/config/registry smoke
+passed. Live Admin health/config/account returned HTTP 200 with customer auth
+available on the previous main revision. These local results do not certify
+the final remote PR or a deployment. Owner approved gated main delivery and
+CI candidate runtime verification instead of a permanent staging service.
+Remote checks and exact main merge revisions must be confirmed from the
+Downloads delivery report. Real-user Orbis ID/profile persistence, Maya two
+central birth profiles and Khata/Foundation live login remain unfinished.

@@ -1,5 +1,17 @@
 import { expect, test } from '@playwright/test'
 
+// Central responses are browser fixtures; this suite never signs into live Admin.
+const orbisCustomer = { orbisIdentityId: '11111111-1111-7111-8111-111111111111', displayId: 'ORB-U-23456789' }
+test.beforeEach(async ({ page }) => {
+  await page.route('https://orbis-admin-staging.onrender.com/api/v1/customer/**', route => {
+    const headers = { 'Access-Control-Allow-Origin': 'http://127.0.0.1:4174', 'Access-Control-Allow-Methods': 'GET, OPTIONS', 'Access-Control-Allow-Headers': 'Authorization', 'Cache-Control': 'no-store' }
+    if (route.request().method() === 'OPTIONS') return route.fulfill({ status: 204, headers, body: '' })
+    if (new URL(route.request().url()).pathname !== '/api/v1/customer/session') return route.abort()
+    expect(route.request().headers().authorization).toMatch(/^Bearer /)
+    return route.fulfill({ headers, json: { version: 'orbis.customer.v1', customer: orbisCustomer } })
+  })
+})
+
 const user = { id: '12345678-1234-4234-8234-123456789abc', aud: 'authenticated', role: 'authenticated', email: 'maya@example.com', email_confirmed_at: '2026-01-01T00:00:00Z', app_metadata: { provider: 'email' }, user_metadata: {}, identities: [], created_at: '2026-01-01T00:00:00Z' }
 function session() {
   const payload = Buffer.from(JSON.stringify({ sub: user.id, aud: 'authenticated', role: 'authenticated', exp: Math.floor(Date.now() / 1000) + 3600 })).toString('base64url')
@@ -212,5 +224,22 @@ test('mobile Dream gateway retry, structured result, local save, reopen and dele
   await page.getByRole('button', { name: 'মুছুন আলোর স্বপ্ন', exact: true }).click()
   await page.getByRole('button', { name: 'মুছে দিন', exact: true }).click()
   await expect(page.getByRole('status')).toContainText('এখনও কোনো history নেই')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+})
+
+
+test('canonical Orbis ID appears on mobile account and remains the same after reload', async ({ page }) => {
+  await page.addInitScript(value => localStorage.setItem('orbis-maya-auth-v1', JSON.stringify(value)), session())
+  await page.route('https://maya-auth.invalid/**', route => {
+    if (new URL(route.request().url()).pathname.endsWith('/user')) return route.fulfill({ json: user })
+    return route.abort()
+  })
+  await page.goto('/#/account')
+  await expect(page.getByText(orbisCustomer.displayId, { exact: true })).toBeVisible()
+  await page.reload()
+  await expect(page.getByText(orbisCustomer.displayId, { exact: true })).toBeVisible()
+  await page.goto('/#/settings')
+  await page.locator('.settings-account').getByRole('link').click()
+  await expect(page.getByText(orbisCustomer.displayId, { exact: true })).toBeVisible()
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
 })

@@ -56,6 +56,12 @@ const applicationPresent =
   fs.existsSync('package.json') &&
   fs.existsSync('package-lock.json')
 
+const pullRequest = process.env.SONAR_PULL_REQUEST
+if (pullRequest && !/^\d+$/.test(pullRequest)) {
+  console.error('STRICT SONAR: invalid pull request scope')
+  process.exit(1)
+}
+const issueScope = pullRequest ? `&pullRequest=${pullRequest}` : ''
 const encodedProjectKey = encodeURIComponent(projectKey)
 const metrics = [
   'coverage',
@@ -69,7 +75,7 @@ const metrics = [
 try {
   const [issues, measures] = await Promise.all([
     getJson(
-      `/api/issues/search?componentKeys=${encodedProjectKey}&resolved=false&ps=1`,
+      `/api/issues/search?componentKeys=${encodedProjectKey}&resolved=false&ps=1${issueScope}`,
     ),
     getJson(
       `/api/measures/component?component=${encodedProjectKey}&metricKeys=${encodeURIComponent(metrics)}`,

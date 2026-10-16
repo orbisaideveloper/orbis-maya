@@ -1,3 +1,4 @@
+import { OrbisIdentity } from './OrbisIdentity'
 import { useRef, useState } from 'react'
 import { text, useLocale } from '../i18n'
 import { authStore, useAuth } from './store'
@@ -106,6 +107,7 @@ export default function AccountScreen({reset=false}:Readonly<{reset?:boolean}>) 
     if(reset||recover)return recoveryContent()
     if (auth.phase === 'signed-in') return <>
       <p>{t('signedIn')}</p><p className="account-email">{auth.user!.email}</p>
+      <OrbisIdentity key={auth.user!.id} userId={auth.user!.id} />
       <button type="button" disabled={busy} onClick={() => { void logout() }}>{busy ? t('busy') : t('logout')}</button>
     </>
     return loginContent()

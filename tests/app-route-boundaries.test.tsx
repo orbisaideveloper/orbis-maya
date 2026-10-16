@@ -31,7 +31,16 @@ it.each(['/dream','/chat','/history','/astro','/profile'])('protects signed-out 
 it.each(['/','/welcome'])('opens public welcome at %s',path=>{mock.auth={phase:'signed-out',user:null};route(path);render(<App/>);expect(screen.getByTestId('welcome')).toBeInTheDocument()})
 it.each(['bn','hi','en'] as Locale[])('localizes profile document title in %s',locale=>{setLocale(locale);route('/profile');render(<App/>);expect(document.title).toContain(locale==='bn'?'প্রোফাইল':locale==='hi'?'प्रोफ़ाइल':'Profile')})
 it('does not label an unknown route as a real page',()=>{route('/missing');render(<App/>);expect(screen.queryByTestId('home')).toBeNull();expect(document.title).toContain('Orbis Astro')})
-it('redirects a restored account away from the login page',async()=>{route('/account');render(<App/>);await waitFor(()=>expect(location.hash).toBe('#/'));expect(screen.getByTestId('home')).toBeInTheDocument()})
+it('keeps the account page available to an already signed-in user',()=>{route('/account');render(<App/>);expect(location.hash).toBe('#/account');expect(screen.getByTestId('account')).toBeInTheDocument()})
+it('restores a session on the explicit account page without sending it Home',()=>{
+ mock.auth={phase:'checking',user:null};route('/account');const view=render(<App/>);mock.auth={phase:'signed-in',user:{id:'owner',email:'owner@example.com'}};view.rerender(<App/>);expect(location.hash).toBe('#/account');expect(screen.getByTestId('account')).toBeInTheDocument()
+})
+it('keeps explicit account navigation available after visiting Home',()=>{
+ route('/');render(<App/>);window.history.replaceState(null,'','/#/account');fireEvent(window,new HashChangeEvent('hashchange'));expect(location.hash).toBe('#/account');expect(screen.getByTestId('account')).toBeInTheDocument()
+})
+it('keeps the existing Home destination after an interactive account login',async()=>{
+ mock.auth={phase:'signed-out',user:null};route('/account');const view=render(<App/>);mock.auth={phase:'checking',user:null};view.rerender(<App/>);mock.auth={phase:'signed-in',user:{id:'owner',email:'owner@example.com'}};view.rerender(<App/>);await waitFor(()=>expect(location.hash).toBe('#/'));expect(screen.getByTestId('home')).toBeInTheDocument()
+})
 it('redirects a restored account away from welcome',async()=>{route('/welcome');render(<App/>);await waitFor(()=>expect(location.hash).toBe('#/'))})
 it('removes the design preview flag when an account signs out',async()=>{
  route('/profile',true);const view=render(<App/>);mock.auth={phase:'signed-out',user:null};view.rerender(<App/>);await waitFor(()=>expect(location.hash).toBe('#/account'));expect(new URLSearchParams(location.search).has('maya-design')).toBe(false)
