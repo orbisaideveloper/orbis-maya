@@ -7,7 +7,7 @@ EXPECTED_HTTPS_ACTIONS='https://github.com/orbisaideveloper/orbis-maya'
 
 fail() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
 
-[[ -d .git ]] || fail 'run from the orbis-maya repository root'
+[[ -e .git ]] || fail 'run from the orbis-maya repository root'
 origin="$(git config --get remote.origin.url || true)"
 case "$origin" in
   "$EXPECTED_SSH"|"$EXPECTED_HTTPS"|"$EXPECTED_HTTPS_ACTIONS") ;;
@@ -15,7 +15,11 @@ case "$origin" in
 esac
 
 branch="$(git branch --show-current)"
-[[ "$branch" == "main" ]] || fail "unexpected branch: $branch (Maya uses main only)"
+if [[ "$branch" != "main" ]]; then
+  [[ "${CI:-}" == "true" && "${GITHUB_EVENT_NAME:-}" == "pull_request" ]] || fail "unexpected local branch: $branch"
+  [[ "${ORBIS_CANDIDATE_SHA:-}" =~ ^[0-9a-f]{40}$ ]] || fail 'missing candidate SHA'
+  [[ "$(git rev-parse HEAD)" == "$ORBIS_CANDIDATE_SHA" ]] || fail 'candidate checkout differs'
+fi
 
 git diff --check
 

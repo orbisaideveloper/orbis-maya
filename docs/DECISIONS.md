@@ -237,3 +237,17 @@ reading is a separate input source, never independently calculated astronomy.
 The existing maya.v1 contract accepts text/chart facts only; attachment transport,
 limits, consent and reader validation remain pending implementation. Do not
 expose a nonfunctional upload button or claim that this menu patch reads images.
+
+## 2026-10-16 — Owner-approved account candidate PR certification
+
+Account delivery now uses a purpose-specific PR before main is changed. The
+quality workflow runs on PR updates and checks out the exact head SHA. CI
+preflight accepts a detached PR checkout only when its SHA matches the event's
+candidate SHA; native local development remains main-based. Strict Sonar checks
+unresolved issues in the current PR scope, retains all main-baseline metric
+checks, and the scanner waits for the candidate's own Sonar quality gate.
+Candidate full production coverage and duplication are independently checked by
+Vitest/Knip/JSCPD. No quality check, protected-main policy or owner approval is
+bypassed. Native source comes from the certified Termux checkout. Central profile
+save, Maya two-profile server storage and cross-product live login remain
+separate unverified work. No Render preview or new staging service is required.
